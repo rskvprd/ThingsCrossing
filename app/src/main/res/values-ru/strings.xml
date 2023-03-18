@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search">Поиск</string>
+    <string name="sort_icon_cont_desc">Сортировка</string>
+    <string name="filter_icon_cont_desc">Фильтр</string>
+    <string name="home">Главная</string>
+    <string name="account">Аккаунт</string>
+</resources>

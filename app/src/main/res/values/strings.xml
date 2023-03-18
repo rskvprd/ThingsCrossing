@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name" translatable="false">ThingsCrossing</string>
+    <string name="search">Search</string>
+    <string name="sort_icon_cont_desc">Sort</string>
+    <string name="filter_icon_cont_desc">Filter</string>
+    <string name="home">Home</string>
+    <string name="account">Account</string>
+    <string name="erase">Erase</string>
+    <string name="sort">Sort</string>
+    <string name="filter">Filter</string>
+</resources>
