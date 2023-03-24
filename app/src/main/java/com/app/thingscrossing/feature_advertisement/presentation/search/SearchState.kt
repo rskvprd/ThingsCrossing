@@ -1,4 +1,4 @@
-package com.app.thingscrossing.feature_advertisement.presentation.advertisements
+package com.app.thingscrossing.feature_advertisement.presentation.search
 
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementOrder

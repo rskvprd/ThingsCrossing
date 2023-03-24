@@ -51,13 +51,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAdvertisementUseCases(repository: AdvertisementRepository): SearchUseCases {
-        return SearchUseCases(
+    fun provideAdvertisementUseCases(repository: AdvertisementRepository): AdvertisementUseCases {
+        return AdvertisementUseCases(
             getAdvertisementList = GetAdvertisementListUseCase(repository),
             deleteAdvertisement = DeleteAdvertisementUseCase(repository),
             addAdvertisement = AddAdvertisementUseCase(repository),
-            getAdvertisement = GetAdvertisementUseCase(repository)
+            getAdvertisement = GetAdvertisementUseCase(repository),
+            searchAdvertisements = SearchAdvertisementsUseCase(repository)
         )
     }
-
 }

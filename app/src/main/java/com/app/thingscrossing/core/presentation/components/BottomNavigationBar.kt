@@ -14,7 +14,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.app.thingscrossing.core.utils.BottomBarScreens
+import com.app.thingscrossing.core.navigation.BottomBarScreens
 
 @Composable
 fun BottomNavigationBar(

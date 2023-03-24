@@ -1,4 +1,4 @@
-package com.app.thingscrossing.feature_advertisement.presentation.advertisements
+package com.app.thingscrossing.feature_advertisement.presentation.search
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -7,13 +7,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.app.thingscrossing.R
 import com.app.thingscrossing.core.presentation.components.BottomNavigationBar
-import com.app.thingscrossing.feature_advertisement.presentation.advertisements.components.AdvertisementList
+import com.app.thingscrossing.feature_advertisement.presentation.search.components.AdvertisementList
 import com.app.thingscrossing.ui.components.SearchBox
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,9 +21,6 @@ fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
     Scaffold(
-        topBar = {
-            SmallTopAppBar(title = { Text(stringResource(id = R.string.search)) })
-        },
         bottomBar = {
             BottomNavigationBar(navController, Modifier.height(160.dp)) {
                 SearchBox(
@@ -51,7 +46,9 @@ fun SearchScreen(
                 },
         ) {
             AdvertisementList(
+                modifier = Modifier.padding(horizontal = 10.dp),
                 advertisements = viewModel.uiState.advertisements,
+                navController = navController
             )
         }
     }

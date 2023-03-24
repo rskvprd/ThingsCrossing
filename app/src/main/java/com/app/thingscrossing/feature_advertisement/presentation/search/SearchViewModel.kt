@@ -1,4 +1,4 @@
-package com.app.thingscrossing.feature_advertisement.presentation.advertisements
+package com.app.thingscrossing.feature_advertisement.presentation.search
 
 import android.app.Application
 import androidx.compose.runtime.getValue
@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
-import com.app.thingscrossing.feature_advertisement.domain.use_case.SearchUseCases
+import com.app.thingscrossing.feature_advertisement.domain.use_case.AdvertisementUseCases
 import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementOrder
 import com.app.thingscrossing.feature_advertisement.domain.util.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repository: AdvertisementRepository,
-    private val searchUseCases: SearchUseCases,
+    private val advertisementUseCases: AdvertisementUseCases,
     private val context: Application,
 ) : ViewModel() {
 
@@ -38,7 +38,7 @@ class SearchViewModel @Inject constructor(
         when (event) {
             is SearchEvent.DeleteAd -> {
                 viewModelScope.launch {
-                    searchUseCases.deleteAdvertisement(event.ad)
+                    advertisementUseCases.deleteAdvertisement(event.ad)
                     recentlyDeletedAd = event.ad
                 }
             }
@@ -51,7 +51,7 @@ class SearchViewModel @Inject constructor(
             }
             is SearchEvent.RestoreAd -> {
                 viewModelScope.launch {
-                    searchUseCases.addAdvertisement(recentlyDeletedAd ?: return@launch)
+                    advertisementUseCases.addAdvertisement(recentlyDeletedAd ?: return@launch)
                     recentlyDeletedAd = null
                 }
             }
@@ -60,7 +60,10 @@ class SearchViewModel @Inject constructor(
             }
             is SearchEvent.Search -> {
                 viewModelScope.launch {
-                    searchUseCases.getAdvertisement(event.request.toInt())
+                    val advertisements = advertisementUseCases.searchAdvertisements(event.request)
+                    uiState = uiState.copy(
+                        advertisements = advertisements
+                    )
                 }
             }
         }
@@ -69,7 +72,7 @@ class SearchViewModel @Inject constructor(
     private fun getAdvertisements(advertisementOrder: AdvertisementOrder) {
         getAdvertisementsJob?.cancel()
         getAdvertisementsJob = viewModelScope.launch {
-            searchUseCases.getAdvertisementList(advertisementOrder).apply {
+            advertisementUseCases.getAdvertisementList(advertisementOrder).apply {
                 uiState = uiState.copy(
                     advertisements = this@apply,
                     advertisementOrder = advertisementOrder

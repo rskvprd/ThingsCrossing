@@ -9,11 +9,14 @@ interface AdvertisementApi {
     fun getAdvertisementList(): Call<List<Advertisement>>
 
     @GET("advertisement/{id}")
-    suspend fun getAdvertisementById(@Path("id") id: String): Call<Advertisement>
+    fun getAdvertisementById(@Path("id") id: String): Call<Advertisement>
 
     @POST("advertisement")
-    suspend fun insertAdvertisement(@Body advertisement: Advertisement)
+    fun insertAdvertisement(@Body advertisement: Advertisement)
 
     @DELETE("advertisement/{id}")
-    suspend fun deleteAdvertisement(@Path("id") id: Int)
+    fun deleteAdvertisement(@Path("id") id: Int)
+
+    @GET("advertisement/search")
+    fun searchAdvertisements(@Query("q") searchValue: String): Call<List<Advertisement>>
 }

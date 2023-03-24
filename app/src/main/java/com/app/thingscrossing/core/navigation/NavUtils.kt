@@ -1,4 +1,4 @@
-package com.app.thingscrossing.core.utils
+package com.app.thingscrossing.core.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy

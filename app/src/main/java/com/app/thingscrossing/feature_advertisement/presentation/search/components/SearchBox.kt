@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.app.thingscrossing.R
-import com.app.thingscrossing.core.utils.BottomBarScreens
-import com.app.thingscrossing.core.utils.hasNotRoute
+import com.app.thingscrossing.core.navigation.BottomBarScreens
+import com.app.thingscrossing.core.navigation.hasNotRoute
 import com.app.thingscrossing.ui.theme.Typography
 
 @Composable

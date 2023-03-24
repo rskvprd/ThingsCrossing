@@ -1,4 +1,4 @@
-package com.app.thingscrossing.core.utils
+package com.app.thingscrossing.core.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
