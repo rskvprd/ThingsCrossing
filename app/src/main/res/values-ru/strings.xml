@@ -5,4 +5,8 @@
     <string name="filter_icon_cont_desc">Фильтр</string>
     <string name="home">Главная</string>
     <string name="account">Аккаунт</string>
+    <string name="erase">Очистить</string>
+    <string name="sort">Сортировка</string>
+    <string name="filter">Фильтрация</string>
+    <string name="advertisement">Объявление</string>
 </resources>

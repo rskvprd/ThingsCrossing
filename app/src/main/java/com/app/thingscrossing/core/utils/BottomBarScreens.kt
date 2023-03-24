@@ -1,30 +1,32 @@
-package com.app.thingscrossing
+package com.app.thingscrossing.core.utils
 
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.app.thingscrossing.R
 
-sealed class BottomBarScreens(val name: String, val route: String, val icon: ImageVector) {
+sealed class BottomBarScreens(
+    @StringRes val nameResource: Int,
+    val route: String,
+    val icon: ImageVector,
+) {
     object Home : BottomBarScreens(
-        // TODO: придумать как сделать локализацию
-//        Resources.getSystem().getString(R.string.home),
-        name = "Home",
+        nameResource = R.string.home,
         route = "home_screen",
         icon = Icons.Default.Home
     )
 
     object Search : BottomBarScreens(
-//        name = Resources.getSystem().getString(R.string.search),
-        name = "Search",
+        nameResource = R.string.search,
         route = "search_screen",
         icon = Icons.Default.Search
     )
 
     object Account : BottomBarScreens(
-//        name = Resources.getSystem().getString(R.string.account),
-        name = "Account",
+        nameResource = R.string.account,
         route = "account_screen",
         icon = Icons.Default.Person
     )

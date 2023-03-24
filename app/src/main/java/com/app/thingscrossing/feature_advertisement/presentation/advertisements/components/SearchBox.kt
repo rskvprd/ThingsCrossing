@@ -1,6 +1,5 @@
 package com.app.thingscrossing.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -14,7 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -26,28 +25,36 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hierarchy
-import com.app.thingscrossing.BottomBarScreens
 import com.app.thingscrossing.R
+import com.app.thingscrossing.core.utils.BottomBarScreens
+import com.app.thingscrossing.core.utils.hasNotRoute
 import com.app.thingscrossing.ui.theme.Typography
-import com.app.thingscrossing.viewmodels.SearchBoxViewModel
 
 @Composable
-fun SearchBox(navController: NavController) {
-    val viewModel: SearchBoxViewModel = viewModel()
+fun SearchBox(
+    navController: NavController,
+    onSearch: (String) -> Unit,
+    onSearchValueChanged: (String) -> Unit,
+    onFilterClick: () -> Unit,
+    onSortClick: () -> Unit,
+) {
     val leadingIconSize: Dp = 26.dp
     val focusManager = LocalFocusManager.current
+    var searchValue by remember {
+        mutableStateOf("")
+    }
+    var isEraseIconVisible by remember {
+        mutableStateOf(false)
+    }
 
     OutlinedTextField(
         modifier = Modifier
             .onFocusChanged {
-                val searchRoute = BottomBarScreens.Search.route
                 if (it.isFocused) {
-                    Log.d("asdf", "Search box is focused")
-                    if (navController.currentBackStackEntry?.destination?.hierarchy?.any { it.route == searchRoute } == false) {
-                        navController.navigate(searchRoute)
+                    if (navController.hasNotRoute(BottomBarScreens.Search.route)) {
+                        navController.popBackStack()
+                        navController.navigate(BottomBarScreens.Search.route)
                     }
                 }
             }
@@ -56,7 +63,7 @@ fun SearchBox(navController: NavController) {
             .padding(horizontal = 16.5.dp, vertical = 0.dp),
         textStyle = Typography.bodyMedium,
         singleLine = true,
-        value = viewModel.searchValue,
+        value = searchValue,
         shape = RoundedCornerShape(30),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Search,
@@ -65,7 +72,7 @@ fun SearchBox(navController: NavController) {
 
         keyboardActions = KeyboardActions(
             onSearch = {
-                viewModel.onSearch(this)
+                onSearch(searchValue)
                 focusManager.clearFocus()
             },
         ),
@@ -85,23 +92,36 @@ fun SearchBox(navController: NavController) {
                 )
             }
         },
-        onValueChange = { viewModel.onSearchValueChanged(it) },
+        onValueChange = {
+            if (it.isNotBlank()) {
+                searchValue = it
+                isEraseIconVisible = true
+            } else {
+                searchValue = ""
+                isEraseIconVisible = false
+            }
+            searchValue = it
+            onSearchValueChanged(it)
+        },
         trailingIcon = {
             Row(
                 Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically
             ) {
                 TrailingIcon(imageVector = Icons.Default.FilterAlt,
                     contentDescription = stringResource(id = R.string.filter),
-                    onClick = { viewModel.onFilterClick() })
+                    onClick = { onFilterClick() })
 
                 TrailingIcon(imageVector = Icons.Default.Sort,
                     contentDescription = stringResource(id = R.string.sort),
-                    onClick = { viewModel.onSortClick() })
+                    onClick = { onSortClick() })
 
-                if (viewModel.showEraseIcon) {
+                if (isEraseIconVisible) {
                     TrailingIcon(imageVector = Icons.Default.Cancel,
                         contentDescription = stringResource(id = R.string.erase),
-                        onClick = { viewModel.onEraseButtonClick() })
+                        onClick = {
+                            searchValue = ""
+                            isEraseIconVisible = false
+                        })
                 }
             }
         },

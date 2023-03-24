@@ -1,4 +1,4 @@
-package com.app.thingscrossing.ui.components
+package com.app.thingscrossing.core.presentation.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -6,18 +6,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.app.thingscrossing.BottomBarScreens
+import com.app.thingscrossing.core.utils.BottomBarScreens
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController) {
+fun BottomNavigationBar(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit = {},
+) {
     BottomAppBar(
-        Modifier.height(140.dp),
+        modifier,
         contentPadding = PaddingValues(vertical = 0.dp, horizontal = 0.dp),
     ) {
         Column(
@@ -26,11 +32,12 @@ fun BottomNavigationBar(navController: NavHostController) {
                 .padding(horizontal = 10.dp),
             Arrangement.SpaceEvenly, Alignment.CenterHorizontally,
         ) {
-            SearchBox(navController)
+            content()
             NavigationItems(navController)
         }
     }
 }
+
 
 @Composable
 fun NavigationItems(navController: NavHostController) {
@@ -69,12 +76,14 @@ fun NavigationIconItem(
     val selected: Boolean = currentDestination?.hierarchy?.any {
         it.route == screen.route
     } == true
+    val focusManager = LocalFocusManager.current
     IconButton(
         onClick = {
             if (!selected) {
                 navController.popBackStack()
                 navController.navigate(screen.route)
             }
+            focusManager.clearFocus()
         },
         enabled = !selected,
         colors = IconButtonDefaults.iconButtonColors(
@@ -85,7 +94,7 @@ fun NavigationIconItem(
         Icon(
             tint = if (selected) LocalContentColor.current else LocalContentColor.current.copy(alpha = 0.5F),
             imageVector = screen.icon,
-            contentDescription = screen.name,
+            contentDescription = stringResource(id = screen.nameResource),
             modifier = Modifier.fillMaxSize(),
         )
     }
