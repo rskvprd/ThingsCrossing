@@ -1,6 +1,8 @@
 package com.app.thingscrossing.feature_advertisement.presentation.search
 
 import android.app.Application
+import android.os.Bundle
+import android.provider.ContactsContract.Data
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -33,6 +35,7 @@ class SearchViewModel @Inject constructor(
     init {
         getAdvertisements(AdvertisementOrder.Date(OrderType.Descending))
     }
+
 
     fun onEvent(event: SearchEvent) {
         when (event) {
