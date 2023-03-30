@@ -2,16 +2,13 @@ package com.app.thingscrossing.feature_advertisement.domain.use_case
 
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
-import retrofit2.HttpException
+import java.net.ConnectException
 
 class GetAdvertisementUseCase(
     private val repository: AdvertisementRepository,
 ) {
+    @kotlin.jvm.Throws(ConnectException::class)
     suspend operator fun invoke(id: Int): Advertisement? {
-        return try {
-            repository.getAdvertisementById(id)
-        } catch (httpException: HttpException) {
-            return null
-        }
+        return repository.getAdvertisementById(id)
     }
 }

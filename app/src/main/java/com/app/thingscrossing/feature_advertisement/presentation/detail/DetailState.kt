@@ -1,8 +1,8 @@
-package com.app.thingscrossing.feature_advertisement.presentation.detail_advertisement
+package com.app.thingscrossing.feature_advertisement.presentation.detail
 
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 
-data class DetailAdvertisementState(
+data class DetailState(
     val advertisement: Advertisement? = null,
     val isLoading: Boolean = false
 )

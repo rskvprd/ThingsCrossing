@@ -1,14 +1,12 @@
 package com.app.thingscrossing.feature_advertisement.presentation.search.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
@@ -23,22 +21,30 @@ fun AdvertisementList(
     navController: NavController,
 ) {
     val shimmerInstance = rememberShimmer(shimmerBounds = ShimmerBounds.Custom)
+    val advertisementWidth: Dp = 180.dp
+    val advertisementHeight: Dp = 230.dp
+
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(200.dp),
+        columns = GridCells.Adaptive(
+            minSize = advertisementWidth
+        ),
         horizontalArrangement = Arrangement.Center,
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .onGloballyPositioned { layoutCoordinates ->
                 val position = layoutCoordinates.unclippedBoundsInWindow()
                 shimmerInstance.updateBounds(position)
             },
         content = {
             items(advertisements.size) { index ->
-                AdvertisementItem(
-                    advertisement = advertisements[index],
-                    navController = navController
-                )
-                Spacer(modifier = Modifier.height(10.dp))
+                Box(Modifier.padding(10.dp)) {
+                    AdvertisementItem(
+                        advertisement = advertisements[index],
+                        navController = navController,
+                        pictureSize = advertisementWidth,
+                        shimmerInstance = shimmerInstance,
+                    )
+                }
             }
         })
 }

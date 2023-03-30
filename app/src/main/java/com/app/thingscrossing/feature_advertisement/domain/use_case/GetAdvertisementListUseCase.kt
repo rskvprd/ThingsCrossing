@@ -4,10 +4,12 @@ import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
 import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementOrder
 import com.app.thingscrossing.feature_advertisement.domain.util.OrderType
+import java.net.ConnectException
 
 class GetAdvertisementListUseCase(
     private val repository: AdvertisementRepository,
 ) {
+    @kotlin.jvm.Throws(ConnectException::class)
     suspend operator fun invoke(
         advertisementOrder: AdvertisementOrder = AdvertisementOrder.Date(OrderType.Descending),
     ): List<Advertisement> {

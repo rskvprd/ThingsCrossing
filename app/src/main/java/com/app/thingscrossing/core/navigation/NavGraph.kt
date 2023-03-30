@@ -7,9 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.app.thingscrossing.feature_account.presentation.AccountScreen
-import com.app.thingscrossing.feature_advertisement.presentation.detail_advertisement.DetailAdvertisementScreen
+import com.app.thingscrossing.feature_advertisement.presentation.add_edit.AddEditScreen
+import com.app.thingscrossing.feature_advertisement.presentation.detail.DetailAdvertisementScreen
 import com.app.thingscrossing.feature_advertisement.presentation.search.SearchScreen
-import com.app.thingscrossing.feature_advertisement.util.Screen
+import com.app.thingscrossing.feature_advertisement.presentation.util.Screen
 import com.app.thingscrossing.feature_home.presentation.HomeScreen
 
 @Composable
@@ -40,7 +41,21 @@ fun NavGraph(
                 }
             )
         ) {
-            DetailAdvertisementScreen()
+            DetailAdvertisementScreen(navController)
+        }
+        composable(
+            route = Screen.AddEditScreen.route +
+                    "?advertisementId={advertisementId}",
+            arguments = listOf(
+                navArgument(
+                    name = "advertisementId",
+                ) {
+                    type = NavType.IntType
+                    defaultValue = -1
+                }
+            )
+        ) {
+            AddEditScreen(navController)
         }
     }
 }

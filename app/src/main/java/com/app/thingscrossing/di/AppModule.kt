@@ -7,14 +7,11 @@ import com.app.thingscrossing.feature_advertisement.data.source.local.Advertisem
 import com.app.thingscrossing.feature_advertisement.data.source.remote.AdvertisementApi
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
 import com.app.thingscrossing.feature_advertisement.domain.use_case.*
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
+import com.app.thingscrossing.feature_advertisement.data.source.remote.ApiAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -23,16 +20,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAdvertisementApi(): AdvertisementApi {
-        return Retrofit.Builder()
-            .baseUrl("http://192.168.50.161:8000")
-            .addConverterFactory(
-                GsonConverterFactory
-                    .create(
-                        GsonBuilder()
-                            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                            .create()
-                    )
-            ).build().create(AdvertisementApi::class.java)
+        return ApiAdapter.buildAdvertisementApi()
     }
 
     @Provides

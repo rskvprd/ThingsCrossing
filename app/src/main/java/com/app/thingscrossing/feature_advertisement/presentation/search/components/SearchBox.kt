@@ -1,4 +1,4 @@
-package com.app.thingscrossing.ui.components
+package com.app.thingscrossing.feature_advertisement.presentation.search.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,52 +16,34 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.app.thingscrossing.R
-import com.app.thingscrossing.core.navigation.BottomBarScreens
-import com.app.thingscrossing.core.navigation.hasNotRoute
-import com.app.thingscrossing.ui.theme.Typography
+import com.app.thingscrossing.ui.theme.SearchBoxStyle
 
 @Composable
 fun SearchBox(
-    navController: NavController,
     onSearch: (String) -> Unit,
     onSearchValueChanged: (String) -> Unit,
     onFilterClick: () -> Unit,
     onSortClick: () -> Unit,
+    isEraseIconVisible: Boolean,
+    onEraseClick: () -> Unit,
+    searchValue: String
 ) {
     val leadingIconSize: Dp = 26.dp
-    val focusManager = LocalFocusManager.current
-    var searchValue by remember {
-        mutableStateOf("")
-    }
-    var isEraseIconVisible by remember {
-        mutableStateOf(false)
-    }
 
     OutlinedTextField(
         modifier = Modifier
-            .onFocusChanged {
-                if (it.isFocused) {
-                    if (navController.hasNotRoute(BottomBarScreens.Search.route)) {
-                        navController.popBackStack()
-                        navController.navigate(BottomBarScreens.Search.route)
-                    }
-                }
-            }
             .fillMaxWidth()
             .height(60.dp)
             .padding(horizontal = 16.5.dp, vertical = 0.dp),
-        textStyle = Typography.bodyMedium,
+        textStyle = SearchBoxStyle,
         singleLine = true,
         value = searchValue,
         shape = RoundedCornerShape(30),
@@ -73,7 +55,6 @@ fun SearchBox(
         keyboardActions = KeyboardActions(
             onSearch = {
                 onSearch(searchValue)
-                focusManager.clearFocus()
             },
         ),
         placeholder = {
@@ -87,20 +68,12 @@ fun SearchBox(
                 )
                 Text(
                     stringResource(id = R.string.search),
-                    style = Typography.bodyMedium,
+                    style = SearchBoxStyle,
                     textAlign = TextAlign.Center,
                 )
             }
         },
         onValueChange = {
-            if (it.isNotBlank()) {
-                searchValue = it
-                isEraseIconVisible = true
-            } else {
-                searchValue = ""
-                isEraseIconVisible = false
-            }
-            searchValue = it
             onSearchValueChanged(it)
         },
         trailingIcon = {
@@ -119,8 +92,7 @@ fun SearchBox(
                     TrailingIcon(imageVector = Icons.Default.Cancel,
                         contentDescription = stringResource(id = R.string.erase),
                         onClick = {
-                            searchValue = ""
-                            isEraseIconVisible = false
+                            onEraseClick()
                         })
                 }
             }

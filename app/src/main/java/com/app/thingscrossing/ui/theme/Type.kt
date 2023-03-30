@@ -20,47 +20,76 @@ val Inter = FontFamily(
     Font(R.font.inter_semibold, FontWeight.SemiBold)
 )
 
+val SearchBoxStyle = TextStyle(
+    fontFamily = Inter,
+    fontWeight = FontWeight.Normal,
+    fontSize = 20.sp,
+    lineHeight = 20.sp,
+    letterSpacing = 0.0.sp
+)
+
 val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = Inter,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    ),
-    bodyMedium = TextStyle(
-        fontFamily = Inter,
-        fontWeight = FontWeight.Normal,
-        fontSize = 20.sp,
-        lineHeight = 26.sp,
-        letterSpacing = 0.0.sp
-    ),
-    bodySmall = TextStyle(
-        fontFamily = Inter,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    ),
-    titleLarge = TextStyle(
-        fontFamily = Inter,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = Inter,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    ),
-    labelMedium = TextStyle(
-        fontFamily = Inter,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    ),
+//    bodyLarge = TextStyle(
+//        fontFamily = Inter,
+//        fontWeight = FontWeight.Normal,
+//        fontSize = 24.sp,
+//        lineHeight = 24.sp,
+//        letterSpacing = 0.0.sp
+//    ),
+//    bodyMedium = TextStyle(
+//        fontFamily = Inter,
+//        fontWeight = FontWeight.Normal,
+//        fontSize = 20.sp,
+//        lineHeight = 20.sp,
+//        letterSpacing = 0.0.sp
+//    ),
+//    bodySmall = TextStyle(
+//        fontFamily = Inter,
+//        fontWeight = FontWeight.Normal,
+//        fontSize = 16.sp,
+//        lineHeight = 16.sp,
+//        letterSpacing = 0.0.sp
+//    ),
+//    titleLarge = TextStyle(
+//        fontFamily = Inter,
+//        fontWeight = FontWeight.Normal,
+//        fontSize = 30.sp,
+//        lineHeight = 30.sp,
+//        letterSpacing = 0.0.sp
+//    ),
+//    titleMedium = TextStyle(
+//        fontFamily = Inter,
+//        fontWeight = FontWeight.Normal,
+//        fontSize = 25.sp,
+//        lineHeight = 25.sp,
+//        letterSpacing = 0.0.sp
+//    ),
+//    titleSmall = TextStyle(
+//        fontFamily = Inter,
+//        fontWeight = FontWeight.Normal,
+//        fontSize = 20.sp,
+//        lineHeight = 20.sp,
+//        letterSpacing = 0.0.sp
+//    ),
+//    labelSmall = TextStyle(
+//        fontFamily = Inter,
+//        fontWeight = FontWeight.Medium,
+//        fontSize = 11.sp,
+//        lineHeight = 16.sp,
+//        letterSpacing = 0.5.sp
+//    ),
+//    labelMedium = TextStyle(
+//        fontFamily = Inter,
+//        fontWeight = FontWeight.Medium,
+//        fontSize = 11.sp,
+//        lineHeight = 16.sp,
+//        letterSpacing = 0.5.sp
+//    ),
+//    labelLarge = TextStyle(
+//        fontFamily = Inter,
+//        fontWeight = FontWeight.Medium,
+//        fontSize = 11.sp,
+//        lineHeight = 16.sp,
+//        letterSpacing = 0.5.sp
+//    ),
 )
