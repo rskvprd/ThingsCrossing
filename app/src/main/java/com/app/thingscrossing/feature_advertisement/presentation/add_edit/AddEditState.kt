@@ -1,11 +1,11 @@
 package com.app.thingscrossing.feature_advertisement.presentation.add_edit
+
+import androidx.annotation.StringRes
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
-import com.app.thingscrossing.feature_advertisement.presentation.search.ConnectionState
 
 data class AddEditState(
-    val connectionState: ConnectionState = ConnectionState.Ok,
+    val isLoading: Boolean = false,
     val advertisement: Advertisement = Advertisement.DEFAULT,
-    val isCurrencyEditVisible: Boolean = false,
-    val isSetupCurrency: Boolean = false,
+    @StringRes val errorId: Int? = null,
 )
 

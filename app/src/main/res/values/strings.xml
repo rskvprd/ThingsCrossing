@@ -35,4 +35,11 @@
     <string name="delete_icon_cont_desc">Delete icon</string>
     <string name="add_new_currency">Add new currency</string>
     <string name="set_price">Set price</string>
+    <string name="duplicated_currencies_error">Duplicated currencies are not allowed</string>
+    <string name="choose_currency">Choose currency</string>
+    <string name="add_image">Add image</string>
+    <string name="image_url">Image URL</string>
+    <string name="image_url_placeholder">https://image.jpg</string>
+    <string name="http_exception_message">Resource not found</string>
+    <string name="unexpected_error">Unexpected error</string>
 </resources>

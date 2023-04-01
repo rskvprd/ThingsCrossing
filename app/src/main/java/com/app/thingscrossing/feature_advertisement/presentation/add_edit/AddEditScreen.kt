@@ -1,33 +1,41 @@
 package com.app.thingscrossing.feature_advertisement.presentation.add_edit
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.R
 import com.app.thingscrossing.feature_advertisement.domain.model.Currency
 import com.app.thingscrossing.feature_advertisement.domain.model.Price
+import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.AddButton
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.MyTextField
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditScreen(
     navController: NavHostController,
     viewModel: AddEditViewModel = hiltViewModel(),
 ) {
     val state = viewModel.uiState
-    Scaffold(
+    val scope = rememberCoroutineScope()
+    val scaffoldState = rememberBottomSheetScaffoldState()
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetPeekHeight = 0.dp,
         modifier = Modifier.fillMaxSize(),
         topBar = {
             IconButton(onClick = { navController.navigateUp() }) {
@@ -35,6 +43,40 @@ fun AddEditScreen(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = stringResource(id = R.string.back_icon_desc)
                 )
+            }
+        },
+        sheetContent = {
+            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Column {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = stringResource(R.string.choose_currency),
+                        style = MaterialTheme.typography.headlineMedium,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 20.dp)
+                    )
+                    Currency.getAvailableCurrencies().forEach { currency ->
+                        val selected =
+                            state.advertisement.prices.map { it.currency }.contains(currency)
+                        TextButton(onClick = {
+                            if (!selected) {
+                                viewModel.onEvent(AddEditEvent.AddNewCurrency(currency))
+                            } else {
+                                viewModel.onEvent(AddEditEvent.DeleteCurrency(currency))
+                            }
+                        }) {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center,
+                                text = stringResource(currency.name) + ", ${currency.symbol}",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = if (selected) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(50.dp))
+                }
             }
         }
     ) { paddingValues ->
@@ -77,115 +119,44 @@ fun AddEditScreen(
                 },
                 label = R.string.address,
                 placeholder = R.string.address_placeholder,
+                scaffoldState = scaffoldState,
+                scope = scope
             )
 
             // Prices
             Box {
                 PriceBlock(
-                    state = state, viewModel = viewModel
-                )
-            }
-        }
-    }
-
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CurrencyItem(currency: Currency) {
-    Card(
-        modifier = Modifier
-            .wrapContentSize()
-            .padding(10.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(10.dp)
-        ) {
-            Text(text = "${currency.symbol} ${stringResource(id = currency.name)}")
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = stringResource(id = R.string.delete_icon_cont_desc)
+                    state = state,
+                    scaffoldState = scaffoldState,
+                    scope = scope
                 )
             }
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PriceBlock(
     state: AddEditState,
-    viewModel: AddEditViewModel,
+    scaffoldState: BottomSheetScaffoldState,
+    scope: CoroutineScope,
 ) {
+    val focusManager = LocalFocusManager.current
     val prices = state.advertisement.prices
     val mainPrice: Price = if (prices.isEmpty()) Price.DEFAULT else prices[0]
     Column() {
-        if (state.isSetupCurrency) {
-            Card {
-                Column {
-                    Currency.getAvailableCurrencies().forEach {
-                        TextButton(onClick = {
-                            try {
-                                viewModel.onEvent(AddEditEvent.AddNewCurrency(it))
-                            } catch (ex: Exception) {
-
-                            }
-                        }) {
-                            Text(text = stringResource(it.name))
-                        }
-                    }
+        if (prices.isEmpty()) {
+            AddButton(onClick = {
+                scope.launch {
+                    focusManager.clearFocus()
+                    scaffoldState.bottomSheetState.expand()
                 }
-            }
-//            return@Column
-        }
-
-        if (prices.size == 0 && !state.isCurrencyEditVisible) {
-            Button(onClick = {
-                viewModel.onEvent(AddEditEvent.SetupPrice)
-            }) {
-                Icon(
-                    imageVector = Icons.Default.AddCircle,
-                    contentDescription = stringResource(id = R.string.add_icon_cont_desc)
-                )
-                Text(stringResource(id = R.string.set_price))
-            }
+            }, textId = R.string.set_price)
             return@Column
         }
 
-        if (prices.size == 1 && !state.isCurrencyEditVisible) {
-            Column() {
-                MyTextField(value = mainPrice.value.toString(),
-                    onValueChange = {},
-                    label = R.string.price,
-                    placeholder = R.string.price_placeholder,
-                    keyboardType = KeyboardType.Number,
-                    leadingIcon = { Text(text = mainPrice.currencyCode.symbol) })
-
-                TextButton(onClick = { viewModel.onEvent(AddEditEvent.ToggleCurrencyEdit) }) {
-                    Text(text = stringResource(id = R.string.add_edit_currency))
-                }
-            }
-            return@Column
-        }
-
-        Column {
-            for (price in prices) {
-                CurrencyItem(currency = price.currencyCode)
-            }
-        }
-        Button(onClick = {
-            viewModel.onEvent(AddEditEvent.SetupPrice)
-        }) {
-            Icon(
-                imageVector = Icons.Default.ControlPointDuplicate,
-                contentDescription = stringResource(id = R.string.add_icon_cont_desc)
-            )
-            Text(stringResource(id = R.string.add_new_currency))
-        }
-        Column {
+        Column() {
             for (price in prices) {
                 MyTextField(
                     value = mainPrice.value.toString(),
@@ -195,10 +166,19 @@ fun PriceBlock(
                     keyboardType = KeyboardType.Number,
                     leadingIcon = {
                         Text(
-                            text = price.currencyCode.symbol
+                            text = price.currency.symbol
                         )
                     },
                 )
+            }
+
+            TextButton(onClick = {
+                scope.launch {
+                    focusManager.clearFocus()
+                    scaffoldState.bottomSheetState.expand()
+                }
+            }) {
+                Text(text = stringResource(id = R.string.add_edit_currency))
             }
         }
     }

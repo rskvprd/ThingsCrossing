@@ -1,5 +1,6 @@
 package com.app.thingscrossing.feature_advertisement.presentation.detail
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -11,12 +12,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.app.thingscrossing.R
-import com.app.thingscrossing.feature_advertisement.domain.model.Characteristic
+import com.app.thingscrossing.feature_advertisement.data.remote.dto.Characteristic
 import com.app.thingscrossing.feature_advertisement.presentation.detail.components.InformationBlock
 import com.app.thingscrossing.feature_advertisement.presentation.detail.components.Price
+import com.app.thingscrossing.feature_advertisement.presentation.search.NetworkErrorMessage
 import com.app.thingscrossing.feature_advertisement.presentation.search.components.AdvertisementPicture
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailAdvertisementScreen(
     navController: NavController,
@@ -24,22 +25,21 @@ fun DetailAdvertisementScreen(
 ) {
     val uiState = viewModel.uiState
 
-    if (uiState.isLoading) {
-        CircularProgressIndicator()
-        return
-    }
-    if (uiState.advertisement == null) {
-        Text(stringResource(R.string.deleted_advertisement))
-        return
-    }
-
-    Scaffold(
-
-    ) { paddingValues ->
+    Scaffold() { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
+            if (uiState.isLoading) {
+                CircularProgressIndicator()
+                return@Box
+            }
+
+            if (uiState.errorId != null) {
+                NetworkErrorMessage(messageId = uiState.errorId)
+                return@Box
+            }
             Column(
                 modifier = Modifier.padding(horizontal = 20.dp)
             ) {
+                Log.d(":DSLFKJDSL:FKJ", uiState.advertisement.toString())
                 AdvertisementPictures(imageUrls = uiState.advertisement.imageUrls)
                 Spacer(Modifier.height(10.dp))
                 Price(prices = uiState.advertisement.prices, onlyMain = false)
@@ -61,8 +61,7 @@ fun DetailAdvertisementScreen(
 fun AdvertisementPictures(imageUrls: List<String>) {
     ElevatedCard() {
         AdvertisementPicture(
-            modifier = Modifier.size(300.dp),
-            imageUrls = imageUrls
+            modifier = Modifier.size(300.dp), imageUrls = imageUrls
         )
     }
 }
@@ -71,14 +70,13 @@ fun AdvertisementPictures(imageUrls: List<String>) {
 fun Description(text: String) {
     if (text.isBlank()) return
     Text(
-        text = text,
-        style = MaterialTheme.typography.bodyMedium
+        text = text, style = MaterialTheme.typography.bodyMedium
     )
 }
 
 @Composable
 fun Characteristics(
-    characteristics: ArrayList<Characteristic>,
+    characteristics: List<Characteristic>,
 ) {
     if (characteristics.isEmpty()) return
     InformationBlock(label = stringResource(id = R.string.characteristics)) {

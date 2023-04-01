@@ -1,5 +1,6 @@
 package com.app.thingscrossing.feature_advertisement.presentation.search
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -68,54 +69,43 @@ fun SearchScreen(
                 },
             contentAlignment = Alignment.Center
         ) {
-            when (state.connectionState) {
-                ConnectionState.Loading -> {
-                    CircularProgressIndicator()
-                }
-                ConnectionState.NetworkUnavailable -> {
-                    Column {
-                        NetworkErrorMessage(
-                            text = stringResource(R.string.no_network_connection)
-                        )
-                        IconButton(onClick = { viewModel.onEvent(SearchEvent.RefreshNetwork) }) {
-                            Icon(
-                                imageVector = Icons.Default.Refresh,
-                                contentDescription = stringResource(
-                                    R.string.refresh_button_cont_desc
-                                )
+
+            if (state.isLoading) {
+                CircularProgressIndicator()
+                return@Box
+            }
+            if (state.errorId != null) {
+                Column {
+                    NetworkErrorMessage(
+                        messageId = state.errorId
+                    )
+                    IconButton(onClick = { viewModel.onEvent(SearchEvent.RefreshNetwork) }) {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = stringResource(
+                                R.string.refresh_button_cont_desc
                             )
-                        }
+                        )
                     }
                 }
-                ConnectionState.RefusedConnection -> {
-                    NetworkErrorMessage(
-                        text = stringResource(R.string.server_refused_message)
-                    )
-                }
-                ConnectionState.ServerTimeOut -> {
-                    NetworkErrorMessage(
-                        text = stringResource(R.string.server_timeout_message)
-                    )
-                }
-                ConnectionState.Ok -> {
-                    AdvertisementList(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 10.dp),
-                        advertisements = viewModel.uiState.advertisements,
-                        navController = navController
-                    )
-                }
+                return@Box
             }
+            AdvertisementList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 10.dp),
+                advertisements = viewModel.uiState.advertisements,
+                navController = navController
+            )
         }
     }
 }
 
 @Composable
-fun NetworkErrorMessage(text: String) {
+fun NetworkErrorMessage(@StringRes messageId: Int) {
     Text(
         textAlign = TextAlign.Center,
-        text = text,
+        text = stringResource(id = messageId),
         style = MaterialTheme.typography.headlineSmall,
         softWrap = true,
         modifier = Modifier.padding(horizontal = 20.dp)

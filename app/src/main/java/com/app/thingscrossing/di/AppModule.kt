@@ -1,13 +1,9 @@
 package com.app.thingscrossing.di
 
-import android.app.Application
-import androidx.room.Room
-import com.app.thingscrossing.feature_advertisement.data.source.local.AdvertisementDao
-import com.app.thingscrossing.feature_advertisement.data.source.local.AdvertisementDatabase
-import com.app.thingscrossing.feature_advertisement.data.source.remote.AdvertisementApi
+import com.app.thingscrossing.feature_advertisement.data.remote.AdvertisementApi
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
 import com.app.thingscrossing.feature_advertisement.domain.use_case.*
-import com.app.thingscrossing.feature_advertisement.data.source.remote.ApiAdapter
+import com.app.thingscrossing.feature_advertisement.data.remote.ApiAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,20 +17,6 @@ object AppModule {
     @Singleton
     fun provideAdvertisementApi(): AdvertisementApi {
         return ApiAdapter.buildAdvertisementApi()
-    }
-
-    @Provides
-    @Singleton
-    fun provideAdvertisementDatabase(app: Application): AdvertisementDatabase {
-        return Room.databaseBuilder(
-            app, AdvertisementDatabase::class.java, AdvertisementDatabase.DATABASE_NAME
-        ).build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideAdvertisementDao(advertisementDatabase: AdvertisementDatabase): AdvertisementDao {
-        return advertisementDatabase.advertisementDao
     }
 
     @Provides

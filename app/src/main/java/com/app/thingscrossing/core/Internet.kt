@@ -1,4 +1,4 @@
-package com.app.thingscrossing.feature_advertisement.data.util
+package com.app.thingscrossing.core
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -12,7 +12,7 @@ val Context.isNetworkAvailable: Boolean
     }
 
 private fun getCurrentConnectivityState(
-    connectivityManager: ConnectivityManager
+    connectivityManager: ConnectivityManager,
 ): Boolean {
     val connected = connectivityManager.allNetworks.any { network ->
         connectivityManager.getNetworkCapabilities(network)

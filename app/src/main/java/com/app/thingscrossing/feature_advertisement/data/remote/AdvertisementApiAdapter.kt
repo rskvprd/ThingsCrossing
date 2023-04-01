@@ -1,5 +1,6 @@
-package com.app.thingscrossing.feature_advertisement.data.source.remote
+package com.app.thingscrossing.feature_advertisement.data.remote
 
+import com.app.thingscrossing.core.Constants.ADVERTISEMENT_API_BASE_URL
 import com.app.thingscrossing.feature_advertisement.domain.model.Currency
 import com.google.gson.*
 import retrofit2.Retrofit
@@ -7,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 import java.time.LocalDateTime
 
-const val ADVERTISEMENT_API_BASE_URL = "http://192.168.50.41:8000"
+
 
 class ApiAdapter {
     companion object {

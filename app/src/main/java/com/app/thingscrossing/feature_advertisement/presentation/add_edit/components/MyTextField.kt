@@ -3,14 +3,21 @@ package com.app.thingscrossing.feature_advertisement.presentation.add_edit.compo
 import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.BottomSheetScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTextField(
     value: String,
@@ -21,6 +28,8 @@ fun MyTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     keyboardActions: KeyboardActions = KeyboardActions(),
     leadingIcon: @Composable (() -> Unit)? = null,
+    scaffoldState: BottomSheetScaffoldState? = null,
+    scope: CoroutineScope? = null,
 ) {
     val options = KeyboardOptions(
         KeyboardCapitalization.Sentences,
@@ -29,6 +38,14 @@ fun MyTextField(
     )
 
     OutlinedTextField(
+        modifier = Modifier
+            .onFocusChanged {
+                if (it.isFocused && scaffoldState?.bottomSheetState?.isVisible == true) {
+                    scope?.launch {
+                        scaffoldState.bottomSheetState.hide()
+                    }
+                }
+            },
         value = value,
         onValueChange = onValueChange,
         label = {

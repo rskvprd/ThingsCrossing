@@ -13,7 +13,7 @@ import com.app.thingscrossing.feature_advertisement.domain.model.Price
 
 @Composable
 fun Price(
-    prices: ArrayList<Price>,
+    prices: List<Price>,
     onlyMain: Boolean,
 ) {
     if (prices.isEmpty()) {
@@ -22,7 +22,7 @@ fun Price(
     Log.d("FFFF", prices.size.toString())
     Row {
         val mainPrice = prices[0]
-        val mainSymbol = mainPrice.currencyCode.symbol
+        val mainSymbol = mainPrice.currency.symbol
         Text(
             text = "${mainPrice.value} $mainSymbol",
             style = MaterialTheme.typography.headlineLarge
@@ -31,7 +31,7 @@ fun Price(
     if (onlyMain) return
     for (index in 1 until prices.size) {
         val price = prices[index]
-        val symbol = price.currencyCode.symbol
+        val symbol = price.currency.symbol
         Spacer(modifier = Modifier.width(10.dp))
         Text(
             text = "${price.value} $symbol",

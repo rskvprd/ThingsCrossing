@@ -35,4 +35,11 @@
     <string name="delete_icon_cont_desc">Иконка удаления</string>
     <string name="add_new_currency">Добавить новую валюту</string>
     <string name="set_price">Установить цену</string>
+    <string name="duplicated_currencies_error">Дублирование валют не разрешено</string>
+    <string name="choose_currency">Выберите валюту</string>
+    <string name="add_image">Добавить картинку</string>
+    <string name="image_url_placeholder">https://image.jpg</string>
+    <string name="image_url">Ссылка на картинку</string>
+    <string name="http_exception_message">Ресурс не найден :(</string>
+    <string name="unexpected_error">Внезапная неожиданная непримечательная а может быть и примечательная ошибка</string>
 </resources>
