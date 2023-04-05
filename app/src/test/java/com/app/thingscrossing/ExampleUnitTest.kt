@@ -1,10 +1,8 @@
 package com.app.thingscrossing
 
-import android.util.Log
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
-import java.util.Currency
+import java.util.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).

@@ -6,18 +6,16 @@ import com.app.thingscrossing.feature_advertisement.domain.repository.Advertisem
 import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementOrder
 import com.app.thingscrossing.feature_advertisement.domain.util.OrderType
 import kotlinx.coroutines.flow.Flow
-import java.net.ConnectException
 
 class SearchAdvertisementsUseCase(
     val repository: AdvertisementRepository,
 ) {
-    @kotlin.jvm.Throws(ConnectException::class)
     operator fun invoke(
         searchValue: String,
         advertisementOrder: AdvertisementOrder = AdvertisementOrder.Date(
             OrderType.Descending
         ),
     ): Flow<Resource<List<Advertisement>>> {
-        return Resource.getResource { repository.searchAdvertisements(searchValue) }
+        return Resource.handleResource { repository.searchAdvertisements(searchValue) }
     }
 }

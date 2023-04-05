@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ThingsCrossingTheme {
-                MaterialTheme() {
+                MaterialTheme {
                     NavGraph(navController = rememberNavController())
                 }
             }

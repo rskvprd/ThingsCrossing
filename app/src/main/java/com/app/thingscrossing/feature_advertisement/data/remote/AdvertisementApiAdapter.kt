@@ -26,7 +26,12 @@ class ApiAdapter {
                             .registerTypeAdapter(
                                 Currency::class.java,
                                 CurrencyDeserializer()
-                            ).create()
+                            )
+                            .registerTypeAdapter(
+                                Currency::class.java,
+                                CurrencySerializer()
+                            )
+                            .create()
                     )
                 )
                 .build()
@@ -44,6 +49,18 @@ class LocalDateTimeDeserializer : JsonDeserializer<LocalDateTime> {
         context: JsonDeserializationContext?,
     ): LocalDateTime {
         return LocalDateTime.parse(json?.asString?.dropLast(1))
+    }
+}
+
+class CurrencySerializer: JsonSerializer<Currency> {
+    override fun serialize(
+        src: Currency?,
+        typeOfSrc: Type?,
+        context: JsonSerializationContext?,
+    ): JsonElement {
+        val jsonCurrency = JsonObject()
+        jsonCurrency.addProperty("currency_code", src?.code)
+        return jsonCurrency
     }
 }
 

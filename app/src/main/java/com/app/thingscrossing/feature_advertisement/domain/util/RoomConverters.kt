@@ -63,8 +63,4 @@ class Converters {
         return Gson().toJson(value.toString())
     }
 
-    @TypeConverter
-    fun fromJsonArrayListOfPrice(value: String): ArrayList<Price> {
-        return Gson().fromJson(value)
-    }
 }

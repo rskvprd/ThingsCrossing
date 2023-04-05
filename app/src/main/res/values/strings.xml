@@ -15,10 +15,10 @@
     <string name="rub">Ruble</string>
     <string name="usd">United States Dollar</string>
     <string name="price_not_specified">Price not specified</string>
-    <string name="server_refused_message">Seems like server refused connection with you.</string>
+    <string name="server_refused_message">Server refused connection.</string>
     <string name="no_network_connection">No network connection. Check your network.</string>
     <string name="refresh_button_cont_desc">Refresh internet icon button</string>
-    <string name="server_timeout_message">Connect with the server is time outed. It\'s our problem. Sorry :(</string>
+    <string name="server_timeout_message">Connect with the server is time outed</string>
     <string name="title">Title</string>
     <string name="description_placeholder">Something about my product</string>
     <string name="title_placeholder">Product name</string>
@@ -42,4 +42,6 @@
     <string name="image_url_placeholder">https://image.jpg</string>
     <string name="http_exception_message">Resource not found</string>
     <string name="unexpected_error">Unexpected error</string>
+    <string name="upload_image">Upload image</string>
+    <string name="drop_image">Drop image</string>
 </resources>

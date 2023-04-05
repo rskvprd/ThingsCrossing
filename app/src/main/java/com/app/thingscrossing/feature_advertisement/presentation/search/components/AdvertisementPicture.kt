@@ -15,7 +15,6 @@ import com.valentinilk.shimmer.rememberShimmer
 import com.valentinilk.shimmer.shimmer
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdvertisementPicture(
     modifier: Modifier,

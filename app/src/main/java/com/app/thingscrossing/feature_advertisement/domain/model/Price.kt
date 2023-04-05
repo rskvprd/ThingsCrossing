@@ -1,10 +1,15 @@
 package com.app.thingscrossing.feature_advertisement.domain.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Price(
+    val id: Int? = null,
     val value: Double,
-    val currency: Currency,
+    @SerializedName("currency_code") val currency: Currency,
 ) {
     companion object {
-        val DEFAULT = Price(0.0, Currency.RUB)
+        val DEFAULT = Price(
+            value = 0.0,
+            currency = Currency.RUB)
     }
 }

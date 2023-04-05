@@ -12,7 +12,7 @@ fun NonLazyGrid(
     columns: Int,
     itemCount: Int,
     modifier: Modifier = Modifier,
-    content: @Composable() (Int) -> Unit
+    content: @Composable (Int) -> Unit
 ) {
     Column(modifier = modifier) {
         var rows = (itemCount / columns)

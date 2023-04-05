@@ -16,7 +16,6 @@ import com.app.thingscrossing.R
 import com.app.thingscrossing.core.presentation.components.BottomNavigationBar
 import com.app.thingscrossing.feature_advertisement.presentation.util.Screen
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavHostController,

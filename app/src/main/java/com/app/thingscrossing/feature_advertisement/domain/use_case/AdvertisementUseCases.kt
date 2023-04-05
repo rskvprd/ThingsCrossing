@@ -6,4 +6,6 @@ data class AdvertisementUseCases(
     val addAdvertisement: AddAdvertisementUseCase,
     val getAdvertisement: GetAdvertisementUseCase,
     val searchAdvertisements: SearchAdvertisementsUseCase,
+    val uploadImageUseCase: UploadImageUseCase,
+    val deleteImageUseCase: DeleteImageUseCase,
 )

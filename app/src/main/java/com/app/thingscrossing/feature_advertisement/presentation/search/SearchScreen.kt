@@ -21,7 +21,6 @@ import com.app.thingscrossing.core.presentation.components.BottomNavigationBar
 import com.app.thingscrossing.feature_advertisement.presentation.search.components.AdvertisementList
 import com.app.thingscrossing.feature_advertisement.presentation.search.components.SearchBox
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     navController: NavHostController,

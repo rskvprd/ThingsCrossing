@@ -15,10 +15,10 @@
     <string name="rub">Российский рубль</string>
     <string name="usd">Доллар США</string>
     <string name="price_not_specified">Цена не указана</string>
-    <string name="server_refused_message">Похоже, сервер не хочет с вами общаться :(</string>
-    <string name="no_network_connection">Нет подключения к интернету. Проверьте соединение.</string>
+    <string name="server_refused_message">Сервер не хочет с вами общаться</string>
+    <string name="no_network_connection">Нет подключения к интернету. Проверьте соединение</string>
     <string name="refresh_button_cont_desc">Иконка перезагрузки интернета</string>
-    <string name="server_timeout_message">Соединение с сервером занимает слишком много времени. Судя по всему, с ним что-то не так (возможно не включен). Извините пажалуста</string>
+    <string name="server_timeout_message">Соединение с сервером занимает слишком много времени</string>
     <string name="title">Заголовок</string>
     <string name="description_placeholder">Что-нибудь о товаре</string>
     <string name="title_placeholder">Название товара</string>
@@ -40,6 +40,8 @@
     <string name="add_image">Добавить картинку</string>
     <string name="image_url_placeholder">https://image.jpg</string>
     <string name="image_url">Ссылка на картинку</string>
-    <string name="http_exception_message">Ресурс не найден :(</string>
-    <string name="unexpected_error">Внезапная неожиданная непримечательная а может быть и примечательная ошибка</string>
+    <string name="http_exception_message">Ресурс не найден</string>
+    <string name="unexpected_error">Неизвестная ошибка</string>
+    <string name="upload_image">Загрузить</string>
+    <string name="drop_image">Отбросить</string>
 </resources>

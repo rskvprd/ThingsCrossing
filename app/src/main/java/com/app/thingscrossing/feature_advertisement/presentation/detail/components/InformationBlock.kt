@@ -11,7 +11,7 @@ fun InformationBlock(
     label: String,
     content: @Composable ColumnScope.() -> Unit = {}
 ) {
-    Column() {
+    Column {
         Text(
             text = label,
             style = MaterialTheme.typography.titleMedium

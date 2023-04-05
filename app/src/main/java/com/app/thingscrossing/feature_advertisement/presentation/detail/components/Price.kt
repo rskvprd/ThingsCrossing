@@ -19,7 +19,6 @@ fun Price(
     if (prices.isEmpty()) {
         return
     }
-    Log.d("FFFF", prices.size.toString())
     Row {
         val mainPrice = prices[0]
         val mainSymbol = mainPrice.currency.symbol

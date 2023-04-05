@@ -4,13 +4,12 @@ import com.app.thingscrossing.core.Resource
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
 import kotlinx.coroutines.flow.Flow
-import java.net.ConnectException
 import java.util.*
 
 class AddAdvertisementUseCase(
     private val repository: AdvertisementRepository,
 ) {
-    @Throws(InvalidPropertiesFormatException::class, ConnectException::class)
+    @Throws(InvalidPropertiesFormatException::class)
     operator fun invoke(advertisement: Advertisement) : Flow<Resource<Unit>> {
         if (advertisement.title.isBlank()) {
             throw InvalidPropertiesFormatException("The title of the ad can't be empty")
@@ -20,6 +19,6 @@ class AddAdvertisementUseCase(
             throw InvalidPropertiesFormatException("The description of the ad can't be empty")
         }
 
-        return Resource.postResource { repository.insertAdvertisement(advertisement) }
+        return Resource.handleResource { repository.insertAdvertisement(advertisement) }
     }
 }

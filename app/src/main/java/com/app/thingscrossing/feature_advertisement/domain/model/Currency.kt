@@ -3,7 +3,11 @@ package com.app.thingscrossing.feature_advertisement.domain.model
 import androidx.annotation.StringRes
 import com.app.thingscrossing.R
 
-sealed class Currency (@StringRes val name: Int, val symbol: String, val code: String) {
+sealed class Currency (
+    @StringRes val name: Int,
+    val symbol: String,
+    val code: String
+    ) {
     object USD : Currency(R.string.usd, "$", "USD")
     object RUB : Currency(R.string.rub, "₽", "RUB")
     object KZT : Currency(R.string.kzt, "₸", "KZT")

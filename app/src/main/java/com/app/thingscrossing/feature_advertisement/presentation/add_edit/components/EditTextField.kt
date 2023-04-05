@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextField(
+fun EditTextField(
     value: String,
     onValueChange: (String) -> Unit,
     @StringRes label: Int,

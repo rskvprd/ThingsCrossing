@@ -47,7 +47,7 @@ fun AdvertisementItem(
                         .fillMaxWidth()
                         .align(Alignment.CenterHorizontally)
                         .padding(5.dp),
-                    imageUrls = advertisement.imageUrls,
+                    imageUrls = advertisement.images.map{it.url},
                     shimmerInstance = shimmerInstance
                 )
                 Price(prices = advertisement.prices, onlyMain = true)

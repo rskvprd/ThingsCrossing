@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.app.thingscrossing.R
-import com.app.thingscrossing.feature_advertisement.data.remote.dto.Characteristic
+import com.app.thingscrossing.feature_advertisement.domain.model.Characteristic
 import com.app.thingscrossing.feature_advertisement.presentation.detail.components.InformationBlock
 import com.app.thingscrossing.feature_advertisement.presentation.detail.components.Price
 import com.app.thingscrossing.feature_advertisement.presentation.search.NetworkErrorMessage
@@ -25,7 +25,7 @@ fun DetailAdvertisementScreen(
 ) {
     val uiState = viewModel.uiState
 
-    Scaffold() { paddingValues ->
+    Scaffold { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             if (uiState.isLoading) {
                 CircularProgressIndicator()
@@ -39,8 +39,7 @@ fun DetailAdvertisementScreen(
             Column(
                 modifier = Modifier.padding(horizontal = 20.dp)
             ) {
-                Log.d(":DSLFKJDSL:FKJ", uiState.advertisement.toString())
-                AdvertisementPictures(imageUrls = uiState.advertisement.imageUrls)
+                AdvertisementPictures(imageUrls = uiState.advertisement.images.map{it.url})
                 Spacer(Modifier.height(10.dp))
                 Price(prices = uiState.advertisement.prices, onlyMain = false)
                 Text(
@@ -56,10 +55,9 @@ fun DetailAdvertisementScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdvertisementPictures(imageUrls: List<String>) {
-    ElevatedCard() {
+    ElevatedCard {
         AdvertisementPicture(
             modifier = Modifier.size(300.dp), imageUrls = imageUrls
         )
@@ -81,8 +79,7 @@ fun Characteristics(
     if (characteristics.isEmpty()) return
     InformationBlock(label = stringResource(id = R.string.characteristics)) {
         characteristics.map {
-            Row(
-            ) {
+            Row {
                 Text(
                     text = "${it.name}: ".capitalize(Locale.current),
                     style = MaterialTheme.typography.bodySmall
