@@ -74,11 +74,16 @@ fun SearchScreen(
                 return@Box
             }
             if (state.errorId != null) {
-                Column {
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ){
                     NetworkErrorMessage(
                         messageId = state.errorId
                     )
-                    IconButton(onClick = { viewModel.onEvent(SearchEvent.RefreshNetwork) }) {
+                    IconButton(
+                        onClick = { viewModel.onEvent(SearchEvent.RefreshNetwork) }
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Refresh,
                             contentDescription = stringResource(

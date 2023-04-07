@@ -18,7 +18,7 @@
     <string name="server_refused_message">Server refused connection.</string>
     <string name="no_network_connection">No network connection. Check your network.</string>
     <string name="refresh_button_cont_desc">Refresh internet icon button</string>
-    <string name="server_timeout_message">Connect with the server is time outed</string>
+    <string name="server_timeout_message">Server connection timed out</string>
     <string name="title">Title</string>
     <string name="description_placeholder">Something about my product</string>
     <string name="title_placeholder">Product name</string>
@@ -44,4 +44,11 @@
     <string name="unexpected_error">Unexpected error</string>
     <string name="upload_image">Upload image</string>
     <string name="drop_image">Drop image</string>
+    <string name="title_tip">Title should be short and concrete</string>
+    <string name="image_title">Images</string>
+    <string name="image_description">You can add images</string>
+    <string name="title_title">Title</string>
+    <string name="title_description">Set short and concrete title</string>
+    <string name="address_description">Set address where you want do make exchange</string>
+    <string name="price_description">You can add price in several currencies</string>
 </resources>

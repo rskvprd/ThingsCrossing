@@ -60,12 +60,17 @@ fun AddEditScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Block(title = stringResource(id = R.string.title), description = ) {
+            Block(
+                title = stringResource(id = R.string.title),
+                description = stringResource(id = R.string.title_tip)
+            ) {
                 TitleDescriptionBlock(
-
+                    uiState = uiState,
+                    onTitleChange = { viewModel.onEvent(AddEditEvent.TitleChange(it)) },
+                    onDescriptionChange = { viewModel.onEvent(AddEditEvent.DescriptionChange(it)) },
                 )
             }
-            Block(title = , description = ) {
+            Block(title = stringResource(R.string.image_title), description = stringResource(R.string.image_description)) {
                 AddEditImagesBlock(
                     onPickImage = { uri -> uri?.let { viewModel.onEvent(AddEditEvent.PickImage(it)) } },
                     onConfirmImage = { uiState.uri?.let { viewModel.onEvent(AddEditEvent.PickImage(it)) } },
@@ -79,10 +84,10 @@ fun AddEditScreen(
 
 
 
-            Block(title = , description = ) {
-                TitleDescriptionBlock(uiState = , onTitleChange = , onDescriptionChange = )
+            Block(title = stringResource(id = R.string.title_title), description = stringResource(id = R.string.title_description)) {
+                TitleDescriptionBlock(uiState = uiState, onTitleChange = {TODO()}, onDescriptionChange = {TODO()})
             }
-            Block(title = , description = ) {
+            Block(title = stringResource(id = R.string.address), description = stringResource(id = R.string.address_description)) {
                 EditTextField(
                     value = uiState.advertisement.address,
                     onValueChange = {
@@ -94,7 +99,7 @@ fun AddEditScreen(
                     scope = scope
                 )
             }
-            Block(title = , description = ) {
+            Block(title = stringResource(id = R.string.price), description = stringResource(id = R.string.price_description)) {
                 PriceBlock(
                     scaffoldState = scaffoldState,
                     uiState = uiState,

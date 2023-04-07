@@ -18,7 +18,7 @@
     <string name="server_refused_message">Сервер не хочет с вами общаться</string>
     <string name="no_network_connection">Нет подключения к интернету. Проверьте соединение</string>
     <string name="refresh_button_cont_desc">Иконка перезагрузки интернета</string>
-    <string name="server_timeout_message">Соединение с сервером занимает слишком много времени</string>
+    <string name="server_timeout_message">Время соединения с сервером истекло</string>
     <string name="title">Заголовок</string>
     <string name="description_placeholder">Что-нибудь о товаре</string>
     <string name="title_placeholder">Название товара</string>
@@ -44,4 +44,11 @@
     <string name="unexpected_error">Неизвестная ошибка</string>
     <string name="upload_image">Загрузить</string>
     <string name="drop_image">Отбросить</string>
+    <string name="title_tip">Заголовок должен быть коротким и точно описывать товар</string>
+    <string name="image_title">Изображения товара</string>
+    <string name="image_description">Вы можете добавить и изменить изображения</string>
+    <string name="title_title">Заголовок</string>
+    <string name="title_description">Заголовок должен быть коротким и точно описывать товар</string>
+    <string name="address_description">Установите адрес, в котором вы хотите совершить сделку</string>
+    <string name="price_description">Вы можете добавить цены в перечисленных валютах</string>
 </resources>
