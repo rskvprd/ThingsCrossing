@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
-typealias Image = ImageModel
+
 class AdvertisementRepositoryImpl @Inject constructor(
     private val api: AdvertisementApi,
 ) : AdvertisementRepository {

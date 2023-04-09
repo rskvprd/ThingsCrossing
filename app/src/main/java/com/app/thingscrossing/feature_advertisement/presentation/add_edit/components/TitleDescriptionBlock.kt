@@ -1,7 +1,10 @@
 package com.app.thingscrossing.feature_advertisement.presentation.add_edit.components
 
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.app.thingscrossing.R
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.AddEditState
 
@@ -14,7 +17,7 @@ fun TitleDescriptionBlock(
 
     ) {
     EditTextField(
-        value = uiState.advertisement.title,
+        value = uiState.title,
         onValueChange = {
             onTitleChange(it)
         },
@@ -23,10 +26,11 @@ fun TitleDescriptionBlock(
         placeholder = R.string.title_placeholder
     )
     EditTextField(
-        value = uiState.advertisement.description,
+        value = uiState.description,
         onValueChange = {
             onDescriptionChange(it)
         },
+        modifier = Modifier.defaultMinSize(minHeight = 40.dp),
         label = R.string.description,
         placeholder = R.string.description_placeholder,
     )

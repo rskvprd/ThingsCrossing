@@ -42,6 +42,7 @@ class UploadImageUseCase(
             body = requestBody
         )
         try {
+            send(Resource.Loading())
             val result = repository.uploadImage(filePart)
             send(Resource.Success(result))
         } catch (connectException: ConnectException) {

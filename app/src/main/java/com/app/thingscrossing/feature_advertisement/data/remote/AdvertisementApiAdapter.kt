@@ -37,9 +37,7 @@ class ApiAdapter {
                 .build()
                 .create(AdvertisementApi::class.java)
         }
-
     }
-
 }
 
 class LocalDateTimeDeserializer : JsonDeserializer<LocalDateTime> {

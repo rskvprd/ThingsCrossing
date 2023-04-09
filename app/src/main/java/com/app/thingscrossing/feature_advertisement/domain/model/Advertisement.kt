@@ -4,7 +4,6 @@ import java.time.LocalDateTime
 
 
 data class Advertisement(
-    val id: Int? = null,
     val title: String,
     val description: String,
     val prices: List<Price>,
@@ -12,9 +11,10 @@ data class Advertisement(
     val images: List<ImageModel>,
     val characteristics: List<Characteristic>,
     val exchanges: List<Exchange>,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime,
     val categories: List<Category>,
+    val id: Int? = null,
+    val createdAt: LocalDateTime? = null,
+    val updatedAt: LocalDateTime? = null,
 ) {
     companion object {
         val DEFAULT: Advertisement = Advertisement(
@@ -25,8 +25,6 @@ data class Advertisement(
             characteristics = ArrayList(),
             images = ArrayList(),
             exchanges = ArrayList(),
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now(),
             categories = ArrayList(),
             )
     }

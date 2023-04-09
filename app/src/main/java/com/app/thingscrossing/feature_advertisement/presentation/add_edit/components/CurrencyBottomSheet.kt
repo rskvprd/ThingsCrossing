@@ -16,7 +16,7 @@ import com.app.thingscrossing.feature_advertisement.presentation.add_edit.AddEdi
 
 
 @Composable
-fun BottomSheet(
+fun CurrencyBottomSheet(
     uiState: AddEditState,
     onAddCurrency: (currency: Currency) -> Unit,
     onRemoveCurrency: (currency: Currency) -> Unit,
@@ -32,10 +32,9 @@ fun BottomSheet(
                     .padding(vertical = 20.dp)
             )
             Currency.getAvailableCurrencies().forEach { currency ->
-                val selected =
-                    uiState.advertisement.prices.map { it.currency }.contains(currency)
+                val contained = uiState.prices.map { it.currency }.contains(currency)
                 TextButton(onClick = {
-                    if (!selected) {
+                    if (!contained) {
                         onAddCurrency(currency)
                     } else {
                         onRemoveCurrency(currency)
@@ -46,7 +45,7 @@ fun BottomSheet(
                         textAlign = TextAlign.Center,
                         text = stringResource(currency.name) + ", ${currency.symbol}",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = if (selected) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
+                        color = if (contained) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
                     )
                 }
             }
@@ -54,4 +53,3 @@ fun BottomSheet(
         }
     }
 }
-

@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditTextField(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     @StringRes label: Int,
@@ -38,7 +39,7 @@ fun EditTextField(
     )
 
     OutlinedTextField(
-        modifier = Modifier
+        modifier = modifier
             .onFocusChanged {
                 if (it.isFocused && scaffoldState?.bottomSheetState?.isVisible == true) {
                     scope?.launch {

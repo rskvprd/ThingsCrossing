@@ -51,4 +51,6 @@
     <string name="title_description">Set short and concrete title</string>
     <string name="address_description">Set address where you want do make exchange</string>
     <string name="price_description">You can add price in several currencies</string>
+    <string name="upload_advertisement">Upload advertisement</string>
+    <string name="ok" translatable="false">OK</string>
 </resources>

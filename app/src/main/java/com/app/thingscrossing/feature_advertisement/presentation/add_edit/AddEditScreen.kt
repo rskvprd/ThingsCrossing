@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.app.thingscrossing.R
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.*
+import com.app.thingscrossing.feature_advertisement.presentation.add_edit.util.AddEditPrice
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +40,7 @@ fun AddEditScreen(
             }
         },
         sheetContent = {
-            BottomSheet(
+            CurrencyBottomSheet(
                 uiState = uiState,
                 onAddCurrency = { currency -> viewModel.onEvent(AddEditEvent.AddNewCurrency(currency)) },
                 onRemoveCurrency = { currency ->
@@ -52,6 +53,15 @@ fun AddEditScreen(
             )
         }
     ) { paddingValues ->
+        if (uiState.errorId != null) {
+            NetworkErrorDialog(
+                onDismissError = { viewModel.onEvent(AddEditEvent.DismissError) },
+                uiState.errorId
+            )
+        }
+        if (uiState.isLoading) {
+            LoadingDialog(progression = uiState.uploadingProgress)
+        }
         Column(
             Modifier
                 .padding(paddingValues)
@@ -70,10 +80,19 @@ fun AddEditScreen(
                     onDescriptionChange = { viewModel.onEvent(AddEditEvent.DescriptionChange(it)) },
                 )
             }
-            Block(title = stringResource(R.string.image_title), description = stringResource(R.string.image_description)) {
+            Block(
+                title = stringResource(R.string.image_title),
+                description = stringResource(R.string.image_description)
+            ) {
                 AddEditImagesBlock(
                     onPickImage = { uri -> uri?.let { viewModel.onEvent(AddEditEvent.PickImage(it)) } },
-                    onConfirmImage = { uiState.uri?.let { viewModel.onEvent(AddEditEvent.PickImage(it)) } },
+                    onConfirmImage = {
+                        uiState.uri?.let { uri ->
+                            viewModel.onEvent(
+                                AddEditEvent.UploadImage(uri)
+                            )
+                        }
+                    },
                     onDismissImage = { viewModel.onEvent(AddEditEvent.DropImage) },
                     uiState = uiState,
                     images = uiState.images.map { image ->
@@ -81,17 +100,14 @@ fun AddEditScreen(
                     }
                 )
             }
-
-
-
-            Block(title = stringResource(id = R.string.title_title), description = stringResource(id = R.string.title_description)) {
-                TitleDescriptionBlock(uiState = uiState, onTitleChange = {TODO()}, onDescriptionChange = {TODO()})
-            }
-            Block(title = stringResource(id = R.string.address), description = stringResource(id = R.string.address_description)) {
+            Block(
+                title = stringResource(id = R.string.address),
+                description = stringResource(id = R.string.address_description)
+            ) {
                 EditTextField(
-                    value = uiState.advertisement.address,
-                    onValueChange = {
-                        viewModel.onEvent(AddEditEvent.AddressChange(it))
+                    value = uiState.address,
+                    onValueChange = { address ->
+                        viewModel.onEvent(AddEditEvent.AddressChange(address))
                     },
                     label = R.string.address,
                     placeholder = R.string.address_placeholder,
@@ -99,17 +115,34 @@ fun AddEditScreen(
                     scope = scope
                 )
             }
-            Block(title = stringResource(id = R.string.price), description = stringResource(id = R.string.price_description)) {
+            Block(
+                title = stringResource(id = R.string.price),
+                description = stringResource(id = R.string.price_description)
+            ) {
                 PriceBlock(
                     scaffoldState = scaffoldState,
-                    uiState = uiState,
+                    prices = uiState.prices,
                     scope = scope,
+                    onPriceChange = { price, value ->
+                        viewModel.onEvent(
+                            AddEditEvent.ChangePrice(
+                                AddEditPrice(
+                                    currency = price.currency,
+                                    value = value
+                                )
+                            )
+                        )
+                    }
                 )
+            }
+
+            Button(onClick = {
+                viewModel.onEvent(AddEditEvent.UploadAdvertisement)
+            }) {
+                Text(text = stringResource(id = R.string.upload_advertisement))
             }
         }
     }
-
-
 }
 
 
