@@ -2,11 +2,6 @@ package com.app.thingscrossing.feature_advertisement.presentation.add_edit
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
-import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -93,21 +88,21 @@ class AddEditViewModel @Inject constructor(
                 )
             }
             is AddEditEvent.PickImage -> {
-                val bitmap = getBitmapByUri(event.uri)
                 uiState = uiState.copy(
-                    bitmap = bitmap,
-                    uri = event.uri
+                    currentImageUri = event.uri,
+                    showAddImageDialog = false
                 )
             }
             is AddEditEvent.DropImage -> {
                 uiState = uiState.copy(
-                    bitmap = null,
-                    uri = null,
+                    currentImageUri = null,
+                    showAddImageDialog = false
                 )
             }
             is AddEditEvent.UploadImage -> {
                 advertisementUseCases.uploadImageUseCase(
-                    uiState.uri ?: throw IllegalStateException("Uploading photo before it pick")
+                    uiState.currentImageUri
+                        ?: throw IllegalStateException("Uploading photo before it pick")
                 ).onEach { resource ->
                     uiState = when (resource) {
                         is Resource.Error -> {
@@ -141,8 +136,7 @@ class AddEditViewModel @Inject constructor(
                     }
                 }.launchIn(viewModelScope)
                 uiState = uiState.copy(
-                    bitmap = null,
-                    uri = null,
+                    currentImageUri = null,
                 )
             }
 
@@ -160,26 +154,22 @@ class AddEditViewModel @Inject constructor(
                     )
                 )
             }
-            AddEditEvent.DismissError -> {
+            is AddEditEvent.DismissError -> {
                 uiState = uiState.copy(
                     errorId = null
                 )
             }
+            AddEditEvent.AddImageClick -> {
+                uiState = uiState.copy(
+                    showAddImageDialog = true
+                )
+            }
+            AddEditEvent.DismissAddImageDialog -> {
+                uiState = uiState.copy(
+                    showAddImageDialog = false
+                )
+            }
         }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun getBitmapByUri(uri: Uri): Bitmap {
-        val bitmap: Bitmap = if (Build.VERSION.SDK_INT < 28) {
-            MediaStore.Images
-                .Media.getBitmap(context.contentResolver, uri)
-
-        } else {
-            val source = ImageDecoder
-                .createSource(context.contentResolver, uri)
-            ImageDecoder.decodeBitmap(source)
-        }
-        return bitmap
     }
 
     private fun initAdvertisement() {

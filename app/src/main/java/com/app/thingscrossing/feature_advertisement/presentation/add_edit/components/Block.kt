@@ -33,4 +33,5 @@ fun Header(
         style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.onSurface.copy(0.7f)
     )
+    MaterialTheme.colorScheme.surface
 }

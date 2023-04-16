@@ -58,7 +58,7 @@ fun DetailAdvertisementScreen(
 fun AdvertisementPictures(imageUrls: List<String>) {
     ElevatedCard {
         AdvertisementPicture(
-            modifier = Modifier.size(300.dp), imageUrls = imageUrls
+            modifier = Modifier.size(300.dp), model = imageUrls.first()
         )
     }
 }

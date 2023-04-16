@@ -3,7 +3,6 @@ package com.app.thingscrossing.feature_advertisement.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
 import androidx.navigation.compose.rememberNavController
 import com.app.thingscrossing.core.navigation.NavGraph
 import com.app.thingscrossing.ui.theme.ThingsCrossingTheme
@@ -16,9 +15,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ThingsCrossingTheme {
-                MaterialTheme {
-                    NavGraph(navController = rememberNavController())
-                }
+                NavGraph(navController = rememberNavController())
             }
         }
     }

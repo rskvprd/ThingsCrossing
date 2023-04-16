@@ -15,7 +15,7 @@
     <string name="rub">Ruble</string>
     <string name="usd">United States Dollar</string>
     <string name="price_not_specified">Price not specified</string>
-    <string name="server_refused_message">Server refused connection.</string>
+    <string name="server_refused_message">Server refused connection</string>
     <string name="no_network_connection">No network connection. Check your network.</string>
     <string name="refresh_button_cont_desc">Refresh internet icon button</string>
     <string name="server_timeout_message">Server connection timed out</string>
@@ -29,7 +29,7 @@
     <string name="back_icon_desc">Back icon</string>
     <string name="price_placeholder">Product price</string>
     <string name="price">Price</string>
-    <string name="add_edit_currency">Change or add new currency</string>
+    <string name="add_edit_currency">Remove or add currency</string>
     <string name="kzt">Kazakhstani Tenge</string>
     <string name="uah">Ukrainian hryvnia</string>
     <string name="delete_icon_cont_desc">Delete icon</string>
@@ -53,4 +53,9 @@
     <string name="price_description">You can add price in several currencies</string>
     <string name="upload_advertisement">Upload advertisement</string>
     <string name="ok" translatable="false">OK</string>
+    <string name="select_camera">Take from camera</string>
+    <string name="select_galery">Pick from gallery</string>
+    <string name="select_image_source">Select image source</string>
+    <string name="selected_image">Selected image</string>
+    <string name="no_photo_cont_desc">No photography</string>
 </resources>

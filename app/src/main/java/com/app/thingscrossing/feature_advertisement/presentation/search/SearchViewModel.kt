@@ -68,8 +68,8 @@ class SearchViewModel @Inject constructor(
             is SearchEvent.ToggleFilterSection -> {
                 TODO()
             }
-            SearchEvent.RefreshNetwork -> {
-                TODO()
+            is SearchEvent.RefreshNetwork -> {
+                getAdvertisementList(uiState.searchValue)
             }
         }
     }
@@ -80,17 +80,23 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun getAdvertisementList(searchValue: String? = null) {
-        if (searchValue == null) {
+        if (searchValue == null || searchValue.isBlank()) {
             advertisementUseCases.getAdvertisementList().onEach { result ->
                 uiState = when (result) {
                     is Resource.Error -> {
-                        SearchState(errorId = result.messageId ?: R.string.unexpected_error)
+                        uiState.copy(
+                            isLoading = false,
+                            errorId = result.messageId ?: R.string.unexpected_error
+                        )
                     }
                     is Resource.Loading -> {
-                        SearchState(isLoading = true)
+                        uiState.copy(isLoading = true)
                     }
                     is Resource.Success -> {
-                        SearchState(advertisements = result.data ?: emptyList())
+                        uiState.copy(
+                            advertisements = result.data ?: emptyList(),
+                            isLoading = false
+                        )
                     }
                 }
             }.launchIn(viewModelScope)
@@ -98,13 +104,19 @@ class SearchViewModel @Inject constructor(
             advertisementUseCases.searchAdvertisements(searchValue).onEach { result ->
                 uiState = when (result) {
                     is Resource.Error -> {
-                        SearchState(errorId = result.messageId ?: R.string.unexpected_error)
+                        uiState.copy(
+                            isLoading = false,
+                            errorId = result.messageId ?: R.string.unexpected_error
+                        )
                     }
                     is Resource.Loading -> {
-                        SearchState(isLoading = true)
+                        uiState.copy(isLoading = true)
                     }
                     is Resource.Success -> {
-                        SearchState(advertisements = result.data ?: emptyList())
+                        uiState.copy(
+                            advertisements = result.data ?: emptyList(),
+                            isLoading = false
+                        )
                     }
                 }
             }.launchIn(viewModelScope)

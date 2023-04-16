@@ -3,10 +3,7 @@ package com.app.thingscrossing.feature_advertisement.presentation.add_edit.compo
 import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.BottomSheetScaffoldState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -37,7 +34,6 @@ fun EditTextField(
         keyboardType = keyboardType,
         imeAction = ImeAction.Next
     )
-
     OutlinedTextField(
         modifier = modifier
             .onFocusChanged {

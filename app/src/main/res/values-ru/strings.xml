@@ -15,7 +15,7 @@
     <string name="rub">Российский рубль</string>
     <string name="usd">Доллар США</string>
     <string name="price_not_specified">Цена не указана</string>
-    <string name="server_refused_message">Сервер не хочет с вами общаться</string>
+    <string name="server_refused_message">Сервер отклонил соединение</string>
     <string name="no_network_connection">Нет подключения к интернету. Проверьте соединение</string>
     <string name="refresh_button_cont_desc">Иконка перезагрузки интернета</string>
     <string name="server_timeout_message">Время соединения с сервером истекло</string>
@@ -29,7 +29,7 @@
     <string name="back_icon_desc">Иконка назад</string>
     <string name="price_placeholder">Цена продукта</string>
     <string name="price">Цена</string>
-    <string name="add_edit_currency">Изменить или добавить новую валюту</string>
+    <string name="add_edit_currency">Убрать или добавить валюту</string>
     <string name="kzt">Казахстанский тенге</string>
     <string name="uah">Украинская гривна</string>
     <string name="delete_icon_cont_desc">Иконка удаления</string>
@@ -51,4 +51,10 @@
     <string name="title_description">Заголовок должен быть коротким и точно описывать товар</string>
     <string name="address_description">Установите адрес, в котором вы хотите совершить сделку</string>
     <string name="price_description">Вы можете добавить цены в перечисленных валютах</string>
+    <string name="upload_advertisement">Выложить объявление</string>
+    <string name="select_camera">Сделать фото с камеры</string>
+    <string name="select_galery">Выбрать из галереи</string>
+    <string name="select_image_source">Выберите источник изображения</string>
+    <string name="selected_image">Выбранное изображение</string>
+    <string name="no_photo_cont_desc">Нет фотографии</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.app.thingscrossing.feature_advertisement.presentation.add_edit
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.annotation.StringRes
 import com.app.thingscrossing.feature_advertisement.domain.model.Category
@@ -19,9 +18,9 @@ data class AddEditState(
     val characteristics: List<Characteristic> = emptyList(),
     val exchanges: List<Exchange> = emptyList(),
     val categories: List<Category> = emptyList(),
-    val uri: Uri? = null,
-    val bitmap: Bitmap? = null,
+    val currentImageUri: Uri? = null,
     val isLoading: Boolean = false,
     val uploadingProgress: Float? = null,
     @StringRes val errorId: Int? = null,
+    val showAddImageDialog: Boolean = false,
 )

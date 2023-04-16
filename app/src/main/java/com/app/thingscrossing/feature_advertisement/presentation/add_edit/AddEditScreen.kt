@@ -63,7 +63,7 @@ fun AddEditScreen(
             LoadingDialog(progression = uiState.uploadingProgress)
         }
         Column(
-            Modifier
+            modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
@@ -87,7 +87,7 @@ fun AddEditScreen(
                 AddEditImagesBlock(
                     onPickImage = { uri -> uri?.let { viewModel.onEvent(AddEditEvent.PickImage(it)) } },
                     onConfirmImage = {
-                        uiState.uri?.let { uri ->
+                        uiState.currentImageUri?.let { uri ->
                             viewModel.onEvent(
                                 AddEditEvent.UploadImage(uri)
                             )
@@ -97,6 +97,12 @@ fun AddEditScreen(
                     uiState = uiState,
                     images = uiState.images.map { image ->
                         { AsyncImage(model = image.url, contentDescription = null) }
+                    },
+                    onAddImageClick = {
+                        viewModel.onEvent(AddEditEvent.AddImageClick)
+                    },
+                    dismissAddImageDialog = {
+                        viewModel.onEvent(AddEditEvent.DismissAddImageDialog)
                     }
                 )
             }
