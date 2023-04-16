@@ -32,9 +32,11 @@ fun AdvertisementPicture(
     ) {
         if (model == null) {
             Icon(
+                modifier = Modifier.fillMaxSize(),
                 imageVector = Icons.Default.NoPhotography,
                 contentDescription = stringResource(id = R.string.no_photo_cont_desc)
             )
+            isLoading = false
         } else {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
