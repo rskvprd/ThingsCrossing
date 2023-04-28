@@ -18,6 +18,8 @@ import com.app.thingscrossing.feature_advertisement.domain.use_case.Advertisemen
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.util.AddEditPrice
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -45,16 +47,19 @@ class AddEditViewModel @Inject constructor(
                     title = event.title
                 )
             }
+
             is AddEditEvent.AddressChange -> {
                 uiState = uiState.copy(
                     address = event.address
                 )
             }
+
             is AddEditEvent.DescriptionChange -> {
                 uiState = uiState.copy(
                     description = event.description
                 )
             }
+
             is AddEditEvent.AddNewCurrency -> {
                 val prices = uiState.prices
 
@@ -68,6 +73,7 @@ class AddEditViewModel @Inject constructor(
                     }
                 )
             }
+
             is AddEditEvent.ChangePrice -> {
                 if (!AddEditPrice.isValid(event.price)) return
                 val prices = uiState.prices.toMutableList()
@@ -81,24 +87,28 @@ class AddEditViewModel @Inject constructor(
                     prices = prices
                 )
             }
+
             is AddEditEvent.DeleteCurrency -> {
                 uiState = uiState.copy(
                     prices = uiState.prices
                         .filter { it.currency != event.currency }
                 )
             }
+
             is AddEditEvent.PickImage -> {
                 uiState = uiState.copy(
                     currentImageUri = event.uri,
                     showAddImageDialog = false
                 )
             }
+
             is AddEditEvent.DropImage -> {
                 uiState = uiState.copy(
                     currentImageUri = null,
                     showAddImageDialog = false
                 )
             }
+
             is AddEditEvent.UploadImage -> {
                 advertisementUseCases.uploadImageUseCase(
                     uiState.currentImageUri
@@ -111,6 +121,7 @@ class AddEditViewModel @Inject constructor(
                                 isLoading = false,
                             )
                         }
+
                         is Resource.Loading -> {
                             Log.d("zRRR", resource.progression.toString())
                             uiState.copy(
@@ -118,6 +129,7 @@ class AddEditViewModel @Inject constructor(
                                 isLoading = true
                             )
                         }
+
                         is Resource.Success -> {
                             uiState.copy(
                                 isLoading = false,
@@ -142,28 +154,51 @@ class AddEditViewModel @Inject constructor(
 
             is AddEditEvent.UploadAdvertisement -> {
                 advertisementUseCases.addAdvertisement(
-                    advertisement = Advertisement(
-                        title = uiState.title,
-                        description = uiState.description,
-                        prices = uiState.prices.map { it.toPrice() },
-                        address = uiState.address,
-                        images = uiState.images,
-                        characteristics = uiState.characteristics,
-                        exchanges = uiState.exchanges,
-                        categories = uiState.categories,
-                    )
-                )
+                    title = uiState.title,
+                    description = uiState.description,
+                    prices = uiState.prices,
+                    address = uiState.address,
+                    images = uiState.images,
+                    characteristics = uiState.characteristics,
+                    exchanges = uiState.exchanges,
+                    categories = uiState.categories
+                ).onEach { resource ->
+                    when (resource) {
+                        is Resource.Error -> {
+                            uiState = uiState.copy(
+                                errorId = resource.messageId,
+                                isLoading = false,
+                            )
+                        }
+
+                        is Resource.Loading -> {
+                            uiState = uiState.copy(
+                                isLoading = true,
+                            )
+                        }
+
+                        is Resource.Success -> {
+                            uiState = uiState.copy(
+                                isLoading = false,
+                                advertisementUploaded = true,
+                            )
+                        }
+                    }
+                }.launchIn(viewModelScope)
             }
+
             is AddEditEvent.DismissError -> {
                 uiState = uiState.copy(
                     errorId = null
                 )
             }
+
             AddEditEvent.AddImageClick -> {
                 uiState = uiState.copy(
                     showAddImageDialog = true
                 )
             }
+
             AddEditEvent.DismissAddImageDialog -> {
                 uiState = uiState.copy(
                     showAddImageDialog = false
@@ -182,9 +217,11 @@ class AddEditViewModel @Inject constructor(
                             errorId = result.messageId ?: R.string.unexpected_error
                         )
                     }
+
                     is Resource.Loading -> {
                         AddEditState(isLoading = true)
                     }
+
                     is Resource.Success -> {
                         AddEditState(
                             images = uiState.images

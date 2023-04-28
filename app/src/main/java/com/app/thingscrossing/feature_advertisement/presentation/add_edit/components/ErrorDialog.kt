@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import com.app.thingscrossing.R
 
 @Composable
-fun NetworkErrorDialog(
+fun ErrorDialog(
     onDismissError: () -> Unit,
     @StringRes errorMessageId: Int,
 ) {
@@ -24,7 +24,7 @@ fun NetworkErrorDialog(
             Text(text = stringResource(id = errorMessageId))
         },
         title = {
-            Text(text = stringResource(id = R.string.unexpected_error))
+            Text(text = stringResource(id = R.string.error_title))
         }
     )
 }

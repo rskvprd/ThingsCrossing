@@ -87,7 +87,7 @@ fun SelectImageSourceDialog(
         }
     }, confirmButton = {
         TextButton(onClick = { onGallerySelect() }) {
-            Text(text = stringResource(id = R.string.select_galery))
+            Text(text = stringResource(id = R.string.select_gallery))
         }
     }, title = {
         Text(

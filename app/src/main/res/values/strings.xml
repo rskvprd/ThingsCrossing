@@ -54,8 +54,14 @@
     <string name="upload_advertisement">Upload advertisement</string>
     <string name="ok" translatable="false">OK</string>
     <string name="select_camera">Take from camera</string>
-    <string name="select_galery">Pick from gallery</string>
+    <string name="select_gallery">Pick from gallery</string>
     <string name="select_image_source">Select image source</string>
     <string name="selected_image">Selected image</string>
     <string name="no_photo_cont_desc">No photography</string>
+    <string name="blank_description_error">Description can not be blank</string>
+    <string name="blank_title_error">Title can not be blank</string>
+    <string name="blank_address_error">Address can not be blank</string>
+    <string name="error_title">Error</string>
+    <string name="congratulation">Congratulation</string>
+    <string name="advertisement_uploaded">Advertisement was successfully uploaded</string>
 </resources>

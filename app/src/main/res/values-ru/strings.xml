@@ -53,8 +53,14 @@
     <string name="price_description">Вы можете добавить цены в перечисленных валютах</string>
     <string name="upload_advertisement">Выложить объявление</string>
     <string name="select_camera">Сделать фото с камеры</string>
-    <string name="select_galery">Выбрать из галереи</string>
+    <string name="select_gallery">Выбрать из галереи</string>
     <string name="select_image_source">Выберите источник изображения</string>
     <string name="selected_image">Выбранное изображение</string>
     <string name="no_photo_cont_desc">Нет фотографии</string>
+    <string name="blank_description_error">Описание не может быть пустым</string>
+    <string name="blank_title_error">Заголовок не может быть пустым</string>
+    <string name="blank_address_error">Адрес не может быть пустым</string>
+    <string name="error_title">Ошибка</string>
+    <string name="congratulation">Поздравляем</string>
+    <string name="advertisement_uploaded">Объявление успешно добавлено</string>
 </resources>

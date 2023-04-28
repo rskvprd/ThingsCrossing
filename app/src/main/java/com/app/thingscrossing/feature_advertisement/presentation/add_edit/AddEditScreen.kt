@@ -27,6 +27,17 @@ fun AddEditScreen(
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState()
 
+    if (uiState.advertisementUploaded) {
+        AlertDialog(
+            onDismissRequest = { navController.navigateUp() },
+            confirmButton = { Button(onClick = { navController.navigateUp() }) {
+                Text(text = stringResource(id = R.string.ok))
+            }},
+            title = { Text(text = stringResource(id = R.string.congratulation))},
+            text = { Text(text = stringResource(id = R.string.advertisement_uploaded)) }
+        )
+    }
+
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetPeekHeight = 0.dp,
@@ -54,7 +65,7 @@ fun AddEditScreen(
         }
     ) { paddingValues ->
         if (uiState.errorId != null) {
-            NetworkErrorDialog(
+            ErrorDialog(
                 onDismissError = { viewModel.onEvent(AddEditEvent.DismissError) },
                 uiState.errorId
             )

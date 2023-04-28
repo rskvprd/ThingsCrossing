@@ -56,9 +56,7 @@ class CurrencySerializer: JsonSerializer<Currency> {
         typeOfSrc: Type?,
         context: JsonSerializationContext?,
     ): JsonElement {
-        val jsonCurrency = JsonObject()
-        jsonCurrency.addProperty("currency_code", src?.code)
-        return jsonCurrency
+        return JsonPrimitive(src?.code)
     }
 }
 

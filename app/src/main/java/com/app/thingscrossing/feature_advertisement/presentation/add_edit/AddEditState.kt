@@ -23,4 +23,5 @@ data class AddEditState(
     val uploadingProgress: Float? = null,
     @StringRes val errorId: Int? = null,
     val showAddImageDialog: Boolean = false,
+    val advertisementUploaded: Boolean = false,
 )
