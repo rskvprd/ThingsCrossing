@@ -28,7 +28,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <activity
-            android:name="com.app.thingscrossing.feature_advertisement.presentation.MainActivity"
+            android:name="com.app.thingscrossing.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.ThingsCrossing">
             <intent-filter>

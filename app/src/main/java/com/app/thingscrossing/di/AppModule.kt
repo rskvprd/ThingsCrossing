@@ -1,6 +1,9 @@
 package com.app.thingscrossing.di
 
 import android.content.Context
+import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
+import com.app.thingscrossing.feature_account.domain.use_case.GetAuthKeyUseCase
+import com.app.thingscrossing.feature_account.domain.use_case.SaveAuthKeyUseCase
 import com.app.thingscrossing.feature_advertisement.data.remote.AdvertisementApi
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
 import com.app.thingscrossing.feature_advertisement.domain.use_case.*
@@ -32,6 +35,15 @@ object AppModule {
             searchAdvertisements = SearchAdvertisementsUseCase(repository),
             uploadImageUseCase = UploadImageUseCase(repository, context),
             deleteImageUseCase = DeleteImageUseCase(repository),
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideAccountUseCases(@ApplicationContext context: Context): AccountUseCases {
+        return AccountUseCases(
+            saveAuthKeyUseCase = SaveAuthKeyUseCase(context),
+            getAuthKeyUseCase = GetAuthKeyUseCase(context)
         )
     }
 }

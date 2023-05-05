@@ -43,12 +43,19 @@ fun AddEditScreen(
         sheetPeekHeight = 0.dp,
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            IconButton(onClick = { navController.navigateUp() }) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = stringResource(id = R.string.back_icon_desc)
-                )
-            }
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(id = R.string.add_advertisement))
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back_icon_desc)
+                        )
+                    }
+                }
+            )
         },
         sheetContent = {
             CurrencyBottomSheet(

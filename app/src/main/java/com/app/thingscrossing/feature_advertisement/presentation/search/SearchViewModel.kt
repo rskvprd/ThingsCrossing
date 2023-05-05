@@ -80,7 +80,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun getAdvertisementList(searchValue: String? = null) {
-        if (searchValue == null || searchValue.isBlank()) {
+        if (searchValue.isNullOrBlank()) {
             advertisementUseCases.getAdvertisementList().onEach { result ->
                 uiState = when (result) {
                     is Resource.Error -> {
@@ -90,12 +90,16 @@ class SearchViewModel @Inject constructor(
                         )
                     }
                     is Resource.Loading -> {
-                        uiState.copy(isLoading = true)
+                        uiState.copy(
+                            isLoading = true,
+                            errorId = null,
+                        )
                     }
                     is Resource.Success -> {
                         uiState.copy(
                             advertisements = result.data ?: emptyList(),
-                            isLoading = false
+                            isLoading = false,
+                            errorId = null,
                         )
                     }
                 }
