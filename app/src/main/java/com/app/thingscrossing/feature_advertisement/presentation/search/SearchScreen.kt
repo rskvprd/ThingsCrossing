@@ -22,101 +22,59 @@ import com.app.thingscrossing.feature_advertisement.presentation.search.componen
 import com.app.thingscrossing.feature_advertisement.presentation.search.components.FilterAdvertisementBottomSheet
 import com.app.thingscrossing.feature_advertisement.presentation.search.components.SearchBox
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     navController: NavHostController,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val focusManager = LocalFocusManager.current
-    val scaffoldState = rememberBottomSheetScaffoldState()
-    val scope = rememberCoroutineScope()
-
-    BottomSheetScaffold(
-        sheetPeekHeight = 0.dp,
-        scaffoldState = scaffoldState,
-        sheetContent = {
-            FilterAdvertisementBottomSheet()
-        }
+    val state = viewModel.uiState
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    focusManager.clearFocus()
+                })
+            },
+        contentAlignment = Alignment.Center
     ) {
-        Scaffold(
-            bottomBar = {
-                BottomNavigationBar(navController, Modifier.height(160.dp)) {
-                    SearchBox(
-                        onSearch = { searchValue ->
-                            viewModel.onEvent(SearchEvent.Search(searchValue))
-                            focusManager.clearFocus()
-                        },
-                        onSearchValueChanged = { searchValue ->
-                            viewModel.onEvent(SearchEvent.SearchValueChanged(searchValue))
-                        },
-                        onSortClick = {
-                            viewModel.onEvent(SearchEvent.ToggleSortSection)
-                            focusManager.clearFocus()
-                        },
-                        onFilterClick = {
-                            viewModel.onEvent(SearchEvent.ToggleFilterSection)
-                            focusManager.clearFocus()
-                        },
-                        onEraseClick = {
-                            viewModel.onEvent(SearchEvent.EraseSearchBox)
-                        },
-                        isEraseIconVisible = viewModel.uiState.isEraseIconVisible,
-                        searchValue = viewModel.uiState.searchValue
+
+        if (state.isLoading) {
+            CircularProgressIndicator()
+            return
+        }
+        if (state.errorId != null) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                NetworkErrorMessage(
+                    messageId = state.errorId
+                )
+                IconButton(
+                    onClick = { viewModel.onEvent(SearchEvent.RefreshNetwork) }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = stringResource(
+                            R.string.refresh_button_cont_desc
+                        )
                     )
                 }
-            },
-        ) { paddingValues ->
-            val state = viewModel.uiState
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .pointerInput(Unit) {
-                        detectTapGestures(onTap = {
-                            focusManager.clearFocus()
-                        })
-                    },
-                contentAlignment = Alignment.Center
-            ) {
-
-                if (state.isLoading) {
-                    CircularProgressIndicator()
-                    return@Scaffold
-                }
-                if (state.errorId != null) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        NetworkErrorMessage(
-                            messageId = state.errorId
-                        )
-                        IconButton(
-                            onClick = { viewModel.onEvent(SearchEvent.RefreshNetwork) }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Refresh,
-                                contentDescription = stringResource(
-                                    R.string.refresh_button_cont_desc
-                                )
-                            )
-                        }
-                    }
-                    return@Scaffold
-                }
-                AdvertisementList(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 10.dp),
-                    advertisements = viewModel.uiState.advertisements,
-                    navController = navController
-                )
             }
+            return
         }
+        AdvertisementList(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 10.dp),
+            advertisements = viewModel.uiState.advertisements,
+            navController = navController
+        )
     }
 }
+
 
 @Composable
 fun NetworkErrorMessage(@StringRes messageId: Int) {

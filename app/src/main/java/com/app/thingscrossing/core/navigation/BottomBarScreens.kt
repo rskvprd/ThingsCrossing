@@ -13,21 +13,26 @@ sealed class BottomBarScreens(
     val route: String,
     val icon: ImageVector,
 ) {
+
     object Home : BottomBarScreens(
         nameResource = R.string.home,
-        route = "home_screen",
+        route = "home-screen",
         icon = Icons.Default.Home
     )
 
     object Search : BottomBarScreens(
         nameResource = R.string.search,
-        route = "search_screen",
+        route = "search-screen",
         icon = Icons.Default.Search
     )
 
     object Account : BottomBarScreens(
         nameResource = R.string.account,
-        route = "account_screen",
+        route = "account-screen",
         icon = Icons.Default.Person
     )
+
+    companion object {
+        val ALL_SCREENS = listOf(Search, Account, Home)
+    }
 }

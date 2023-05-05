@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.presentation.detail.components.Price
-import com.app.thingscrossing.feature_advertisement.presentation.util.Screen
+import com.app.thingscrossing.feature_advertisement.presentation.util.AdvertisementScreen
 import com.valentinilk.shimmer.Shimmer
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,7 +26,7 @@ fun AdvertisementItem(
             .fillMaxWidth(),
         onClick = {
             navController.navigate(
-                Screen.DetailAdvertisementScreen.route +
+                AdvertisementScreen.DetailAdvertisementAdvertisementScreen.route +
                         "?advertisementId=${advertisement.id}"
             )
         },

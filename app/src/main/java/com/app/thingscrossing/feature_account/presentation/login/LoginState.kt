@@ -1,13 +1,11 @@
-package com.app.thingscrossing.feature_account.presentation.registration
+package com.app.thingscrossing.feature_account.presentation.login
 
 import androidx.annotation.StringRes
 
-data class RegistrationState(
+data class LoginState(
     val isLoading: Boolean = false,
     val authKey: String? = null,
     val login: String = "",
-    val email: String = "",
     val password: String = "",
-    val secondPassword: String = "",
     @StringRes val errorMessageId: Int? = null,
 )

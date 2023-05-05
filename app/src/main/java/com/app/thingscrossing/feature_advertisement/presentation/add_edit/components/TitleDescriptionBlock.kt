@@ -30,7 +30,7 @@ fun TitleDescriptionBlock(
         onValueChange = {
             onDescriptionChange(it)
         },
-        modifier = Modifier.defaultMinSize(minHeight = 40.dp),
+        modifier = Modifier.defaultMinSize(minHeight = 100.dp),
         label = R.string.description,
         placeholder = R.string.description_placeholder,
     )

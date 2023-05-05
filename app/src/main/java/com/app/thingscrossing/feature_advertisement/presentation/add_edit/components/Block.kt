@@ -1,8 +1,10 @@
 package com.app.thingscrossing.feature_advertisement.presentation.add_edit.components
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,10 +19,14 @@ fun Block(
     description: String,
     content: @Composable () -> Unit,
 ) {
-    Spacer(modifier = Modifier.height(20.dp))
-    Header(title = title, description = description)
-    Spacer(modifier = Modifier.height(20.dp))
-    content()
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(20.dp))
+        Header(title = title, description = description)
+        Spacer(modifier = Modifier.height(20.dp))
+        content()
+    }
 }
 
 @Composable
@@ -29,7 +35,8 @@ fun Header(
     description: String,
 ) {
     Column(
-        horizontalAlignment = Alignment.Start,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(horizontal = 10.dp)
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium)
         Divider()

@@ -6,17 +6,21 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.app.thingscrossing.feature_account.presentation.login.LoginScreen
 import com.app.thingscrossing.feature_account.presentation.registration.RegistrationScreen
+import com.app.thingscrossing.feature_account.presentation.util.AccountScreen
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.AddEditScreen
 import com.app.thingscrossing.feature_advertisement.presentation.detail.DetailAdvertisementScreen
 import com.app.thingscrossing.feature_advertisement.presentation.search.SearchScreen
-import com.app.thingscrossing.feature_advertisement.presentation.util.Screen
+import com.app.thingscrossing.feature_advertisement.presentation.util.AdvertisementScreen
 import com.app.thingscrossing.feature_home.presentation.HomeScreen
+
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
 ) {
+
     NavHost(
         navController = navController,
         startDestination = BottomBarScreens.Search.route
@@ -30,8 +34,12 @@ fun NavGraph(
         composable(route = BottomBarScreens.Account.route) {
             RegistrationScreen(navController)
         }
+        composable(route = AccountScreen.LoginScreen.route) {
+            LoginScreen(navController)
+        }
+
         composable(
-            route = Screen.DetailAdvertisementScreen.route +
+            route = AdvertisementScreen.DetailAdvertisementAdvertisementScreen.route +
                     "?advertisementId={advertisementId}",
             arguments = listOf(
                 navArgument(
@@ -44,7 +52,7 @@ fun NavGraph(
             DetailAdvertisementScreen(navController)
         }
         composable(
-            route = Screen.AddEditScreen.route +
+            route = AdvertisementScreen.AddEditAdvertisementScreen.route +
                     "?advertisementId={advertisementId}",
             arguments = listOf(
                 navArgument(
@@ -57,5 +65,7 @@ fun NavGraph(
         ) {
             AddEditScreen(navController)
         }
+
+
     }
 }

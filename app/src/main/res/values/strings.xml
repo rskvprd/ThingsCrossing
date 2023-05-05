@@ -67,4 +67,17 @@
     <string name="no_auth_key">No authentication key</string>
     <string name="login_label">Login</string>
     <string name="login_placeholder">login</string>
+    <string name="registration">Registration</string>
+    <string name="registration_description">Register to achieve more opportunity</string>
+    <string name="email_label">Email</string>
+    <string name="email_placeholder" translatable="false">email@email.com</string>
+    <string name="password_label">Password</string>
+    <string name="password_placeholder">Password</string>
+    <string name="second_password_label">Password again</string>
+    <string name="add_advertisement_description">You can add advertisement to global search</string>
+    <string name="already_have_account">Already have account</string>
+    <string name="sign_in_title">Sign in</string>
+    <string name="sign_in_description">You can sign in if you already have account</string>
+    <string name="does_not_have_account">Have not yet account</string>
+    <string name="make_register">Register</string>
 </resources>

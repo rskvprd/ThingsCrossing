@@ -52,6 +52,22 @@ class RegistrationViewModel @Inject constructor(
                     login = event.login
                 )
             }
+
+            is RegistrationEvent.EmailChange -> {
+                uiState = uiState.copy(
+                    email = event.email
+                )
+            }
+            is RegistrationEvent.PasswordChange -> {
+                uiState = uiState.copy(
+                    password = event.password
+                )
+            }
+            is RegistrationEvent.SecondPasswordChange -> {
+                uiState = uiState.copy(
+                    secondPassword = event.secondPassword
+                )
+            }
         }
     }
 

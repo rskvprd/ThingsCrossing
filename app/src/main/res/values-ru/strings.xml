@@ -63,4 +63,19 @@
     <string name="error_title">Ошибка</string>
     <string name="congratulation">Поздравляем</string>
     <string name="advertisement_uploaded">Объявление успешно добавлено</string>
+    <string name="no_auth_key">Нет ключа авторизации</string>
+    <string name="login_label">Логин</string>
+    <string name="login_placeholder">Логин</string>
+    <string name="registration">Регистрация</string>
+    <string name="registration_description">Зарегистрируйтесь, чтобы получить больше возможностей</string>
+    <string name="email_label">Электронная почта</string>
+    <string name="password_label">Пароль</string>
+    <string name="password_placeholder">12345</string>
+    <string name="second_password_label">Пароль снова</string>
+    <string name="add_advertisement_description">Вы можете выложить объявление в глобальный поиск</string>
+    <string name="already_have_account">Уже есть аккаунт</string>
+    <string name="sign_in_title">Войти</string>
+    <string name="sign_in_description">Вы можете войти если у вас уже есть аккаунт</string>
+    <string name="does_not_have_account">Ещё нет аккаунта</string>
+    <string name="make_register">Зарегистрироваться</string>
 </resources>
