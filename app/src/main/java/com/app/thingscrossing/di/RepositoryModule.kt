@@ -1,5 +1,7 @@
 package com.app.thingscrossing.di
 
+import com.app.thingscrossing.feature_account.data.repository.AccountRepositoryImpl
+import com.app.thingscrossing.feature_account.domain.repository.AccountRepository
 import com.app.thingscrossing.feature_advertisement.data.repository.AdvertisementRepositoryImpl
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
 import dagger.Binds
@@ -18,4 +20,10 @@ abstract class RepositoryModule {
     abstract fun bindAdvertisementRepository(
         thingsCrossingRepositoryImpl: AdvertisementRepositoryImpl
     ): AdvertisementRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAccountRepository(
+        accountRepositoryImpl: AccountRepositoryImpl
+    ): AccountRepository
 }

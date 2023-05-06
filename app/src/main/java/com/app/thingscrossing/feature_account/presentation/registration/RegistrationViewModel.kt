@@ -1,24 +1,14 @@
 package com.app.thingscrossing.feature_account.presentation.registration
 
-import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.thingscrossing.core.Resource
-import com.app.thingscrossing.feature_account.data.local.authDataStore
+import com.app.thingscrossing.feature_account.domain.model.Credentials
 import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,19 +19,12 @@ class RegistrationViewModel @Inject constructor(
         private set
 
 
-    init {
-        getAuthKey()
-    }
-
     fun sendEvent() {
 
     }
 
     fun onEvent(event: RegistrationEvent) {
         when (event) {
-            RegistrationEvent.GetAuthKey -> {
-                getAuthKey()
-            }
 
             is RegistrationEvent.SaveAuthKey -> {
                 accountUseCases.saveAuthKeyUseCase(event.key).launchIn(viewModelScope)
@@ -49,43 +32,80 @@ class RegistrationViewModel @Inject constructor(
 
             is RegistrationEvent.LoginChange -> {
                 uiState = uiState.copy(
-                    login = event.login
+                    username = event.username,
+                    isUsernameValid = event.username.isValidUsername()
                 )
+                validateFormFromState()
             }
 
             is RegistrationEvent.EmailChange -> {
                 uiState = uiState.copy(
-                    email = event.email
+                    email = event.email,
+                    isEmailValid = event.email.isValidEmail()
                 )
+                validateFormFromState()
             }
+
             is RegistrationEvent.PasswordChange -> {
                 uiState = uiState.copy(
-                    password = event.password
+                    password = event.password,
+                    isPasswordValid = event.password.isValidPassword()
                 )
+                validateFormFromState()
             }
+
             is RegistrationEvent.SecondPasswordChange -> {
                 uiState = uiState.copy(
-                    secondPassword = event.secondPassword
+                    secondPassword = event.secondPassword,
+                    isSecondPasswordValid = event.secondPassword == uiState.password
+                )
+                validateFormFromState()
+            }
+
+            RegistrationEvent.SignUp -> {
+                accountUseCases.signUpUseCase(
+                    Credentials(
+                        email = uiState.email,
+                        username = uiState.username,
+                        password = uiState.password
+                    )
+                ).launchIn(viewModelScope)
+            }
+
+            RegistrationEvent.ToggleShowPassword -> {
+                uiState = uiState.copy(
+                    isPasswordVisible = !uiState.isPasswordVisible
+                )
+            }
+
+            RegistrationEvent.ToggleShowSecondPassword -> {
+                uiState = uiState.copy(
+                    isSecondPasswordVisible = !uiState.isSecondPasswordVisible
                 )
             }
         }
     }
 
-    private fun getAuthKey() {
-        accountUseCases.getAuthKeyUseCase().onEach { resource ->
-            when (resource) {
-                is Resource.Error -> {
-                    Log.d("ASD", "error")
-                }
-
-                is Resource.Loading -> {
-                    Log.d("ASD", "isLoading")
-                }
-
-                is Resource.Success -> {
-                    Log.d("ASD", resource.data!!)
-                }
-            }
-        }.launchIn(viewModelScope)
+    private fun String.isValidPassword(): Boolean {
+        return this.length > 4
     }
+
+    private fun String.isValidUsername(): Boolean {
+        return this.length > 4
+    }
+
+    private fun String.isValidEmail(): Boolean {
+        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
+        return this.matches(emailRegex.toRegex())
+    }
+
+    private fun validateFormFromState() {
+        val isValidState = uiState.email.isValidEmail() &&
+                uiState.username.isValidUsername() &&
+                uiState.password.isValidPassword() &&
+                uiState.password == uiState.secondPassword
+        uiState = uiState.copy(registrationAvailable = isValidState)
+    }
+
+
 }

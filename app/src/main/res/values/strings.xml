@@ -80,4 +80,10 @@
     <string name="sign_in_description">You can sign in if you already have account</string>
     <string name="does_not_have_account">Have not yet account</string>
     <string name="make_register">Register</string>
+    <string name="username_invalid">Username is invalid</string>
+    <string name="password_invalid">Password should be more than 4 symbols</string>
+    <string name="second_password_invalid">Passwords should be equal</string>
+    <string name="email_invalid">Email is invalid</string>
+    <string name="toggle_show_second_password_icon_description">Toggle show repeated password icon</string>
+    <string name="toggle_show_password_icon_description">Toggle show password icon</string>
 </resources>
