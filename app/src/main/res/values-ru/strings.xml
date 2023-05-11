@@ -78,10 +78,18 @@
     <string name="sign_in_description">Вы можете войти если у вас уже есть аккаунт</string>
     <string name="does_not_have_account">Ещё нет аккаунта</string>
     <string name="make_register">Зарегистрироваться</string>
-    <string name="username_invalid">Логин должен состоять больше чем из 4-ёх символов</string>
-    <string name="password_invalid">Пароль должен состоять больше чем из 4-ёх символов</string>
+    <string name="username_invalid">Логин должен состоять хотя бы из 4-ми символов</string>
+    <string name="password_invalid">Пароль должен состоять хотя бы из 8-ми символов</string>
     <string name="second_password_invalid">Пароли должны совпадать</string>
     <string name="email_invalid">Некорректная электронная почта</string>
     <string name="toggle_show_second_password_icon_description">Изменить видимость повторного пароля</string>
     <string name="toggle_show_password_icon_description">Изменить видимость пароля</string>
+    <string name="first_name_label">Имя</string>
+    <string name="first_name_placeholder">Василий</string>
+    <string name="first_name_invalid">Имя должно состоять только из букв</string>
+    <string name="last_name_label">Фамилия</string>
+    <string name="last_name_placeholder">Вязков</string>
+    <string name="last_name_invalid">Фамилия должна состоять только из букв</string>
+    <string name="profile_screen_title">Профиль</string>
+    <string name="profile_screen_description">Ваш профиль</string>
 </resources>

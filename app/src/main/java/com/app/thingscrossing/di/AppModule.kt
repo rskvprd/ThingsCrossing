@@ -4,6 +4,7 @@ import android.content.Context
 import com.app.thingscrossing.feature_account.data.remote.AccountApi
 import com.app.thingscrossing.feature_account.domain.repository.AccountRepository
 import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
+import com.app.thingscrossing.feature_account.domain.use_case.DeleteAuthKeyUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.GetAuthKeyUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.SaveAuthKeyUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.SignUpUseCase
@@ -52,7 +53,8 @@ object AppModule {
         return AccountUseCases(
             saveAuthKeyUseCase = SaveAuthKeyUseCase(context),
             getAuthKeyUseCase = GetAuthKeyUseCase(context),
-            signUpUseCase = SignUpUseCase(accountRepository = accountRepository)
+            signUpUseCase = SignUpUseCase(accountRepository = accountRepository),
+            deleteAuthKeyUseCase = DeleteAuthKeyUseCase(context)
         )
     }
 }

@@ -13,17 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.app.thingscrossing.core.navigation.BottomBarScreens
 import com.app.thingscrossing.feature_advertisement.presentation.search.SearchEvent
 import com.app.thingscrossing.feature_advertisement.presentation.search.SearchViewModel
-import com.app.thingscrossing.feature_advertisement.presentation.search.components.SearchBox
 
 @Composable
 fun BottomNavigationBar(
@@ -44,6 +41,8 @@ fun BottomNavigationBar(
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        val contentPaddingValues = PaddingValues(horizontal = 30.dp)
+
         AnimatedVisibility(
             visible = isSearchBoxVisible,
             enter = slideInVertically(initialOffsetY = { it })
@@ -71,24 +70,27 @@ fun BottomNavigationBar(
                         viewModel.onEvent(SearchEvent.EraseSearchBox)
                     },
                     isEraseIconVisible = viewModel.uiState.isEraseIconVisible,
-                    searchValue = viewModel.uiState.searchValue
+                    searchValue = viewModel.uiState.searchValue,
+                    paddingValues = contentPaddingValues
                 )
             }
 
         }
         AnimatedVisibility(visible = isBottomBarScreen) {
             NavigationBar {
-                NavigationItems(navController)
+                NavigationItems(navController, contentPaddingValues)
             }
         }
-
 
     }
 }
 
 
 @Composable
-fun NavigationItems(navController: NavHostController) {
+fun NavigationItems(
+    navController: NavHostController,
+    paddingValues: PaddingValues,
+) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -96,7 +98,7 @@ fun NavigationItems(navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 40.dp, vertical = 0.dp),
+            .padding(paddingValues),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

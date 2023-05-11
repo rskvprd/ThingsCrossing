@@ -10,14 +10,10 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 
 class GetAuthKeyUseCase(private val context: Context) {
-    operator fun invoke(): Flow<Resource<String>> = flow {
+    operator fun invoke(): Flow<Resource<String?>> = flow {
         val authKey: String? = context.authDataStore.data.firstOrNull()?.get(AUTH_KEY)
 
-        if (authKey == null) {
-            emit(Resource.Error(R.string.no_auth_key))
-        } else {
-            emit(Resource.Success(data = authKey))
-        }
+        emit(Resource.Success(data = authKey))
     }
 }
 

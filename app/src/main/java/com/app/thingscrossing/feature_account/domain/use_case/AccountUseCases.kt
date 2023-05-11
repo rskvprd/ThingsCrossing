@@ -4,5 +4,5 @@ data class AccountUseCases (
     val getAuthKeyUseCase: GetAuthKeyUseCase,
     val saveAuthKeyUseCase: SaveAuthKeyUseCase,
     val signUpUseCase: SignUpUseCase,
-
+    val deleteAuthKeyUseCase: DeleteAuthKeyUseCase,
 )

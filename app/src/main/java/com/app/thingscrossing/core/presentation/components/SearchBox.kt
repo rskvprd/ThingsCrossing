@@ -1,4 +1,4 @@
-package com.app.thingscrossing.feature_advertisement.presentation.search.components
+package com.app.thingscrossing.core.presentation.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,7 +34,8 @@ fun SearchBox(
     onSortClick: () -> Unit,
     isEraseIconVisible: Boolean,
     onEraseClick: () -> Unit,
-    searchValue: String
+    searchValue: String,
+    paddingValues: PaddingValues,
 ) {
     val leadingIconSize: Dp = 26.dp
 
@@ -42,7 +43,7 @@ fun SearchBox(
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)
-            .padding(horizontal = 16.5.dp, vertical = 0.dp),
+            .padding(paddingValues),
         textStyle = SearchBoxStyle,
         singleLine = true,
         value = searchValue,

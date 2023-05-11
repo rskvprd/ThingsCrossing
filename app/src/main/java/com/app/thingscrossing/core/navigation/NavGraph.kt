@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.app.thingscrossing.feature_account.presentation.base.BaseAccountScreen
 import com.app.thingscrossing.feature_account.presentation.login.LoginScreen
 import com.app.thingscrossing.feature_account.presentation.registration.RegistrationScreen
 import com.app.thingscrossing.feature_account.presentation.util.AccountScreen
@@ -32,10 +33,7 @@ fun NavGraph(
             SearchScreen(navController)
         }
         composable(route = BottomBarScreens.Account.route) {
-            RegistrationScreen(navController)
-        }
-        composable(route = AccountScreen.LoginScreen.route) {
-            LoginScreen(navController)
+            BaseAccountScreen(navController)
         }
 
         composable(

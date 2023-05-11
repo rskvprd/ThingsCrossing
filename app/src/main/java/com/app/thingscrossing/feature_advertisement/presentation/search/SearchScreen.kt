@@ -17,10 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.R
-import com.app.thingscrossing.core.presentation.components.BottomNavigationBar
 import com.app.thingscrossing.feature_advertisement.presentation.search.components.AdvertisementList
-import com.app.thingscrossing.feature_advertisement.presentation.search.components.FilterAdvertisementBottomSheet
-import com.app.thingscrossing.feature_advertisement.presentation.search.components.SearchBox
 
 @Composable
 fun SearchScreen(
