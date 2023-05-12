@@ -13,6 +13,6 @@ class GetAdvertisementListUseCase(
     operator fun invoke(
         advertisementOrder: AdvertisementOrder = AdvertisementOrder.Date(OrderType.Descending),
     ): Flow<Resource<List<Advertisement>>> {
-        return Resource.handleResource { repository.getAdvertisementList() }
+        return Resource.defaultHandleApiResource { repository.getAdvertisementList() }
     }
 }

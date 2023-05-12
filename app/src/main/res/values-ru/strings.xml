@@ -40,7 +40,7 @@
     <string name="add_image">Добавить картинку</string>
     <string name="image_url_placeholder">https://image.jpg</string>
     <string name="image_url">Ссылка на картинку</string>
-    <string name="http_exception_message">Ресурс не найден</string>
+    <string name="http_exception_message">Http ошибка</string>
     <string name="unexpected_error">Неизвестная ошибка</string>
     <string name="upload_image">Загрузить</string>
     <string name="drop_image">Отбросить</string>
@@ -74,7 +74,7 @@
     <string name="second_password_label">Пароль снова</string>
     <string name="add_advertisement_description">Вы можете выложить объявление в глобальный поиск</string>
     <string name="already_have_account">Уже есть аккаунт</string>
-    <string name="sign_in_title">Войти</string>
+    <string name="sign_in_title">Вход в аккаунт</string>
     <string name="sign_in_description">Вы можете войти если у вас уже есть аккаунт</string>
     <string name="does_not_have_account">Ещё нет аккаунта</string>
     <string name="make_register">Зарегистрироваться</string>
@@ -92,4 +92,9 @@
     <string name="last_name_invalid">Фамилия должна состоять только из букв</string>
     <string name="profile_screen_title">Профиль</string>
     <string name="profile_screen_description">Ваш профиль</string>
+    <string name="sign_out">Выйти</string>
+    <string name="sign_in_button_text">Войти</string>
+    <string name="incorrect_username_or_password">Неправильный логин или пароль</string>
+    <string name="avatar_image_cont_desc">Аватарка профиля</string>
+    <string name="user_with_this_auth_key_does_not_exist">Пользователь с данным auth key не существует</string>
 </resources>

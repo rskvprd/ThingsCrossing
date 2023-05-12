@@ -7,9 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.app.thingscrossing.feature_account.presentation.base.BaseAccountScreen
-import com.app.thingscrossing.feature_account.presentation.login.LoginScreen
-import com.app.thingscrossing.feature_account.presentation.registration.RegistrationScreen
-import com.app.thingscrossing.feature_account.presentation.util.AccountScreen
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.AddEditScreen
 import com.app.thingscrossing.feature_advertisement.presentation.detail.DetailAdvertisementScreen
 import com.app.thingscrossing.feature_advertisement.presentation.search.SearchScreen

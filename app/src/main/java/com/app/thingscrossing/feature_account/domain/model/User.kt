@@ -4,10 +4,11 @@ data class User(
     val id: Int? = null,
 
     val username: String,
-    val email: String,
-    val firstName: String,
-    val lastName: String,
     val password: String?,
+    val email: String? = null,
+
+    val firstName: String? = null,
+    val lastName: String? = null,
 
     val dateJoined: String? = null,
     val lastLogin: String? = null,
@@ -16,6 +17,6 @@ data class User(
     val isStaff: Boolean? = null,
     val isSuperuser: Boolean? = null,
 
-    val groups: List<Any> = emptyList(), //TODO
-    val userPermissions: List<Any> = emptyList() //TODO
+    val groups: List<Any> = emptyList(), //TODO: Change Any to something else
+    val userPermissions: List<Any> = emptyList() //TODO: Change Any to something else
 )

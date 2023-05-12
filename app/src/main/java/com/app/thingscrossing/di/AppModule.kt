@@ -6,12 +6,14 @@ import com.app.thingscrossing.feature_account.domain.repository.AccountRepositor
 import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
 import com.app.thingscrossing.feature_account.domain.use_case.DeleteAuthKeyUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.GetAuthKeyUseCase
+import com.app.thingscrossing.feature_account.domain.use_case.GetCurrentUserProfileByTokenUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.SaveAuthKeyUseCase
+import com.app.thingscrossing.feature_account.domain.use_case.SignInUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.SignUpUseCase
 import com.app.thingscrossing.feature_advertisement.data.remote.AdvertisementApi
+import com.app.thingscrossing.feature_advertisement.data.remote.ApiAdapter
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
 import com.app.thingscrossing.feature_advertisement.domain.use_case.*
-import com.app.thingscrossing.feature_advertisement.data.remote.ApiAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,6 +29,7 @@ object AppModule {
     fun provideAdvertisementApi(): AdvertisementApi {
         return ApiAdapter.buildAdvertisementApi()
     }
+
     @Provides
     @Singleton
     fun provideAccountApi(): AccountApi {
@@ -35,7 +38,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAdvertisementUseCases(repository: AdvertisementRepository, @ApplicationContext context: Context): AdvertisementUseCases {
+    fun provideAdvertisementUseCases(
+        repository: AdvertisementRepository,
+        @ApplicationContext context: Context
+    ): AdvertisementUseCases {
         return AdvertisementUseCases(
             getAdvertisementList = GetAdvertisementListUseCase(repository),
             deleteAdvertisement = DeleteAdvertisementUseCase(repository),
@@ -49,12 +55,20 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAccountUseCases(@ApplicationContext context: Context, accountRepository: AccountRepository): AccountUseCases {
+    fun provideAccountUseCases(
+        @ApplicationContext context: Context,
+        accountRepository: AccountRepository
+    ): AccountUseCases {
         return AccountUseCases(
-            saveAuthKeyUseCase = SaveAuthKeyUseCase(context),
-            getAuthKeyUseCase = GetAuthKeyUseCase(context),
+            saveAuthKeyUseCase = SaveAuthKeyUseCase(context = context),
+            getAuthKeyUseCase = GetAuthKeyUseCase(context = context),
             signUpUseCase = SignUpUseCase(accountRepository = accountRepository),
-            deleteAuthKeyUseCase = DeleteAuthKeyUseCase(context)
+            deleteAuthKeyUseCase = DeleteAuthKeyUseCase(context = context),
+            signInUseCase = SignInUseCase(accountRepository = accountRepository, context = context),
+            getCurrentUserProfileByTokenUseCase = GetCurrentUserProfileByTokenUseCase(
+                context = context,
+                accountRepository = accountRepository
+            )
         )
     }
 }

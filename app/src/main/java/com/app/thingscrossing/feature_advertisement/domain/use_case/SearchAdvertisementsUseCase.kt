@@ -16,6 +16,6 @@ class SearchAdvertisementsUseCase(
             OrderType.Descending
         ),
     ): Flow<Resource<List<Advertisement>>> {
-        return Resource.handleResource { repository.searchAdvertisements(searchValue) }
+        return Resource.defaultHandleApiResource { repository.searchAdvertisements(searchValue) }
     }
 }

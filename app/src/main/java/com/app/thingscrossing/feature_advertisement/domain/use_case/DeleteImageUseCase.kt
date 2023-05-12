@@ -11,6 +11,6 @@ class DeleteImageUseCase(
     operator fun invoke(
         image: ImageModel,
     ): Flow<Resource<Unit>> {
-        return Resource.handleResource { repository.deleteImage(image) }
+        return Resource.defaultHandleApiResource { repository.deleteImage(image) }
     }
 }

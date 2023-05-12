@@ -5,4 +5,6 @@ data class AccountUseCases (
     val saveAuthKeyUseCase: SaveAuthKeyUseCase,
     val signUpUseCase: SignUpUseCase,
     val deleteAuthKeyUseCase: DeleteAuthKeyUseCase,
+    val signInUseCase: SignInUseCase,
+    val getCurrentUserProfileByTokenUseCase: GetCurrentUserProfileByTokenUseCase,
 )

@@ -9,6 +9,6 @@ class GetAdvertisementUseCase(
     private val repository: AdvertisementRepository,
 ) {
     operator fun invoke(id: Int): Flow<Resource<Advertisement>> {
-        return Resource.handleResource { repository.getAdvertisementById(id) }
+        return Resource.defaultHandleApiResource { repository.getAdvertisementById(id) }
     }
 }

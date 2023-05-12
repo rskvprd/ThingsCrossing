@@ -15,7 +15,10 @@ sealed class Resource<T>(val data: T? = null, @StringRes val messageId: Int? = n
     class Loading<T>(data: T? = null, progression: Int? = null) : Resource<T>(data, progression)
 
     companion object {
-        fun <T> handleResource(request: suspend () -> T): Flow<Resource<T>> =
+        fun <T> defaultHandleApiResource(
+            onHttpException: (suspend () -> Unit)? = null,
+            request: suspend () -> T
+        ): Flow<Resource<T>> =
             flow {
                 try {
                     emit(Loading())
@@ -26,7 +29,11 @@ sealed class Resource<T>(val data: T? = null, @StringRes val messageId: Int? = n
                 } catch (e: SocketTimeoutException) {
                     emit(Error(R.string.server_timeout_message))
                 } catch (e: HttpException) {
-                    emit(Error(R.string.http_exception_message))
+                    if (onHttpException != null) {
+                        onHttpException()
+                    } else {
+                        emit(Error(R.string.http_exception_message))
+                    }
                 }
             }
     }

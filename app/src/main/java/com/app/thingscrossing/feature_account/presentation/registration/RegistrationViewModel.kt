@@ -1,16 +1,19 @@
 package com.app.thingscrossing.feature_account.presentation.registration
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.core.Resource
-import com.app.thingscrossing.core.navigation.BottomBarScreens
 import com.app.thingscrossing.feature_account.domain.model.User
 import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
 import com.app.thingscrossing.feature_account.presentation.util.AccountScreen
+import com.app.thingscrossing.feature_account.presentation.util.isValidEmail
+import com.app.thingscrossing.feature_account.presentation.util.isValidFirstName
+import com.app.thingscrossing.feature_account.presentation.util.isValidLastName
+import com.app.thingscrossing.feature_account.presentation.util.isValidPassword
+import com.app.thingscrossing.feature_account.presentation.util.isValidUsername
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
@@ -47,7 +50,6 @@ class RegistrationViewModel @Inject constructor(
                     username = event.username,
                     isUsernameValid = event.username.isValidUsername(),
                 )
-                validateFormFromState()
             }
 
             is RegistrationEvent.EmailChange -> {
@@ -55,7 +57,6 @@ class RegistrationViewModel @Inject constructor(
                     email = event.email,
                     isEmailValid = event.email.isValidEmail(),
                 )
-                validateFormFromState()
             }
 
             is RegistrationEvent.PasswordChange -> {
@@ -63,7 +64,6 @@ class RegistrationViewModel @Inject constructor(
                     password = event.password,
                     isPasswordValid = event.password.isValidPassword(),
                 )
-                validateFormFromState()
             }
 
             is RegistrationEvent.SecondPasswordChange -> {
@@ -71,43 +71,6 @@ class RegistrationViewModel @Inject constructor(
                     secondPassword = event.secondPassword,
                     isSecondPasswordValid = event.secondPassword == uiState.password
                 )
-                validateFormFromState()
-            }
-
-            RegistrationEvent.SignUp -> {
-                accountUseCases.signUpUseCase(
-                    User(
-                        email = uiState.email,
-                        username = uiState.username,
-                        password = uiState.password,
-                        firstName = uiState.firstName,
-                        lastName = uiState.lastName
-                    )
-                ).onEach { resource ->
-                    when (resource) {
-                        is Resource.Error -> {
-                            uiState = uiState.copy(
-                                isLoading = false, errorMessageId = resource.messageId
-                            )
-                        }
-
-                        is Resource.Loading -> {
-                            uiState = uiState.copy(
-                                isLoading = true,
-                            )
-                        }
-
-                        is Resource.Success -> {
-                            uiState = uiState.copy(isLoading = false)
-                            accountUseCases.saveAuthKeyUseCase(resource.data!!.token)
-                            sendEvent(
-                                RegistrationViewModelEvent.NavigateEvent(
-                                    AccountScreen.LoginScreen.route
-                                )
-                            )
-                        }
-                    }
-                }.launchIn(viewModelScope)
             }
 
             RegistrationEvent.ToggleShowPassword -> {
@@ -127,7 +90,6 @@ class RegistrationViewModel @Inject constructor(
                     firstName = event.firstName,
                     isFirstNameValid = event.firstName.isValidFirstName(),
                 )
-                validateFormFromState()
             }
 
             is RegistrationEvent.LastNameChange -> {
@@ -135,14 +97,7 @@ class RegistrationViewModel @Inject constructor(
                     lastName = event.lastName,
                     isLastNameValid = event.lastName.isValidLastName(),
                 )
-                validateFormFromState()
             }
         }
     }
-
-
-    private fun validateFormFromState() {
-        uiState = uiState.copy(registrationAvailable = uiState.isValid())
-    }
-
 }

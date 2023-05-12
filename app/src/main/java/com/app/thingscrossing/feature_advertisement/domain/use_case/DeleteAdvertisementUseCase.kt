@@ -9,6 +9,6 @@ class DeleteAdvertisementUseCase(
     private val repository: AdvertisementRepository,
 ) {
     operator fun invoke(advertisement: Advertisement): Flow<Resource<Unit>> {
-        return Resource.handleResource { repository.deleteAdvertisement(advertisement) }
+        return Resource.defaultHandleApiResource { repository.deleteAdvertisement(advertisement) }
     }
 }

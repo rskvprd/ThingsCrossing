@@ -46,7 +46,7 @@ class AddAdvertisementUseCase(
             )
         }
 
-        emitAll(Resource.handleResource { repository.insertAdvertisement(advertisement) })
+        emitAll(Resource.defaultHandleApiResource { repository.insertAdvertisement(advertisement) })
     }
 
     operator fun invoke(
@@ -85,7 +85,7 @@ class AddAdvertisementUseCase(
             exchanges = exchanges,
             categories = categories,
         )
-        emitAll(Resource.handleResource {
+        emitAll(Resource.defaultHandleApiResource {
             repository.insertAdvertisement(
                 advertisement
             )

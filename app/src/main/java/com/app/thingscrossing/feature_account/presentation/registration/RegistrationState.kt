@@ -1,6 +1,11 @@
 package com.app.thingscrossing.feature_account.presentation.registration
 
 import androidx.annotation.StringRes
+import com.app.thingscrossing.feature_account.presentation.util.isValidEmail
+import com.app.thingscrossing.feature_account.presentation.util.isValidFirstName
+import com.app.thingscrossing.feature_account.presentation.util.isValidLastName
+import com.app.thingscrossing.feature_account.presentation.util.isValidPassword
+import com.app.thingscrossing.feature_account.presentation.util.isValidUsername
 
 data class RegistrationState(
     val isLoading: Boolean = false,
@@ -23,7 +28,6 @@ data class RegistrationState(
     val isPasswordVisible: Boolean = false,
     val isSecondPasswordVisible: Boolean = false,
 
-    val registrationAvailable: Boolean = false,
     @StringRes val errorMessageId: Int? = null,
 )
 
@@ -39,23 +43,3 @@ fun RegistrationState.isValid(): Boolean {
     ).all { it }
 }
 
-fun String.isValidPassword(): Boolean {
-    return this.length >= 8
-}
-
-fun String.isValidUsername(): Boolean {
-    return this.matches("^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])".toRegex())
-}
-
-fun String.isValidFirstName(): Boolean {
-    return this.matches("([a-zA-Z\\u0401\\u0451\\u0410-\\u044f]{1,10})\\w+".toRegex())
-}
-
-fun String.isValidLastName(): Boolean {
-    return this.matches("([a-zA-Z\\u0401\\u0451\\u0410-\\u044f]{1,10})\\w+".toRegex())
-}
-
-fun String.isValidEmail(): Boolean {
-    val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
-    return this.matches(emailRegex.toRegex())
-}
