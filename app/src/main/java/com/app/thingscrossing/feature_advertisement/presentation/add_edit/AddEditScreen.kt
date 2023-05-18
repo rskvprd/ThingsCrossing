@@ -2,7 +2,6 @@ package com.app.thingscrossing.feature_advertisement.presentation.add_edit
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -14,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.app.thingscrossing.R
+import com.app.thingscrossing.core.presentation.components.BackTopAppBar
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.*
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.util.AddEditPrice
 
@@ -30,10 +30,12 @@ fun AddEditScreen(
     if (uiState.advertisementUploaded) {
         AlertDialog(
             onDismissRequest = { navController.navigateUp() },
-            confirmButton = { Button(onClick = { navController.navigateUp() }) {
-                Text(text = stringResource(id = R.string.ok))
-            }},
-            title = { Text(text = stringResource(id = R.string.congratulation))},
+            confirmButton = {
+                Button(onClick = { navController.navigateUp() }) {
+                    Text(text = stringResource(id = R.string.ok))
+                }
+            },
+            title = { Text(text = stringResource(id = R.string.congratulation)) },
             text = { Text(text = stringResource(id = R.string.advertisement_uploaded)) }
         )
     }
@@ -43,18 +45,9 @@ fun AddEditScreen(
         sheetPeekHeight = 0.dp,
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.add_advertisement))
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = stringResource(id = R.string.back_icon_desc)
-                        )
-                    }
-                }
+            BackTopAppBar(
+                navController = navController,
+                title = stringResource(id = R.string.add_advertisement)
             )
         },
         sheetContent = {
@@ -134,9 +127,7 @@ fun AddEditScreen(
                         viewModel.onEvent(AddEditEvent.AddressChange(address))
                     },
                     label = R.string.address,
-                    placeholder = R.string.address_placeholder,
-                    scaffoldState = scaffoldState,
-                    scope = scope
+                    placeholder = R.string.address_placeholder
                 )
             }
             Block(
@@ -160,9 +151,12 @@ fun AddEditScreen(
                 )
             }
 
-            Button(onClick = {
-                viewModel.onEvent(AddEditEvent.UploadAdvertisement)
-            }) {
+            Button(
+                onClick = {
+                    viewModel.onEvent(AddEditEvent.UploadAdvertisement)
+                },
+                modifier = Modifier.padding(bottom = 20.dp)
+            ) {
                 Text(text = stringResource(id = R.string.upload_advertisement))
             }
         }

@@ -1,9 +1,11 @@
 package com.app.thingscrossing.feature_advertisement.data.repository
 
+import com.app.thingscrossing.core.Constants.AUTH_TOKEN_PREFIX
 import com.app.thingscrossing.feature_advertisement.data.remote.AdvertisementApi
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.model.ImageModel
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
+import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementSortVariant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
@@ -43,14 +45,22 @@ class AdvertisementRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun insertAdvertisement(advertisement: Advertisement) {
+    override suspend fun insertAdvertisement(advertisement: Advertisement, authKey: String) {
         withContext(Dispatchers.IO) {
-            api.insertAdvertisement(advertisement)
+            api.insertAdvertisement(advertisement, authKey = "$AUTH_TOKEN_PREFIX $authKey")
         }
     }
 
-    override suspend fun searchAdvertisements(searchValue: String): List<Advertisement> =
+    override suspend fun searchAdvertisements(
+        searchValue: String,
+        sortBy: AdvertisementSortVariant,
+        isAscending: Boolean
+    ): List<Advertisement> =
         withContext(Dispatchers.IO) {
-            return@withContext api.searchAdvertisements(searchValue)
+            api.searchAdvertisements(
+                searchValue = searchValue,
+                sortBy = sortBy.name,
+                isAscending = isAscending
+            )
         }
 }

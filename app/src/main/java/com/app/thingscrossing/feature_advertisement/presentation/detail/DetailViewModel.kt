@@ -44,4 +44,13 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    fun onEvent(event: DetailEvent) {
+        when(event) {
+            DetailEvent.ToggleMorePricesVisibility -> {
+                uiState = uiState.copy(
+                    isOtherPricesVisible = !uiState.isOtherPricesVisible
+                )
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.app.thingscrossing.feature_account.presentation.base
+package com.app.thingscrossing.feature_account.presentation.account
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,47 +17,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BaseAccountViewModel @Inject constructor(
+class AccountViewModel @Inject constructor(
     private val accountUseCases: AccountUseCases
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(BaseAccountState())
+    var uiState by mutableStateOf(AccountState())
         private set
 
-    var eventFlow = MutableSharedFlow<BaseAccountViewModelEvent>()
+    var uiEventFlow = MutableSharedFlow<AccountViewModelEvent>()
         private set
 
     init {
-        viewModelScope.launch {
-            accountUseCases.getAuthKeyUseCase().collectLatest { resource ->
-                when (resource) {
-                    is Resource.Error -> {
-                        uiState = uiState.copy(
-                            isLoading = false,
-                            errorMessageId = resource.messageId
-                        )
-                    }
-
-                    is Resource.Loading -> {
-                        uiState = uiState.copy(
-                            isLoading = true
-                        )
-                    }
-
-                    is Resource.Success -> {
-                        uiState = uiState.copy(
-                            isLoading = false,
-                            authKey = resource.data
-                        )
-                    }
-                }
-            }
-        }
+        getAuthKey()
     }
 
-    fun onEvent(event: BaseAccountEvent) {
+    fun onEvent(event: AccountEvent) {
         when (event) {
-            BaseAccountEvent.SignOut -> {
+            AccountEvent.SignOut -> {
                 accountUseCases.deleteAuthKeyUseCase().launchIn(viewModelScope)
                 uiState = uiState.copy(
                     authKey = null
@@ -65,13 +41,13 @@ class BaseAccountViewModel @Inject constructor(
             }
 
 
-            BaseAccountEvent.ChangeHaveAccount -> {
+            AccountEvent.ChangeHaveAccount -> {
                 uiState = uiState.copy(
                     haveAccount = !uiState.haveAccount
                 )
             }
 
-            is BaseAccountEvent.SignIn -> {
+            is AccountEvent.SignIn -> {
                 accountUseCases.signInUseCase(
                     user = event.user
                 ).onEach { resource ->
@@ -99,13 +75,13 @@ class BaseAccountViewModel @Inject constructor(
                 }.launchIn(viewModelScope)
             }
 
-            BaseAccountEvent.DismissError -> {
+            AccountEvent.DismissError -> {
                 uiState = uiState.copy(
                     errorMessageId = null
                 )
             }
 
-            is BaseAccountEvent.SignUp -> {
+            is AccountEvent.SignUp -> {
                 accountUseCases.signUpUseCase(
                     event.user
                 ).onEach { resource ->
@@ -126,11 +102,40 @@ class BaseAccountViewModel @Inject constructor(
                             accountUseCases.saveAuthKeyUseCase(resource.data!!.token).collect()
                             uiState = uiState.copy(
                                 isLoading = false,
-                                authKey = resource.data.token
+                                authKey = resource.data.token,
+                                currentUser = resource.data.user
                             )
                         }
                     }
                 }.launchIn(viewModelScope)
+            }
+        }
+    }
+
+    private fun getAuthKey () {
+        viewModelScope.launch {
+            accountUseCases.getAuthKeyUseCase().collectLatest { resource ->
+                when (resource) {
+                    is Resource.Error -> {
+                        uiState = uiState.copy(
+                            isLoading = false,
+                            errorMessageId = resource.messageId
+                        )
+                    }
+
+                    is Resource.Loading -> {
+                        uiState = uiState.copy(
+                            isLoading = true
+                        )
+                    }
+
+                    is Resource.Success -> {
+                        uiState = uiState.copy(
+                            isLoading = false,
+                            authKey = resource.data
+                        )
+                    }
+                }
             }
         }
     }

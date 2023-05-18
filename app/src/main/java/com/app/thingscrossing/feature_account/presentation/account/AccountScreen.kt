@@ -1,7 +1,6 @@
-package com.app.thingscrossing.feature_account.presentation.base
+package com.app.thingscrossing.feature_account.presentation.account
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.feature_account.presentation.profile.ProfileScreen
 import com.app.thingscrossing.feature_account.presentation.registration.RegistrationScreen
@@ -10,11 +9,11 @@ import com.app.thingscrossing.feature_advertisement.presentation.add_edit.compon
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.LoadingDialog
 
 @Composable
-fun BaseAccountScreen(
+fun AccountScreen(
     navController: NavHostController,
-    viewModel: BaseAccountViewModel = hiltViewModel(),
+    uiState: AccountState,
+    onEvent: (AccountEvent) -> Unit,
 ) {
-    val uiState = viewModel.uiState
 
     if (uiState.isLoading) {
         LoadingDialog(progression = null)
@@ -23,7 +22,7 @@ fun BaseAccountScreen(
     if (uiState.errorMessageId != null) {
         ErrorDialog(
             onDismissError = {
-                viewModel.onEvent(BaseAccountEvent.DismissError)
+                onEvent(AccountEvent.DismissError)
             },
             errorMessageId = uiState.errorMessageId
         )
@@ -32,19 +31,19 @@ fun BaseAccountScreen(
         if (uiState.haveAccount) {
             SignInScreen(
                 navController = navController,
-                onChangeHaveAccount = { viewModel.onEvent(BaseAccountEvent.ChangeHaveAccount) },
-                onSignIn = { user -> viewModel.onEvent(BaseAccountEvent.SignIn(user)) }
+                onChangeHaveAccount = { onEvent(AccountEvent.ChangeHaveAccount) },
+                onSignIn = { user -> onEvent(AccountEvent.SignIn(user)) }
             )
         } else {
             RegistrationScreen(
                 navController = navController,
-                onChangeHaveAccount = { viewModel.onEvent(BaseAccountEvent.ChangeHaveAccount) },
-                onSignUp = { user -> viewModel.onEvent(BaseAccountEvent.SignUp(user)) }
+                onChangeHaveAccount = { onEvent(AccountEvent.ChangeHaveAccount) },
+                onSignUp = { user -> onEvent(AccountEvent.SignUp(user)) }
             )
         }
     } else {
         ProfileScreen(
             navController = navController
-        ) { viewModel.onEvent(BaseAccountEvent.SignOut) }
+        ) { onEvent(AccountEvent.SignOut) }
     }
 }

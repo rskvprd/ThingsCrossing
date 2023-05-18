@@ -1,12 +1,16 @@
 package com.app.thingscrossing.feature_advertisement.presentation.search
 
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
-import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementOrder
+import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementSortVariant
 
 sealed interface SearchEvent {
     object RefreshNetwork: SearchEvent
 
-    data class Order(val adOrder: AdvertisementOrder): SearchEvent
+    object ApplyOrder: SearchEvent
+
+    class ChangeSortVariant(val variant: AdvertisementSortVariant) : SearchEvent
+
+    class ChangeSortOrder(val order: Boolean) : SearchEvent
 
     data class DeleteAd(val ad: Advertisement): SearchEvent
 
@@ -22,5 +26,9 @@ sealed interface SearchEvent {
 
     object EraseSearchBox: SearchEvent
 
+}
 
+sealed interface SearchViewModelEvent {
+    object ShowBottomSheet : SearchViewModelEvent
+    object HideBottomSheet : SearchViewModelEvent
 }

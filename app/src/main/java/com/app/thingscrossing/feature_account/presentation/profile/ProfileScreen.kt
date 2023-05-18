@@ -1,9 +1,13 @@
 package com.app.thingscrossing.feature_account.presentation.profile
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.R
@@ -37,6 +41,7 @@ fun ProfileScreen(
 
         if (uiState.currentProfile != null) {
             Profile(userProfile = uiState.currentProfile)
+            Spacer(modifier = Modifier.height(20.dp))
         }
 
         Button(onClick = { onSignOut() }) {

@@ -6,7 +6,7 @@
     <string name="home">Главная</string>
     <string name="account">Аккаунт</string>
     <string name="erase">Очистить</string>
-    <string name="sort">Сортировка</string>
+    <string name="sort_by">Отсортировать по</string>
     <string name="filter">Фильтрация</string>
     <string name="advertisement">Объявление</string>
     <string name="deleted_advertisement">Данное объявление было удалено</string>
@@ -97,4 +97,15 @@
     <string name="incorrect_username_or_password">Неправильный логин или пароль</string>
     <string name="avatar_image_cont_desc">Аватарка профиля</string>
     <string name="user_with_this_auth_key_does_not_exist">Пользователь с данным auth key не существует</string>
+    <string name="more">Ещё</string>
+    <string name="sort_by_date">Дате</string>
+    <string name="sort_by_title">Заголовку</string>
+    <string name="sort_by_price">Цене</string>
+    <string name="ascending">По возрастанию</string>
+    <string name="descending">По убыванию</string>
+    <string name="sort_order">Порядок сортировки</string>
+    <string name="make_sort">Применить</string>
+    <string name="sign_in_before_create_advertisement">Чтобы разместить ваше объявление, вам необходимо войти в аккаунт</string>
+    <string name="user_profile_picture_desc">Аватарка пользователя</string>
+    <string name="detail_screen_title">Детали</string>
 </resources>

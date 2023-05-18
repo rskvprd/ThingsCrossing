@@ -5,8 +5,17 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -14,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -25,7 +33,7 @@ import com.app.thingscrossing.feature_advertisement.presentation.search.SearchVi
 @Composable
 fun BottomNavigationBar(
     navController: NavHostController,
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel
 ) {
     val bottomBarScreenRoutes = BottomBarScreens.ALL_SCREENS.map { it.route }
 
@@ -34,6 +42,8 @@ fun BottomNavigationBar(
     val isSearchBoxVisible = navBackStackEntry?.destination?.route == BottomBarScreens.Search.route
     val isBottomBarScreen =
         bottomBarScreenRoutes.any { it == navBackStackEntry?.destination?.route }
+
+    listOf("Search", "Main").any { it == navBackStackEntry?.destination?.route }
 
     Column(
         modifier = Modifier
@@ -84,7 +94,6 @@ fun BottomNavigationBar(
 
     }
 }
-
 
 @Composable
 fun NavigationItems(

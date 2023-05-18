@@ -3,8 +3,7 @@ package com.app.thingscrossing.feature_advertisement.domain.use_case
 import com.app.thingscrossing.core.Resource
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
-import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementOrder
-import com.app.thingscrossing.feature_advertisement.domain.util.OrderType
+import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementSortVariant
 import kotlinx.coroutines.flow.Flow
 
 class SearchAdvertisementsUseCase(
@@ -12,10 +11,15 @@ class SearchAdvertisementsUseCase(
 ) {
     operator fun invoke(
         searchValue: String,
-        advertisementOrder: AdvertisementOrder = AdvertisementOrder.Date(
-            OrderType.Descending
-        ),
+        advertisementSortVariant: AdvertisementSortVariant = AdvertisementSortVariant.Date,
+        isSortAscending: Boolean = false,
     ): Flow<Resource<List<Advertisement>>> {
-        return Resource.defaultHandleApiResource { repository.searchAdvertisements(searchValue) }
+        return Resource.defaultHandleApiResource {
+            repository.searchAdvertisements(
+                searchValue = searchValue,
+                sortBy = advertisementSortVariant,
+                isAscending = isSortAscending
+            )
+        }
     }
 }

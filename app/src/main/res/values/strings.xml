@@ -6,7 +6,7 @@
     <string name="home">Home</string>
     <string name="account">Account</string>
     <string name="erase">Erase</string>
-    <string name="sort">Sort</string>
+    <string name="sort_by">Sort by</string>
     <string name="filter">Filter</string>
     <string name="advertisement">Advertisement</string>
     <string name="deleted_advertisement">This advertisement was deleted</string>
@@ -99,4 +99,15 @@
     <string name="incorrect_username_or_password">Username or password is incorrect</string>
     <string name="avatar_image_cont_desc">Profile avatar</string>
     <string name="user_with_this_auth_key_does_not_exist">User with this auth key doesn\'t exist</string>
+    <string name="more">More</string>
+    <string name="sort_by_date">Date</string>
+    <string name="sort_by_title">Title</string>
+    <string name="sort_by_price">Price</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="sort_order">Sort order</string>
+    <string name="make_sort">Apply</string>
+    <string name="sign_in_before_create_advertisement">You should sign in before create advertisement</string>
+    <string name="user_profile_picture_desc">User profile picture</string>
+    <string name="detail_screen_title">Detail</string>
 </resources>

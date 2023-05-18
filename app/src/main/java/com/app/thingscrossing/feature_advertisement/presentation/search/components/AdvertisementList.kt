@@ -1,6 +1,9 @@
 package com.app.thingscrossing.feature_advertisement.presentation.search.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
@@ -22,8 +25,6 @@ fun AdvertisementList(
 ) {
     val shimmerInstance = rememberShimmer(shimmerBounds = ShimmerBounds.Custom)
     val advertisementWidth: Dp = 180.dp
-    val advertisementHeight: Dp = 230.dp
-
     LazyVerticalGrid(
         columns = GridCells.Adaptive(
             minSize = advertisementWidth

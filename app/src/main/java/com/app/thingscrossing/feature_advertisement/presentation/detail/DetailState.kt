@@ -7,4 +7,5 @@ data class DetailState(
     val isLoading: Boolean = false,
     @StringRes val errorId: Int? = null,
     val advertisement: Advertisement = Advertisement.DEFAULT,
+    val isOtherPricesVisible: Boolean = false,
 )

@@ -19,6 +19,6 @@ fun ProfileAvatar(
         contentDescription = stringResource(id = R.string.avatar_image_cont_desc),
         modifier = Modifier
             .clip(CircleShape)
-            .size(300.dp)
+            .size(100.dp)
     )
 }

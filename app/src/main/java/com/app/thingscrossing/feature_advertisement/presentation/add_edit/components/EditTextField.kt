@@ -11,8 +11,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,8 +24,6 @@ fun EditTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     keyboardActions: KeyboardActions = KeyboardActions(),
     leadingIcon: @Composable (() -> Unit)? = null,
-    scaffoldState: BottomSheetScaffoldState? = null,
-    scope: CoroutineScope? = null,
 ) {
     val options = KeyboardOptions(
         KeyboardCapitalization.Sentences,
@@ -37,11 +33,11 @@ fun EditTextField(
     OutlinedTextField(
         modifier = modifier
             .onFocusChanged {
-                if (it.isFocused && scaffoldState?.bottomSheetState?.isVisible == true) {
-                    scope?.launch {
-                        scaffoldState.bottomSheetState.hide()
-                    }
-                }
+//                if (it.isFocused && scaffoldState?.bottomSheetState?.isVisible == true) {
+//                    scope?.launch {
+//                        scaffoldState.bottomSheetState.hide()
+//                    }
+//                }
             },
         value = value,
         onValueChange = onValueChange,

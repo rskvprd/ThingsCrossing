@@ -14,61 +14,106 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.R
 import com.app.thingscrossing.feature_advertisement.presentation.search.components.AdvertisementList
+import com.app.thingscrossing.feature_advertisement.presentation.search.components.FilterBottomSheet
+import com.app.thingscrossing.feature_advertisement.presentation.search.components.SortBottomSheet
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.collectLatest
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     navController: NavHostController,
-    viewModel: SearchViewModel = hiltViewModel(),
+    uiState: SearchState,
+    onEvent: (SearchEvent) -> Unit,
+    eventChannel: SharedFlow<SearchViewModelEvent>,
 ) {
     val focusManager = LocalFocusManager.current
-    val state = viewModel.uiState
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-                detectTapGestures(onTap = {
-                    focusManager.clearFocus()
-                })
-            },
-        contentAlignment = Alignment.Center
-    ) {
+    val scaffoldState = rememberBottomSheetScaffoldState()
 
-        if (state.isLoading) {
-            CircularProgressIndicator()
-            return
-        }
-        if (state.errorId != null) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                NetworkErrorMessage(
-                    messageId = state.errorId
-                )
-                IconButton(
-                    onClick = { viewModel.onEvent(SearchEvent.RefreshNetwork) }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = stringResource(
-                            R.string.refresh_button_cont_desc
-                        )
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetContent = {
+            when (uiState.currentBottomSheet) {
+                BottomSheet.FilterBottomSheet -> {
+                    FilterBottomSheet()
+                }
+
+                BottomSheet.SortBottomSheet -> {
+                    SortBottomSheet(
+                        isOrderAscending = uiState.isAscendingSort,
+                        currentVariant = uiState.sortVariant,
+                        onChangeOrder = { order -> onEvent(SearchEvent.ChangeSortOrder(order)) },
+                        onChangeVariant = { variant -> onEvent(SearchEvent.ChangeSortVariant(variant)) },
+                        onApplySort = { onEvent(SearchEvent.ApplyOrder) }
                     )
                 }
             }
-            return
+        },
+        sheetPeekHeight = 0.dp
+    ) {
+
+        LaunchedEffect(key1 = null) {
+            eventChannel.collectLatest { event ->
+                when (event) {
+                    SearchViewModelEvent.ShowBottomSheet -> {
+                        scaffoldState.bottomSheetState.expand()
+                    }
+
+                    SearchViewModelEvent.HideBottomSheet -> {
+                        scaffoldState.bottomSheetState.partialExpand()
+                    }
+                }
+            }
         }
-        AdvertisementList(
+
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 10.dp),
-            advertisements = viewModel.uiState.advertisements,
-            navController = navController
-        )
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = {
+                        focusManager.clearFocus()
+                    })
+                },
+            contentAlignment = Alignment.Center
+        ) {
+
+
+            if (uiState.isLoading) {
+                CircularProgressIndicator()
+                return@BottomSheetScaffold
+            }
+            if (uiState.errorId != null) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    NetworkErrorMessage(
+                        messageId = uiState.errorId
+                    )
+                    IconButton(
+                        onClick = { onEvent(SearchEvent.RefreshNetwork) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = stringResource(
+                                R.string.refresh_button_cont_desc
+                            )
+                        )
+                    }
+                }
+                return@BottomSheetScaffold
+            }
+            AdvertisementList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 10.dp),
+                advertisements = uiState.advertisements,
+                navController = navController
+            )
+        }
     }
 }
 

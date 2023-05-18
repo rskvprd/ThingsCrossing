@@ -13,13 +13,20 @@ interface AdvertisementApi {
     suspend fun getAdvertisementById(@Path("id") id: String): Advertisement
 
     @POST("advertisement/")
-    suspend fun insertAdvertisement(@Body advertisement: Advertisement)
+    suspend fun insertAdvertisement(
+        @Body advertisement: Advertisement,
+        @Header("Authorization") authKey: String,
+    )
 
     @DELETE("advertisement/{id}/")
     suspend fun deleteAdvertisement(@Path("id") id: Int)
 
     @GET("advertisement/search/")
-    suspend fun searchAdvertisements(@Query("q") searchValue: String): List<Advertisement>
+    suspend fun searchAdvertisements(
+        @Query("q") searchValue: String,
+        @Query("sort-by") sortBy: String,
+        @Query("is-ascending") isAscending: Boolean
+    ): List<Advertisement>
 
     @Multipart
     @POST("pictures/")

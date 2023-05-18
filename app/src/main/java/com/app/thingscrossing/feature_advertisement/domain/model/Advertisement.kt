@@ -1,5 +1,6 @@
 package com.app.thingscrossing.feature_advertisement.domain.model
 
+import com.app.thingscrossing.feature_account.data.remote.dto.UserProfile
 import java.time.LocalDateTime
 
 
@@ -12,9 +13,10 @@ data class Advertisement(
     val characteristics: List<Characteristic>,
     val exchanges: List<Exchange>,
     val categories: List<Category>,
+    val userProfile: UserProfile? = null,
     val id: Int? = null,
     val createdAt: LocalDateTime? = null,
-    val updatedAt: LocalDateTime? = null,
+    val updatedAt: LocalDateTime? = null
 ) {
     companion object {
         val DEFAULT: Advertisement = Advertisement(
@@ -26,6 +28,6 @@ data class Advertisement(
             images = ArrayList(),
             exchanges = ArrayList(),
             categories = ArrayList(),
-            )
+        )
     }
 }

@@ -1,7 +1,6 @@
 package com.app.thingscrossing.feature_advertisement.presentation.add_edit
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,16 +11,16 @@ import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.Resource
 import com.app.thingscrossing.core.navigation.advertisementIdNavArgument
-import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
+import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
 import com.app.thingscrossing.feature_advertisement.domain.model.ImageModel
 import com.app.thingscrossing.feature_advertisement.domain.use_case.AdvertisementUseCases
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.util.AddEditPrice
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.cancellable
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +28,7 @@ import javax.inject.Inject
 class AddEditViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val advertisementUseCases: AdvertisementUseCases,
-    @ApplicationContext private val context: Context,
+    private val accountUseCases: AccountUseCases,
 ) : ViewModel() {
 
     var uiState by mutableStateOf(AddEditState())
@@ -153,38 +152,44 @@ class AddEditViewModel @Inject constructor(
             }
 
             is AddEditEvent.UploadAdvertisement -> {
-                advertisementUseCases.addAdvertisement(
-                    title = uiState.title,
-                    description = uiState.description,
-                    prices = uiState.prices,
-                    address = uiState.address,
-                    images = uiState.images,
-                    characteristics = uiState.characteristics,
-                    exchanges = uiState.exchanges,
-                    categories = uiState.categories
-                ).onEach { resource ->
-                    when (resource) {
-                        is Resource.Error -> {
-                            uiState = uiState.copy(
-                                errorId = resource.messageId,
-                                isLoading = false,
-                            )
-                        }
+                viewModelScope.launch {
+                    val authKey = accountUseCases.getAuthKeyUseCase().firstOrNull()?.data
+                        ?: throw IllegalStateException("You should authorize before do anything that require auth key")
 
-                        is Resource.Loading -> {
-                            uiState = uiState.copy(
-                                isLoading = true,
-                            )
-                        }
+                    advertisementUseCases.addAdvertisement(
+                        title = uiState.title,
+                        description = uiState.description,
+                        prices = uiState.prices,
+                        address = uiState.address,
+                        images = uiState.images,
+                        characteristics = uiState.characteristics,
+                        exchanges = uiState.exchanges,
+                        categories = uiState.categories,
+                        authKey = authKey
+                    ).onEach { resource ->
+                        when (resource) {
+                            is Resource.Error -> {
+                                uiState = uiState.copy(
+                                    errorId = resource.messageId,
+                                    isLoading = false,
+                                )
+                            }
 
-                        is Resource.Success -> {
-                            uiState = uiState.copy(
-                                isLoading = false,
-                                advertisementUploaded = true,
-                            )
+                            is Resource.Loading -> {
+                                uiState = uiState.copy(
+                                    isLoading = true,
+                                )
+                            }
+
+                            is Resource.Success -> {
+                                uiState = uiState.copy(
+                                    isLoading = false,
+                                    advertisementUploaded = true,
+                                )
+                            }
                         }
-                    }
-                }.launchIn(viewModelScope)
+                    }.collect()
+                }
             }
 
             is AddEditEvent.DismissError -> {
