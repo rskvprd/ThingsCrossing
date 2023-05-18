@@ -21,16 +21,16 @@ fun TitleDescriptionBlock(
         onValueChange = {
             onTitleChange(it)
         },
-        singleLine = true,
         label = R.string.title,
-        placeholder = R.string.title_placeholder
+        placeholder = R.string.title_placeholder,
+        singleLine = true
     )
     EditTextField(
+        modifier = Modifier.defaultMinSize(minHeight = 100.dp),
         value = uiState.description,
         onValueChange = {
             onDescriptionChange(it)
         },
-        modifier = Modifier.defaultMinSize(minHeight = 100.dp),
         label = R.string.description,
         placeholder = R.string.description_placeholder,
     )

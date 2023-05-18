@@ -43,7 +43,6 @@ object AppModule {
         @ApplicationContext context: Context
     ): AdvertisementUseCases {
         return AdvertisementUseCases(
-            getAdvertisementList = GetAdvertisementListUseCase(repository),
             deleteAdvertisement = DeleteAdvertisementUseCase(repository),
             addAdvertisement = AddAdvertisementUseCase(repository),
             getAdvertisement = GetAdvertisementUseCase(repository),

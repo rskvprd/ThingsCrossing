@@ -42,12 +42,11 @@ fun PriceBlock(
                 label = R.string.price,
                 placeholder = R.string.price_placeholder,
                 keyboardType = KeyboardType.Number,
-                leadingIcon = {
-                    Text(
-                        text = price.currency.symbol
-                    )
-                },
-            )
+            ) {
+                Text(
+                    text = price.currency.symbol
+                )
+            }
         }
 
         TextButton(onClick = {
