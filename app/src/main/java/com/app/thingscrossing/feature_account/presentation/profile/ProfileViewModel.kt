@@ -25,31 +25,6 @@ class ProfileViewModel @Inject constructor(
     var uiState by mutableStateOf(ProfileState())
         private set
 
-    init {
-        accountUseCases.getCurrentUserProfileByTokenUseCase().onEach { resource ->
-            when (resource) {
-                is Resource.Error -> {
-                    uiState = uiState.copy(
-                        errorMessageId = resource.messageId,
-                        isLoading = false
-                    )
-                }
-
-                is Resource.Loading -> {
-                    uiState = uiState.copy(
-                        isLoading = true
-                    )
-                }
-
-                is Resource.Success -> {
-                    uiState = uiState.copy(
-                        currentProfile = resource.data,
-                        isLoading = false,
-                    )
-                }
-            }
-        }.launchIn(viewModelScope)
-    }
 
     fun onEvent(event: ProfileEvent) {
         when (event) {

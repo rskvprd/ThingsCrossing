@@ -1,6 +1,6 @@
 package com.app.thingscrossing.feature_advertisement.domain.model
 
-import com.app.thingscrossing.feature_account.data.remote.dto.UserProfile
+import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import java.time.LocalDateTime
 
 

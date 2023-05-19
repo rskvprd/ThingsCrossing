@@ -43,7 +43,9 @@ fun AccountScreen(
         }
     } else {
         ProfileScreen(
-            navController = navController
-        ) { onEvent(AccountEvent.SignOut) }
+            navController = navController,
+            currentUserProfile = uiState.currentUserProfile,
+            onSignOut = { onEvent(AccountEvent.SignOut) }
+        )
     }
 }

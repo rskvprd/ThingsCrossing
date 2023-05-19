@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.flow
 
 class GetAuthKeyUseCase(private val context: Context) {
     operator fun invoke(): Flow<Resource<String?>> = flow {
+        emit(Resource.Loading())
         val authKey: String? = context.authDataStore.data.firstOrNull()?.get(AUTH_KEY)
 
         emit(Resource.Success(data = authKey))

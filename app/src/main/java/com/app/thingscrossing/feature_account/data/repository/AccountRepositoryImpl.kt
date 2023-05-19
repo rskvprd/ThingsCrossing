@@ -2,8 +2,8 @@ package com.app.thingscrossing.feature_account.data.repository
 
 import com.app.thingscrossing.feature_account.data.remote.AccountApi
 import com.app.thingscrossing.feature_account.data.remote.dto.SignUpResponse
-import com.app.thingscrossing.feature_account.data.remote.dto.Token
-import com.app.thingscrossing.feature_account.data.remote.dto.UserProfile
+import com.app.thingscrossing.feature_account.domain.model.Token
+import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_account.domain.model.User
 import com.app.thingscrossing.feature_account.domain.repository.AccountRepository
 import kotlinx.coroutines.Dispatchers

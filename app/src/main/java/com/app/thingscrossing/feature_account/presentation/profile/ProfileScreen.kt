@@ -1,5 +1,6 @@
 package com.app.thingscrossing.feature_account.presentation.profile
 
+import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
@@ -11,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.R
+import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_account.presentation.profile.components.Profile
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.Block
 import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.ErrorDialog
@@ -21,6 +23,7 @@ fun ProfileScreen(
     navController: NavHostController,
     viewModel: ProfileViewModel = hiltViewModel(),
     onSignOut: () -> Unit,
+    currentUserProfile: UserProfile?,
 ) {
     val uiState = viewModel.uiState
 
@@ -39,10 +42,12 @@ fun ProfileScreen(
             )
         }
 
-        if (uiState.currentProfile != null) {
-            Profile(userProfile = uiState.currentProfile)
+        currentUserProfile?.let {  profile ->
+            Log.d("asdfsad", currentUserProfile.toString())
+            Profile(userProfile = profile)
             Spacer(modifier = Modifier.height(20.dp))
         }
+
 
         Button(onClick = { onSignOut() }) {
             Text(text = stringResource(id = R.string.sign_out))

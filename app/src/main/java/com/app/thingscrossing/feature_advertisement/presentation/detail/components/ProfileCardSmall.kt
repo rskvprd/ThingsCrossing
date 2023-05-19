@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.app.thingscrossing.R
-import com.app.thingscrossing.feature_account.data.remote.dto.UserProfile
+import com.app.thingscrossing.feature_account.domain.model.UserProfile
 
 @Composable
 fun ProfileCardSmall(
