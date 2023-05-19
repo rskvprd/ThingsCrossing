@@ -16,7 +16,3 @@ sealed interface AccountEvent {
 sealed interface AccountViewModelEvent {
     class Navigate(val route: String) : AccountViewModelEvent
 }
-
-class Oleg(val kakashka: String) {
-
-}
