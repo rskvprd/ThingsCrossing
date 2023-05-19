@@ -6,6 +6,7 @@ sealed interface AccountEvent {
     object SignOut : AccountEvent
     class SignIn(val user: User) : AccountEvent
 
+
     class SignUp(val user: User) : AccountEvent
     object ChangeHaveAccount : AccountEvent
 
@@ -14,4 +15,8 @@ sealed interface AccountEvent {
 
 sealed interface AccountViewModelEvent {
     class Navigate(val route: String) : AccountViewModelEvent
+}
+
+class Oleg(val kakashka: String) {
+
 }
