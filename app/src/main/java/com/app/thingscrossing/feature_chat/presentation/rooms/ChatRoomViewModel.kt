@@ -9,7 +9,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatRoomViewModel @Inject constructor(
-
 ) : ViewModel() {
     var uiState by mutableStateOf(ChatRoomState())
         private set
