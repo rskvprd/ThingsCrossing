@@ -3,6 +3,7 @@ package com.app.thingscrossing.feature_home.presentation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -15,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.R
-import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.Block
+import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.Block
 import com.app.thingscrossing.feature_advertisement.presentation.util.AdvertisementScreen
 
 @Composable
@@ -28,7 +29,9 @@ fun HomeScreen(
             .fillMaxSize(),
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 20.dp)
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .fillMaxWidth()
         )
         {
             Block(
@@ -36,9 +39,11 @@ fun HomeScreen(
                 description = stringResource(id = R.string.add_advertisement_description)
             ) {
                 if (isAuthenticated) {
-                    Button(onClick = {
-                        navController.navigate(AdvertisementScreen.AddEditAdvertisementScreen.route)
-                    }) {
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            navController.navigate(AdvertisementScreen.AddEditAdvertisementScreen.route)
+                        }) {
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = stringResource(id = R.string.add_icon_cont_desc)

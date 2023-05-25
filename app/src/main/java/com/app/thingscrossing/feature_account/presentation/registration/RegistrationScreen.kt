@@ -2,6 +2,7 @@ package com.app.thingscrossing.feature_account.presentation.registration
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -25,8 +26,8 @@ import com.app.thingscrossing.feature_account.domain.model.User
 import com.app.thingscrossing.feature_account.presentation.registration.components.PasswordField
 import com.app.thingscrossing.feature_account.presentation.registration.components.TextFieldWithValidation
 import com.app.thingscrossing.feature_account.presentation.registration.components.UsernameField
-import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.Block
-import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.LoadingDialog
+import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.Block
+import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.LoadingDialog
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +59,10 @@ fun RegistrationScreen(
             id = R.string.registration_description
         )
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.padding(horizontal = 40.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             FirstNameField(uiState = uiState, viewModel = viewModel)
             LastNameField(uiState = uiState, viewModel = viewModel)
             UsernameField(
@@ -91,17 +95,20 @@ fun RegistrationScreen(
 
             Spacer(modifier = Modifier.padding(10.dp))
 
-            Button(enabled = uiState.isValid(), onClick = {
-                onSignUp(
-                    User(
-                        email = uiState.email,
-                        username = uiState.username,
-                        password = uiState.password,
-                        firstName = uiState.firstName,
-                        lastName = uiState.lastName
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                enabled = uiState.isValid(),
+                onClick = {
+                    onSignUp(
+                        User(
+                            email = uiState.email,
+                            username = uiState.username,
+                            password = uiState.password,
+                            firstName = uiState.firstName,
+                            lastName = uiState.lastName
+                        )
                     )
-                )
-            }) {
+                }) {
                 Text(
                     text = stringResource(id = R.string.make_register),
                     style = MaterialTheme.typography.bodyLarge

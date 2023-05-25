@@ -10,7 +10,6 @@ import com.app.thingscrossing.feature_account.domain.model.UserProfile
 fun Profile(
     userProfile: UserProfile
 ) {
-    Log.d("asdf", userProfile.toString())
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         ProfileAvatar(userProfile.avatar)
         ProfileInfo(userProfile.user)

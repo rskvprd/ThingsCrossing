@@ -8,11 +8,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.app.thingscrossing.feature_account.presentation.account.AccountScreen
 import com.app.thingscrossing.feature_account.presentation.account.AccountViewModel
-import com.app.thingscrossing.feature_advertisement.presentation.add_edit.AddEditScreen
-import com.app.thingscrossing.feature_advertisement.presentation.detail.DetailAdvertisementScreen
-import com.app.thingscrossing.feature_advertisement.presentation.search.SearchScreen
-import com.app.thingscrossing.feature_advertisement.presentation.search.SearchViewModel
+import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.AddEditScreen
+import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.DetailAdvertisementScreen
+import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchScreen
+import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchViewModel
 import com.app.thingscrossing.feature_advertisement.presentation.util.AdvertisementScreen
+import com.app.thingscrossing.feature_chat.presentation.rooms.ChatRoomScreen
 import com.app.thingscrossing.feature_home.presentation.HomeScreen
 
 
@@ -49,6 +50,10 @@ fun NavGraph(
                 uiState = accountViewModel.uiState,
                 onEvent = accountViewModel::onEvent
             )
+        }
+
+        composable(route = BottomBarScreens.ChatRooms.route) {
+            ChatRoomScreen(accountViewModel.uiState.currentUserProfile)
         }
 
         composable(

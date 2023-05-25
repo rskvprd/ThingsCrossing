@@ -8,7 +8,7 @@ import com.app.thingscrossing.feature_advertisement.domain.model.Characteristic
 import com.app.thingscrossing.feature_advertisement.domain.model.Exchange
 import com.app.thingscrossing.feature_advertisement.domain.model.ImageModel
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
-import com.app.thingscrossing.feature_advertisement.presentation.add_edit.util.AddEditPrice
+import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.util.AddEditPrice
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow

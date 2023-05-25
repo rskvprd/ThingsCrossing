@@ -5,8 +5,8 @@ import androidx.navigation.NavHostController
 import com.app.thingscrossing.feature_account.presentation.profile.ProfileScreen
 import com.app.thingscrossing.feature_account.presentation.registration.RegistrationScreen
 import com.app.thingscrossing.feature_account.presentation.sign_in.SignInScreen
-import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.ErrorDialog
-import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.LoadingDialog
+import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.ErrorDialog
+import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.LoadingDialog
 
 @Composable
 fun AccountScreen(

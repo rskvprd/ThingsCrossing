@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.app.thingscrossing.core.navigation.NavGraph
 import com.app.thingscrossing.core.presentation.BaseScreenWithBottomNavigation
 import com.app.thingscrossing.feature_account.presentation.account.AccountViewModel
-import com.app.thingscrossing.feature_advertisement.presentation.search.SearchViewModel
+import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchViewModel
 import com.app.thingscrossing.ui.theme.ThingsCrossingTheme
 import dagger.hilt.android.AndroidEntryPoint
 

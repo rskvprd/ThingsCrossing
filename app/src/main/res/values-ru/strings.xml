@@ -108,4 +108,8 @@
     <string name="sign_in_before_create_advertisement">Чтобы разместить ваше объявление, вам необходимо войти в аккаунт</string>
     <string name="user_profile_picture_desc">Аватарка пользователя</string>
     <string name="detail_screen_title">Детали</string>
+    <string name="chat_rooms_screen_name">Чат</string>
+    <string name="chat_room_screen_title">Сообщения</string>
+    <string name="no_photos">Нет изображений</string>
+    <string name="username">Логин</string>
 </resources>

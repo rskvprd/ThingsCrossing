@@ -2,6 +2,7 @@ package com.app.thingscrossing.core.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
@@ -32,7 +33,13 @@ sealed class BottomBarScreens(
         icon = Icons.Default.Person
     )
 
+    object ChatRooms : BottomBarScreens(
+        nameResource = R.string.chat_rooms_screen_name,
+        route = "chat-rooms-screen",
+        icon = Icons.Default.Chat
+    )
+
     companion object {
-        val ALL_SCREENS = listOf(Search, Account, Home)
+        val ALL_SCREENS = listOf(Search, Account, Home, ChatRooms)
     }
 }

@@ -2,6 +2,8 @@ package com.app.thingscrossing.feature_account.presentation.registration.compone
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BottomSheetScaffoldState
@@ -19,6 +21,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -46,6 +49,8 @@ fun TextFieldWithValidation(
 ) {
     OutlinedTextField(
         modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp)
             .onFocusChanged {
                 if (it.isFocused && scaffoldState?.bottomSheetState?.isVisible == true) {
                     scope?.launch {

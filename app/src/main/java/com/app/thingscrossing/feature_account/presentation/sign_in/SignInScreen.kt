@@ -2,8 +2,11 @@ package com.app.thingscrossing.feature_account.presentation.sign_in
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -17,7 +20,7 @@ import com.app.thingscrossing.R
 import com.app.thingscrossing.feature_account.domain.model.User
 import com.app.thingscrossing.feature_account.presentation.registration.components.PasswordField
 import com.app.thingscrossing.feature_account.presentation.registration.components.UsernameField
-import com.app.thingscrossing.feature_advertisement.presentation.add_edit.components.Block
+import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.Block
 
 @Composable
 fun SignInScreen(
@@ -32,7 +35,10 @@ fun SignInScreen(
         title = stringResource(id = R.string.sign_in_title),
         description = stringResource(id = R.string.sign_in_description)
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.padding(horizontal = 40.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             UsernameField(
                 usernameValue = uiState.username,
                 onUsernameChange = { username ->
@@ -62,6 +68,7 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
+                modifier = Modifier.fillMaxWidth(),
                 enabled = uiState.isValid(),
                 onClick = {
                     onSignIn(
@@ -72,7 +79,8 @@ fun SignInScreen(
                     )
                 }) {
                 Text(
-                    text = stringResource(id = R.string.sign_in_button_text)
+                    text = stringResource(id = R.string.sign_in_button_text),
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
 

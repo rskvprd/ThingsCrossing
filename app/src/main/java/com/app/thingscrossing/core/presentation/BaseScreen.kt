@@ -13,8 +13,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.core.presentation.components.BottomNavigationBar
-import com.app.thingscrossing.feature_advertisement.presentation.search.SearchViewModel
-import com.app.thingscrossing.feature_advertisement.presentation.search.components.FilterBottomSheet
+import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchViewModel
+import com.app.thingscrossing.feature_advertisement.presentation.screen_search.components.FilterBottomSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

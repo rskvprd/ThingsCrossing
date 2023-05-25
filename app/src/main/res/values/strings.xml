@@ -110,4 +110,8 @@
     <string name="sign_in_before_create_advertisement">You should sign in before create advertisement</string>
     <string name="user_profile_picture_desc">User profile picture</string>
     <string name="detail_screen_title">Detail</string>
+    <string name="chat_rooms_screen_name">Chat</string>
+    <string name="chat_room_screen_title">Messages</string>
+    <string name="no_photos">No pictures</string>
+    <string name="username">Username</string>
 </resources>
