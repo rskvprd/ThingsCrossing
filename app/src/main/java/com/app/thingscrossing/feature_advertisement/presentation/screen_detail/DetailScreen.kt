@@ -1,11 +1,25 @@
 package com.app.thingscrossing.feature_advertisement.presentation.screen_detail
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
@@ -21,6 +35,7 @@ import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.c
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.Price
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.ProfileCardSmall
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.NetworkErrorMessage
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DetailAdvertisementScreen(
@@ -29,19 +44,30 @@ fun DetailAdvertisementScreen(
 ) {
     val uiState = viewModel.uiState
 
-    Scaffold(
-        topBar = {
-            BackTopAppBar(
-                navController = navController,
-                title = stringResource(id = R.string.detail_screen_title)
-            )
+    LaunchedEffect(key1 = null) {
+        viewModel.eventFlow.collectLatest {event ->
+            when (event) {
+                is DetailViewModelEvent.Navigate -> {
+                    navController.navigate(event.route)
+                }
+            }
         }
-    )
-    { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
+    }
+
+    Scaffold(topBar = {
+        BackTopAppBar(
+            navController = navController,
+            title = stringResource(id = R.string.detail_screen_title)
+        )
+    }) { paddingValues ->
+        Box(modifier = Modifier
+            .padding(paddingValues)
+            .fillMaxSize()) {
             if (uiState.isLoading) {
-                CircularProgressIndicator()
-                return@Scaffold
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                    return@Scaffold
+                }
             }
 
             if (uiState.errorId != null) {
@@ -57,11 +83,9 @@ fun DetailAdvertisementScreen(
 
                 Spacer(Modifier.height(10.dp))
 
-                Price(
-                    prices = uiState.advertisement.prices,
+                Price(prices = uiState.advertisement.prices,
                     isOtherPricesVisible = uiState.isOtherPricesVisible,
-                    onChangeOtherPricesVisibility = { viewModel.onEvent(DetailEvent.ToggleMorePricesVisibility) }
-                )
+                    onChangeOtherPricesVisibility = { viewModel.onEvent(DetailEvent.ToggleMorePricesVisibility) })
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -77,7 +101,15 @@ fun DetailAdvertisementScreen(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                ProfileCardSmall(userProfile = uiState.advertisement.userProfile!!)
+                ProfileCardSmall(
+                    userProfile = uiState.advertisement.userProfile!!, onCardClick = {
+                        viewModel.onEvent(
+                            DetailEvent.OnProfileCardClick(uiState.advertisement.userProfile)
+                        )
+                    }, modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(20.dp))
+                )
 
                 Spacer(modifier = Modifier.height(20.dp))
 

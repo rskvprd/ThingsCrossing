@@ -10,4 +10,5 @@ data class AccountUseCases (
     /** Obtain auth token by given user and save this token to DataStore */
     val signInUseCase: SignInUseCase,
     val getCurrentUserProfileByTokenUseCase: GetCurrentUserProfileByTokenUseCase,
+    val getUserProfileById: GetUserProfileById
 )

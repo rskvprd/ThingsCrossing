@@ -10,4 +10,6 @@ interface AccountRepository {
     suspend fun obtainAuthToken(user: User): Token
     suspend fun registerUser(user: User): SignUpResponse
     suspend fun getUserProfileByAuthToken(token: Token) : UserProfile
+
+    suspend fun getUserProfileById(id: Int): UserProfile
 }

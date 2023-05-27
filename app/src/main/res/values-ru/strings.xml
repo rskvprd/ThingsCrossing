@@ -112,4 +112,6 @@
     <string name="chat_room_screen_title">Сообщения</string>
     <string name="no_photos">Нет изображений</string>
     <string name="username">Логин</string>
+    <string name="no_chat_rooms">Ваш список чатов пуст</string>
+    <string name="sign_in_before_conversation">Чтобы начать общение необходимо войти в аккаунт</string>
 </resources>

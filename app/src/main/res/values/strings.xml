@@ -114,4 +114,6 @@
     <string name="chat_room_screen_title">Messages</string>
     <string name="no_photos">No pictures</string>
     <string name="username">Username</string>
+    <string name="no_chat_rooms">You have no chat rooms</string>
+    <string name="sign_in_before_conversation">You need sign in to converse with somebody</string>
 </resources>

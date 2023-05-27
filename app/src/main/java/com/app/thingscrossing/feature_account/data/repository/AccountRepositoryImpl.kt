@@ -3,8 +3,8 @@ package com.app.thingscrossing.feature_account.data.repository
 import com.app.thingscrossing.feature_account.data.remote.AccountApi
 import com.app.thingscrossing.feature_account.data.remote.dto.SignUpResponse
 import com.app.thingscrossing.feature_account.domain.model.Token
-import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_account.domain.model.User
+import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_account.domain.repository.AccountRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -24,5 +24,10 @@ class AccountRepositoryImpl @Inject constructor(private val api: AccountApi) : A
     override suspend fun getUserProfileByAuthToken(token: Token): UserProfile =
         withContext(Dispatchers.IO) {
             api.getUserProfileByToken(token)
+        }
+
+    override suspend fun getUserProfileById(id: Int): UserProfile =
+        withContext(Dispatchers.IO) {
+            api.getUserProfileById(id)
         }
 }

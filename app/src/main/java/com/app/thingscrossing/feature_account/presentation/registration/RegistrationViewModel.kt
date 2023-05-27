@@ -5,10 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.thingscrossing.core.Resource
-import com.app.thingscrossing.feature_account.domain.model.User
 import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
-import com.app.thingscrossing.feature_account.presentation.util.AccountScreen
 import com.app.thingscrossing.feature_account.presentation.util.isValidEmail
 import com.app.thingscrossing.feature_account.presentation.util.isValidFirstName
 import com.app.thingscrossing.feature_account.presentation.util.isValidLastName
@@ -17,7 +14,6 @@ import com.app.thingscrossing.feature_account.presentation.util.isValidUsername
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

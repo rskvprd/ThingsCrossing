@@ -11,17 +11,27 @@ import com.app.thingscrossing.core.Resource
 import com.app.thingscrossing.core.navigation.advertisementIdNavArgument
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.use_case.AdvertisementUseCases
+import com.app.thingscrossing.feature_chat.domain.model.ChatRoom
+import com.app.thingscrossing.feature_chat.domain.use_case.ChatUseCases
+import com.app.thingscrossing.feature_chat.presentation.util.ChatScreens
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    advertisementUseCases: AdvertisementUseCases,
-    savedStateHandle: SavedStateHandle,
+    private val advertisementUseCases: AdvertisementUseCases,
+    private val chatUseCases: ChatUseCases,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     var uiState by mutableStateOf(DetailState())
+        private set
+
+    var eventFlow = MutableSharedFlow<DetailViewModelEvent>()
+        private set
 
     init {
         val advertisementId = savedStateHandle.get<Int>(advertisementIdNavArgument)
@@ -31,9 +41,11 @@ class DetailViewModel @Inject constructor(
                     is Resource.Error -> {
                         DetailState(errorId = result.messageId ?: R.string.unexpected_error)
                     }
+
                     is Resource.Loading -> {
                         DetailState(isLoading = true)
                     }
+
                     is Resource.Success -> {
                         DetailState(advertisement = result.data ?: Advertisement.DEFAULT)
                     }
@@ -44,12 +56,51 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    private fun sendEvent(event: DetailViewModelEvent) {
+        viewModelScope.launch {
+            eventFlow.emit(event)
+        }
+    }
+
     fun onEvent(event: DetailEvent) {
-        when(event) {
+        when (event) {
             DetailEvent.ToggleMorePricesVisibility -> {
                 uiState = uiState.copy(
                     isOtherPricesVisible = !uiState.isOtherPricesVisible
                 )
+            }
+
+            is DetailEvent.OnProfileCardClick -> {
+                chatUseCases.getOrCreatePrivateRoom(event.profile).onEach { resource ->
+                    when (resource) {
+                        is Resource.Error -> {
+                            uiState = uiState.copy(
+                                errorId = resource.messageId,
+                                isLoading = false,
+                            )
+                        }
+
+                        is Resource.Loading -> {
+                            uiState = uiState.copy(
+                                isLoading = true
+                            )
+                        }
+
+                        is Resource.Success -> {
+                            val room: ChatRoom = resource.data!!
+                            sendEvent(
+                                DetailViewModelEvent.Navigate(
+                                    ChatScreens.ChatScreen.route
+                                            + "?userId=${uiState.advertisement.userProfile!!.id}"
+                                            + "&roomId=${room.id}"
+                                )
+                            )
+                            uiState = uiState.copy(
+                                isLoading = false,
+                            )
+                        }
+                    }
+                }.launchIn(viewModelScope)
             }
         }
     }

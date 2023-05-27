@@ -19,7 +19,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val searchViewModel: SearchViewModel = hiltViewModel()
-            val accountViewModel: AccountViewModel = hiltViewModel()
 
             ThingsCrossingTheme {
                 BaseScreenWithBottomNavigation(
@@ -29,7 +28,6 @@ class MainActivity : ComponentActivity() {
                     NavGraph(
                         navController = navController,
                         searchViewModel = searchViewModel,
-                        accountViewModel = accountViewModel
                     )
                 }
             }

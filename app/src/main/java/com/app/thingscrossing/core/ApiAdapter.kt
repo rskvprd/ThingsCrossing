@@ -1,8 +1,10 @@
-package com.app.thingscrossing.feature_advertisement.data.remote
+package com.app.thingscrossing.core
 
 import com.app.thingscrossing.core.Constants.THINGS_CROSSING_API_BASE_URL
 import com.app.thingscrossing.feature_account.data.remote.AccountApi
+import com.app.thingscrossing.feature_advertisement.data.remote.AdvertisementApi
 import com.app.thingscrossing.feature_advertisement.domain.model.Currency
+import com.app.thingscrossing.feature_chat.data.remote.ChatApi
 import com.google.gson.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -40,6 +42,9 @@ class ApiAdapter {
 
         fun buildAccountApi(): AccountApi =
             thingsCrossingRetrofit.create(AccountApi::class.java)
+
+        fun buildChatApi(): ChatApi =
+            thingsCrossingRetrofit.create(ChatApi::class.java)
     }
 }
 

@@ -1,6 +1,7 @@
 package com.app.thingscrossing.core.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -8,12 +9,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.app.thingscrossing.feature_account.presentation.account.AccountScreen
 import com.app.thingscrossing.feature_account.presentation.account.AccountViewModel
+import com.app.thingscrossing.feature_account.presentation.util.AccountScreens
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.AddEditScreen
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.DetailAdvertisementScreen
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchScreen
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchViewModel
 import com.app.thingscrossing.feature_advertisement.presentation.util.AdvertisementScreen
+import com.app.thingscrossing.feature_chat.presentation.chat.ChatScreen
 import com.app.thingscrossing.feature_chat.presentation.rooms.ChatRoomScreen
+import com.app.thingscrossing.feature_chat.presentation.rooms.ChatRoomViewModel
+import com.app.thingscrossing.feature_chat.presentation.util.ChatScreens
 import com.app.thingscrossing.feature_home.presentation.HomeScreen
 
 
@@ -21,13 +26,14 @@ import com.app.thingscrossing.feature_home.presentation.HomeScreen
 fun NavGraph(
     navController: NavHostController,
     searchViewModel: SearchViewModel,
-    accountViewModel: AccountViewModel,
 ) {
+    val accountViewModel: AccountViewModel = hiltViewModel()
+    val chatRoomViewModel: ChatRoomViewModel = hiltViewModel()
+
     NavHost(
         navController = navController,
         startDestination = BottomBarScreens.Search.route
     ) {
-
         composable(route = BottomBarScreens.Home.route) {
             HomeScreen(
                 navController = navController,
@@ -53,7 +59,10 @@ fun NavGraph(
         }
 
         composable(route = BottomBarScreens.ChatRooms.route) {
-            ChatRoomScreen(accountViewModel.uiState.currentUserProfile)
+            ChatRoomScreen(
+                currentUserProfile = accountViewModel.uiState.currentUserProfile,
+                viewModel = chatRoomViewModel
+            )
         }
 
         composable(
@@ -67,7 +76,30 @@ fun NavGraph(
                 }
             )
         ) {
-            DetailAdvertisementScreen(navController)
+            DetailAdvertisementScreen(
+                navController,
+            )
+        }
+
+        composable(route = ChatScreens.ChatScreen.route +
+                "?userId={userId}&roomId={roomId}",
+            arguments = listOf(
+                navArgument(
+                    name = "userId"
+                ) {
+                    type = NavType.IntType
+                },
+                navArgument(
+                    name = "roomId"
+                ) {
+                    type = NavType.IntType
+                },
+            )
+        ) {
+            ChatScreen(
+                currentUserProfile = accountViewModel.uiState.currentUserProfile!!,
+                navController = navController,
+            )
         }
 
         composable(

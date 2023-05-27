@@ -1,19 +1,27 @@
 package com.app.thingscrossing.di
 
 import android.content.Context
+import com.app.thingscrossing.core.ApiAdapter
 import com.app.thingscrossing.feature_account.data.remote.AccountApi
 import com.app.thingscrossing.feature_account.domain.repository.AccountRepository
 import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
 import com.app.thingscrossing.feature_account.domain.use_case.DeleteAuthKeyUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.GetAuthKeyUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.GetCurrentUserProfileByTokenUseCase
+import com.app.thingscrossing.feature_account.domain.use_case.GetUserProfileById
 import com.app.thingscrossing.feature_account.domain.use_case.SaveAuthKeyUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.SignInUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.SignUpUseCase
 import com.app.thingscrossing.feature_advertisement.data.remote.AdvertisementApi
-import com.app.thingscrossing.feature_advertisement.data.remote.ApiAdapter
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
 import com.app.thingscrossing.feature_advertisement.domain.use_case.*
+import com.app.thingscrossing.feature_chat.data.remote.ChatApi
+import com.app.thingscrossing.feature_chat.domain.repository.ChatRepository
+import com.app.thingscrossing.feature_chat.domain.use_case.ChatUseCases
+import com.app.thingscrossing.feature_chat.domain.use_case.GetMessagesByRoom
+import com.app.thingscrossing.feature_chat.domain.use_case.GetMyRooms
+import com.app.thingscrossing.feature_chat.domain.use_case.GetOrCreatePrivateRoom
+import com.app.thingscrossing.feature_chat.domain.use_case.SendMessage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,6 +42,12 @@ object AppModule {
     @Singleton
     fun provideAccountApi(): AccountApi {
         return ApiAdapter.buildAccountApi()
+    }
+
+    @Provides
+    @Singleton
+    fun provideChatApi(): ChatApi {
+        return ApiAdapter.buildChatApi()
     }
 
     @Provides
@@ -67,7 +81,34 @@ object AppModule {
             getCurrentUserProfileByTokenUseCase = GetCurrentUserProfileByTokenUseCase(
                 context = context,
                 accountRepository = accountRepository
-            )
+            ),
+            getUserProfileById = GetUserProfileById(accountRepository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideChatUseCases(
+        @ApplicationContext context: Context,
+        chatRepository: ChatRepository,
+    ): ChatUseCases {
+        return ChatUseCases(
+            getMessagesByRoom = GetMessagesByRoom(
+                repository = chatRepository,
+                context = context
+            ),
+            getOrCreatePrivateRoom = GetOrCreatePrivateRoom(
+                repository = chatRepository,
+                context = context
+            ),
+            getMyRooms = GetMyRooms(
+                repository = chatRepository,
+                context = context
+            ),
+            sendMessage = SendMessage(
+                repository = chatRepository,
+                context = context
+            ),
         )
     }
 }

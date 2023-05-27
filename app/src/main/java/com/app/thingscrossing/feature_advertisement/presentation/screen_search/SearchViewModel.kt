@@ -28,24 +28,12 @@ class SearchViewModel @Inject constructor(
     var eventChannel = MutableSharedFlow<SearchViewModelEvent>()
         private set
 
-    private var recentlyDeletedAd: Advertisement? = null
-
     init {
         getAdvertisementList()
     }
 
     fun onEvent(event: SearchEvent) {
         when (event) {
-            is SearchEvent.DeleteAd -> {
-                advertisementUseCases.deleteAdvertisement(event.ad).onEach {
-                    when (it) {
-                        is Resource.Error -> TODO()
-                        is Resource.Loading -> TODO()
-                        is Resource.Success -> TODO()
-                    }
-                }.launchIn(viewModelScope)
-                recentlyDeletedAd = event.ad
-            }
 
             is SearchEvent.ApplyOrder -> {
                 getAdvertisementList(
@@ -56,11 +44,6 @@ class SearchViewModel @Inject constructor(
                 sendEvent(SearchViewModelEvent.HideBottomSheet)
             }
 
-            is SearchEvent.RestoreAd -> {
-                TODO()
-//                advertisementUseCases.addAdvertisement(recentlyDeletedAd ?: return)
-//                recentlyDeletedAd = null
-            }
 
             is SearchEvent.Search -> {
                 getAdvertisementList(event.searchValue)
