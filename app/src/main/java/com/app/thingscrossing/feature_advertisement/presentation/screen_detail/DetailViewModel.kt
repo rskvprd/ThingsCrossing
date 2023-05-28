@@ -70,7 +70,7 @@ class DetailViewModel @Inject constructor(
                 )
             }
 
-            is DetailEvent.OnProfileCardClick -> {
+            is DetailEvent.ToChat -> {
                 chatUseCases.getOrCreatePrivateRoom(event.profile).onEach { resource ->
                     when (resource) {
                         is Resource.Error -> {
@@ -88,13 +88,14 @@ class DetailViewModel @Inject constructor(
 
                         is Resource.Success -> {
                             val room: ChatRoom = resource.data!!
+
                             sendEvent(
                                 DetailViewModelEvent.Navigate(
-                                    ChatScreens.ChatScreen.route
-                                            + "?userId=${uiState.advertisement.userProfile!!.id}"
-                                            + "&roomId=${room.id}"
+                                    route = ChatScreens.ChatScreen.route +
+                                            "?userId=${event.profile.id}&roomId=${room.id}"
                                 )
                             )
+
                             uiState = uiState.copy(
                                 isLoading = false,
                             )

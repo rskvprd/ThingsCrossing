@@ -13,9 +13,9 @@ import javax.inject.Inject
 class ChatRepositoryImpl @Inject constructor(
     private val chatApi: ChatApi
 ) : ChatRepository {
-    override suspend fun getMessagesByRoom(authKey: String, chatRoom: ChatRoom): List<Message> =
+    override suspend fun getMessagesByRoom(authKey: String, chatRoomId: Int): List<Message> =
         withContext(Dispatchers.IO) {
-            chatApi.getMessages(authKey = authKey, chatRoom = chatRoom)
+            chatApi.getMessages(authKey = authKey, chatRoomId = chatRoomId)
         }
 
     override suspend fun getMyRooms(authKey: String): List<ChatRoom> =
@@ -36,13 +36,13 @@ class ChatRepositoryImpl @Inject constructor(
             )
         }
 
-    override suspend fun sendMessage(authKey: String, chatRoom: ChatRoom, text: String) =
+    override suspend fun sendMessage(authKey: String, chatRoomId: Int, text: String) =
         withContext(Dispatchers.IO) {
             chatApi.sendMessage(
                 authKey = authKey,
                 request = SendMessageRequest(
                     text = text,
-                    room = chatRoom.id,
+                    room = chatRoomId,
                 )
             )
         }

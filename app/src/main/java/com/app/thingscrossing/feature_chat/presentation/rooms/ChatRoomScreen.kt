@@ -13,24 +13,38 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.app.thingscrossing.R
 import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.ErrorDialog
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.LoadingDialog
 import com.app.thingscrossing.feature_chat.presentation.rooms.components.ChatRoomList
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatRoomScreen(
+    navHostController: NavHostController,
     currentUserProfile: UserProfile?,
     viewModel: ChatRoomViewModel,
 ) {
     val uiState = viewModel.uiState
+
+    LaunchedEffect(key1 = null) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is ChatRoomViewModelEvent.Navigate -> {
+                    navHostController.navigate(route = event.route)
+                }
+            }
+        }
+    }
 
     if (uiState.errorMessageId != null) {
         ErrorDialog(
@@ -38,6 +52,7 @@ fun ChatRoomScreen(
             errorMessageId = uiState.errorMessageId
         )
     }
+
     if (uiState.isLoading) {
         LoadingDialog(progression = null)
     }
@@ -55,7 +70,7 @@ fun ChatRoomScreen(
         })
     }) { paddingValues ->
 
-        if (currentUserProfile == null) {
+        if (currentUserProfile == null || uiState.chatRooms.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -65,7 +80,13 @@ fun ChatRoomScreen(
                 Card(
                 ) {
                     Text(
-                        text = stringResource(R.string.sign_in_before_conversation),
+                        text = stringResource(
+                            if (uiState.chatRooms.isNotEmpty()) {
+                                R.string.sign_in_before_conversation
+                            } else {
+                                R.string.no_chat_rooms
+                            }
+                        ),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(20.dp)
                     )
@@ -75,7 +96,18 @@ fun ChatRoomScreen(
         }
 
         Box(Modifier.padding(paddingValues)) {
-            ChatRoomList(chatRooms = uiState.chatRooms)
+            ChatRoomList(
+                chatRooms = uiState.chatRooms,
+                myProfile = currentUserProfile,
+                onPrivateRoom = { companion, chatRoom ->
+                    viewModel.onEvent(
+                        ChatRoomEvent.ToPrivateChat(
+                            profile = companion,
+                            room = chatRoom
+                        )
+                    )
+                }
+            )
         }
     }
 }

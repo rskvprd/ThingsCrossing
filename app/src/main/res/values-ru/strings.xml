@@ -114,4 +114,6 @@
     <string name="username">Логин</string>
     <string name="no_chat_rooms">Ваш список чатов пуст</string>
     <string name="sign_in_before_conversation">Чтобы начать общение необходимо войти в аккаунт</string>
+    <string name="message_placeholder">Сообщение...</string>
+    <string name="no_messages">Пока нет сообщений...</string>
 </resources>

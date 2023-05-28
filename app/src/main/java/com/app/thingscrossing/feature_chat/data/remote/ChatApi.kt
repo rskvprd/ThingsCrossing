@@ -13,11 +13,11 @@ interface ChatApi {
     @POST("message/by-room/")
     suspend fun getMessages(
         @Header("Authorization") authKey: String,
-        @Body chatRoom: ChatRoom
+        @Body chatRoomId: Int
     ): List<Message>
 
     @POST("message/")
-    suspend fun sendMessage(@Header("Authorization") authKey: String, @Body request: SendMessageRequest)
+    suspend fun sendMessage(@Header("Authorization") authKey: String, @Body request: SendMessageRequest): Message
 
     @POST("room/private/")
     suspend fun getOrCreatePrivateRoom(

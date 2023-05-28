@@ -19,4 +19,7 @@ data class User(
 
     val groups: List<Any> = emptyList(), //TODO: Change Any to something else
     val userPermissions: List<Any> = emptyList() //TODO: Change Any to something else
-)
+) {
+    val fullName: String
+        get() = "$firstName $lastName"
+}

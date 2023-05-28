@@ -19,7 +19,7 @@ class GetMessagesByRoom(
     private val repository: ChatRepository,
     @ApplicationContext private val context: Context
 ) {
-    operator fun invoke(chatRoom: ChatRoom): Flow<Resource<List<Message>>> = flow {
+    operator fun invoke(chatRoomId: Int): Flow<Resource<List<Message>>> = flow {
         emit(Resource.Loading())
         val authKey = context.authDataStore.data.firstOrNull()!![AUTH_KEY]
         if (authKey == null) {
@@ -30,7 +30,7 @@ class GetMessagesByRoom(
                 Resource.defaultHandleApiResource {
                     repository.getMessagesByRoom(
                         authKey = authKey.toAuthKey(),
-                        chatRoom = chatRoom
+                        chatRoomId = chatRoomId
                     )
                 }
             )

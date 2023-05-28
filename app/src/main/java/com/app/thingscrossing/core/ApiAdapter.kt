@@ -14,7 +14,7 @@ import java.time.LocalDateTime
 
 class ApiAdapter {
     companion object {
-        val thingsCrossingRetrofit: Retrofit = Retrofit.Builder()
+        private val thingsCrossingRetrofit: Retrofit = Retrofit.Builder()
             .baseUrl(THINGS_CROSSING_API_BASE_URL)
             .addConverterFactory(
                 GsonConverterFactory.create(
@@ -76,4 +76,8 @@ class CurrencyDeserializer : JsonDeserializer<Currency> {
     ): Currency {
         return Currency.fromCode(json?.asString!!)
     }
+}
+
+fun String.globalUrl(): String {
+    return "$THINGS_CROSSING_API_BASE_URL$this"
 }
