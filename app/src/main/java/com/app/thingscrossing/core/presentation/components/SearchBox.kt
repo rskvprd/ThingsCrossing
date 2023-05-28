@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,8 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.app.thingscrossing.R
 import com.app.thingscrossing.ui.theme.SearchBoxStyle
 
@@ -44,20 +45,18 @@ fun SearchBox(
     searchValue: String,
     paddingValues: PaddingValues,
 ) {
-    val leadingIconSize: Dp = 26.dp
 
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp)
+            .height(55.dp)
             .padding(paddingValues),
         textStyle = SearchBoxStyle,
         singleLine = true,
         value = searchValue,
         shape = RoundedCornerShape(30),
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Search,
-            keyboardType = KeyboardType.Text
+            imeAction = ImeAction.Search, keyboardType = KeyboardType.Text
         ),
 
         keyboardActions = KeyboardActions(
@@ -66,17 +65,19 @@ fun SearchBox(
             },
         ),
         placeholder = {
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     imageVector = Icons.Default.Search, contentDescription = stringResource(
                         id = R.string.search
                     ), modifier = Modifier
-                        .padding(end = 10.dp)
-                        .size(leadingIconSize)
+                        .padding(end = 5.dp)
+                        .size(20.dp)
                 )
                 Text(
                     stringResource(id = R.string.search),
-                    style = SearchBoxStyle,
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontSize = 18.sp
+                    ),
                     textAlign = TextAlign.Center,
                 )
             }
@@ -115,7 +116,7 @@ fun TrailingIcon(imageVector: ImageVector, contentDescription: String, onClick: 
     IconButton(
         onClick = { onClick() }, modifier = Modifier
             .padding(horizontal = 15.dp)
-            .size(26.dp)
+            .size(25.dp)
     ) {
         Icon(
             modifier = Modifier.fillMaxSize(),

@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.presentation.components.ButtonToggleGroup
 import com.app.thingscrossing.core.presentation.components.ButtonToggleGroupItem
@@ -35,12 +36,12 @@ fun SortBottomSheet(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .padding(bottom = 40.dp)
+            .padding(bottom = 20.dp)
             .fillMaxWidth()
     ) {
         Text(
             text = stringResource(id = R.string.sort_by),
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall.copy(fontSize = 16.sp)
         )
 
         Spacer(modifier = Modifier.height(5.dp))
@@ -59,11 +60,11 @@ fun SortBottomSheet(
             )
         })
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Text(
             text = stringResource(id = R.string.sort_order),
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall.copy(fontSize = 16.sp)
         )
 
         Spacer(modifier = Modifier.height(5.dp))
@@ -87,7 +88,7 @@ fun SortBottomSheet(
             )
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         ElevatedButton(onClick = { onApplySort() }) {
             Row(

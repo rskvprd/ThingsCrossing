@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.presentation.util.AdvertisementScreen
@@ -33,28 +34,23 @@ fun AdvertisementItem(
             defaultElevation = 3.dp
         )
     ) {
-        Box(
-            Modifier
-                .padding(10.dp)
-                .fillMaxSize()
+        Column(
+            Modifier.fillMaxSize()
         ) {
-            Column(
-                Modifier.fillMaxSize()
-            ) {
-                PictureItem(
-                    modifier = Modifier
-                        .size(pictureSize)
-                        .fillMaxWidth()
-                        .align(Alignment.CenterHorizontally)
-                        .padding(5.dp),
-                    model = advertisement.images.map { it.url }.firstOrNull(),
-                    shimmerInstance = shimmerInstance
-                )
+            PictureItem(
+                modifier = Modifier
+                    .size(pictureSize)
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally),
+                model = advertisement.images.map { it.url }.firstOrNull(),
+                shimmerInstance = shimmerInstance
+            )
 
+            Column(Modifier.padding(10.dp)) {
                 advertisement.prices.firstOrNull()?.let {
                     Text(
                         text = "${it.value} ${it.currency.symbol}",
-                        style = MaterialTheme.typography.headlineMedium
+                        style = MaterialTheme.typography.headlineMedium.copy(fontSize = 20.sp)
                     )
                 }
 
@@ -65,6 +61,7 @@ fun AdvertisementItem(
             }
 
         }
+
     }
 }
 

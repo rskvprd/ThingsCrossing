@@ -1,6 +1,7 @@
 package com.app.thingscrossing.feature_advertisement.presentation.screen_search.components
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.NoPhotography
 import androidx.compose.material3.Card
@@ -9,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.app.thingscrossing.R
 import com.valentinilk.shimmer.Shimmer
@@ -26,6 +28,7 @@ fun PictureItem(
 ) {
     var isLoading by remember { mutableStateOf(true) }
     Card(
+        shape = RoundedCornerShape(10.dp, 10.dp),
         modifier =
         if (isLoading) modifier.shimmer(shimmerInstance)
         else modifier,

@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.app.thingscrossing.core.globalUrl
 import com.app.thingscrossing.feature_account.domain.model.UserProfile
@@ -59,11 +60,11 @@ fun PrivateRoomItem(
                     ) {
                         Text(
                             text = companion.user.fullName,
-                            style = MaterialTheme.typography.headlineSmall
+                            style = MaterialTheme.typography.headlineSmall.copy(fontSize = 20.sp)
                         )
                         if (chatRoom.lastMessage != null) {
                             Text(
-                                text = chatRoom.lastMessage.text.crop(25),
+                                text = chatRoom.lastMessage.text.crop(20),
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = .7f)
                             )
                         } else {
