@@ -12,6 +12,7 @@ import com.app.thingscrossing.feature_account.domain.use_case.GetUserProfileById
 import com.app.thingscrossing.feature_account.domain.use_case.SaveAuthKeyUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.SignInUseCase
 import com.app.thingscrossing.feature_account.domain.use_case.SignUpUseCase
+import com.app.thingscrossing.feature_account.domain.use_case.UploadAvatar
 import com.app.thingscrossing.feature_advertisement.data.remote.AdvertisementApi
 import com.app.thingscrossing.feature_advertisement.domain.repository.AdvertisementRepository
 import com.app.thingscrossing.feature_advertisement.domain.use_case.*
@@ -78,11 +79,12 @@ object AppModule {
             signUpUseCase = SignUpUseCase(accountRepository = accountRepository),
             deleteAuthKeyUseCase = DeleteAuthKeyUseCase(context = context),
             signInUseCase = SignInUseCase(accountRepository = accountRepository, context = context),
-            getCurrentUserProfileByTokenUseCase = GetCurrentUserProfileByTokenUseCase(
+            getUserProfileByAuthKey = GetCurrentUserProfileByTokenUseCase(
                 context = context,
                 accountRepository = accountRepository
             ),
-            getUserProfileById = GetUserProfileById(accountRepository)
+            getUserProfileById = GetUserProfileById(accountRepository),
+            uploadAvatar = UploadAvatar(repository = accountRepository, context = context)
         )
     }
 

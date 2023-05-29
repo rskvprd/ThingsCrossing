@@ -10,26 +10,50 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.app.thingscrossing.R
-import com.app.thingscrossing.feature_account.domain.model.User
-import com.app.thingscrossing.feature_account.presentation.registration.components.PasswordField
-import com.app.thingscrossing.feature_account.presentation.registration.components.UsernameField
+import com.app.thingscrossing.feature_account.navigation.AccountScreens
+import com.app.thingscrossing.feature_account.presentation.sign_up.components.PasswordField
+import com.app.thingscrossing.feature_account.presentation.sign_up.components.UsernameField
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.Block
+import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.ErrorDialog
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SignInScreen(
     navController: NavController,
-    onChangeHaveAccount: () -> Unit,
-    onSignIn: (User) -> Unit,
-    viewModel: SignInViewModel = hiltViewModel()
+    viewModel: SignInViewModel,
 ) {
     val uiState = viewModel.uiState
+    val uiEventFlow = viewModel.uiEventFlow
+
+
+
+    LaunchedEffect(key1 = null) {
+        if (viewModel.isAuthenticated) {
+            navController.navigate(AccountScreens.ProfileScreen.route)
+        }
+
+        uiEventFlow.collectLatest { event ->
+            when (event) {
+                is SignInViewModelEvent.Navigate -> {
+                    navController.navigate(event.route)
+                }
+            }
+        }
+    }
+
+    if (uiState.errorMessageId != null) {
+        ErrorDialog(
+            onDismissError = { viewModel.onEvent(SignInEvent.DismissError) },
+            errorMessageId = uiState.errorMessageId
+        )
+    }
 
     Block(
         title = stringResource(id = R.string.sign_in_title),
@@ -71,12 +95,7 @@ fun SignInScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = uiState.isValid(),
                 onClick = {
-                    onSignIn(
-                        User(
-                            username = uiState.username,
-                            password = uiState.password
-                        )
-                    )
+                    viewModel.onEvent(SignInEvent.SignIn)
                 }) {
                 Text(
                     text = stringResource(id = R.string.sign_in_button_text),
@@ -84,7 +103,7 @@ fun SignInScreen(
                 )
             }
 
-            TextButton(onClick = { onChangeHaveAccount() }) {
+            TextButton(onClick = { viewModel.onEvent(SignInEvent.ToSignUpScreen) }) {
                 Text(text = stringResource(id = R.string.does_not_have_account))
             }
         }

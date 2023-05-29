@@ -8,6 +8,7 @@ import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_account.domain.repository.AccountRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(private val api: AccountApi) : AccountRepository {
@@ -30,4 +31,14 @@ class AccountRepositoryImpl @Inject constructor(private val api: AccountApi) : A
         withContext(Dispatchers.IO) {
             api.getUserProfileById(id)
         }
+
+    override suspend fun uploadAvatar(
+        authKey: String,
+        userId: Int,
+        avatar: MultipartBody.Part
+    ): UserProfile =
+        withContext(Dispatchers.IO) {
+            api.uploadAvatar(authKey = authKey, userId = userId, avatar = avatar)
+        }
+
 }

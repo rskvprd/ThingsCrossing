@@ -1,4 +1,4 @@
-package com.app.thingscrossing.feature_account.presentation.registration.components
+package com.app.thingscrossing.feature_account.presentation.sign_up.components
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
@@ -11,15 +11,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope

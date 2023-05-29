@@ -28,7 +28,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.presentation.components.BackTopAppBar
-import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_advertisement.domain.model.Characteristic
 import com.app.thingscrossing.feature_advertisement.presentation.components.PictureList
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.Block
@@ -36,7 +35,6 @@ import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.c
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.Price
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.ProfileCardSmall
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.NetworkErrorMessage
-import com.app.thingscrossing.feature_chat.domain.model.ChatRoom
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -103,11 +101,10 @@ fun DetailAdvertisementScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 ProfileCardSmall(
-                    userProfile = uiState.advertisement.userProfile!!, onCardClick = {
+                    userProfile = uiState.advertisement.userProfile!!, onMessageClick = {
                         viewModel.onEvent(DetailEvent.ToChat(profile = uiState.advertisement.userProfile))
                     }, modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(20.dp))
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))

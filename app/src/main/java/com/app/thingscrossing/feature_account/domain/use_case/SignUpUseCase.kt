@@ -26,9 +26,7 @@ class SignUpUseCase(private val accountRepository: AccountRepository) {
             } catch (e: SocketTimeoutException) {
                 emit(Resource.Error(R.string.server_timeout_message))
             } catch (e: HttpException) {
-                Log.d("REGISTRATION_MESSAGE", e.message())
-                Log.d("REGISTRATION_RESPONSE", e.response().toString())
-                emit(Resource.Error(R.string.http_exception_message))
+                emit(Resource.Error(R.string.username_already_exists))
             }
         }
 }

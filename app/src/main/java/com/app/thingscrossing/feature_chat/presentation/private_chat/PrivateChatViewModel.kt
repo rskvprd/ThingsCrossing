@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.core.Resource
 import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
 import com.app.thingscrossing.feature_chat.domain.use_case.ChatUseCases
+import com.app.thingscrossing.services.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
@@ -20,9 +21,13 @@ class PrivateChatViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val accountUseCases: AccountUseCases,
     private val chatUseCases: ChatUseCases,
+    private val authService: AuthService,
 ) : ViewModel() {
-    val companionUserProfileId: Int = savedStateHandle["userId"]!!
-    val roomId: Int = savedStateHandle["roomId"]!!
+
+    private val companionUserProfileId: Int = savedStateHandle["userId"]!!
+    private val roomId: Int = savedStateHandle["roomId"]!!
+
+    val userProfile = authService.currentUserProfile!!
 
     var uiState by mutableStateOf(PrivateChatState())
         private set
@@ -31,8 +36,8 @@ class PrivateChatViewModel @Inject constructor(
         private set
 
     init {
-        getUserProfile()
-        getMessages()
+        getCompanionUserProfile()
+        getMessageList()
     }
 
     fun onEvent(event: ChatEvent) {
@@ -84,7 +89,7 @@ class PrivateChatViewModel @Inject constructor(
 
     }
 
-    private fun getUserProfile() {
+    private fun getCompanionUserProfile() {
         accountUseCases.getUserProfileById(companionUserProfileId).onEach { resource ->
             when (resource) {
                 is Resource.Error -> {
@@ -110,7 +115,7 @@ class PrivateChatViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun getMessages() {
+    private fun getMessageList() {
         chatUseCases.getMessagesByRoom(chatRoomId = roomId).onEach { resource ->
             when (resource) {
                 is Resource.Error -> {

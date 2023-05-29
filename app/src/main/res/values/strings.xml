@@ -118,4 +118,6 @@
     <string name="sign_in_before_conversation">You need sign in to converse with somebody</string>
     <string name="message_placeholder">Message...</string>
     <string name="no_messages">No messages yet...</string>
+    <string name="username_already_exists">Username already exists</string>
+    <string name="send_message">Send message</string>
 </resources>

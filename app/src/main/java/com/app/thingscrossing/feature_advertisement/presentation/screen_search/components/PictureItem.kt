@@ -21,7 +21,7 @@ import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun PictureItem(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     model: Any?,
     shimmerInstance: Shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
     contentDescription: String = stringResource(id = R.string.advertisement)

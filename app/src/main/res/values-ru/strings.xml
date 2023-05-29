@@ -116,4 +116,6 @@
     <string name="sign_in_before_conversation">Чтобы начать общение необходимо войти в аккаунт</string>
     <string name="message_placeholder">Сообщение...</string>
     <string name="no_messages">Пока нет сообщений...</string>
+    <string name="username_already_exists">Логин занят</string>
+    <string name="send_message">Написать</string>
 </resources>

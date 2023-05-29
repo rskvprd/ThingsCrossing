@@ -1,4 +1,4 @@
-package com.app.thingscrossing.feature_account.presentation.registration
+package com.app.thingscrossing.feature_account.presentation.sign_up
 
 import androidx.annotation.StringRes
 import com.app.thingscrossing.feature_account.presentation.util.isValidEmail
@@ -7,7 +7,7 @@ import com.app.thingscrossing.feature_account.presentation.util.isValidLastName
 import com.app.thingscrossing.feature_account.presentation.util.isValidPassword
 import com.app.thingscrossing.feature_account.presentation.util.isValidUsername
 
-data class RegistrationState(
+data class SignUpState(
     val isLoading: Boolean = false,
     val authKey: String? = null,
 
@@ -31,8 +31,7 @@ data class RegistrationState(
     @StringRes val errorMessageId: Int? = null,
 )
 
-
-fun RegistrationState.isValid(): Boolean {
+fun SignUpState.isValid(): Boolean {
     return listOf(
         email.isValidEmail(),
         username.isValidUsername(),

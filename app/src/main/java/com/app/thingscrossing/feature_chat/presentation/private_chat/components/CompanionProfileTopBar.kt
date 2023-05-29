@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -35,7 +36,8 @@ fun CompanionProfileTopBar(profile: UserProfile) {
                     contentDescription = stringResource(id = R.string.user_profile_picture_desc),
                     modifier = Modifier
                         .clip(CircleShape)
-                        .size(40.dp)
+                        .size(40.dp),
+                    contentScale = ContentScale.Crop
                 )
                 Spacer(modifier = Modifier.width(20.dp))
                 Text(text = "${profile.user.firstName} ${profile.user.lastName}")

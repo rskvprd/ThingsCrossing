@@ -1,4 +1,4 @@
-package com.app.thingscrossing.core
+package com.app.thingscrossing.core.util
 
 import android.content.Context
 import android.net.ConnectivityManager

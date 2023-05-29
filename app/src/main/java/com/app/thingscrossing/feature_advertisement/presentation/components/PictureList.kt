@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -53,7 +56,8 @@ fun PictureList(imageUrls: List<String>) {
                 state = pagerState
             ) {
                 PictureItem(
-                    modifier = Modifier.size(300.dp), model = imageUrls[it]
+                    modifier = Modifier.heightIn(max = 600.dp),
+                    model = imageUrls[it]
                 )
             }
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.core.Resource
 import com.app.thingscrossing.feature_chat.domain.use_case.ChatUseCases
 import com.app.thingscrossing.feature_chat.presentation.util.ChatScreens
+import com.app.thingscrossing.services.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
@@ -18,12 +19,15 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatRoomViewModel @Inject constructor(
     private val chatUseCases: ChatUseCases,
+    private val authService: AuthService,
 ) : ViewModel() {
     var uiState by mutableStateOf(ChatRoomState())
         private set
 
     var eventFlow = MutableSharedFlow<ChatRoomViewModelEvent>()
         private set
+
+    val currentUserProfile = authService.currentUserProfile
 
     init {
         getRooms()

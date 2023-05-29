@@ -27,6 +27,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.app.thingscrossing.core.navigation.BottomBarScreens
+import com.app.thingscrossing.feature_account.navigation.AccountScreens
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchEvent
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchViewModel
 
@@ -35,7 +36,10 @@ fun BottomNavigationBar(
     navController: NavHostController,
     viewModel: SearchViewModel
 ) {
-    val bottomBarScreenRoutes = BottomBarScreens.ALL_SCREENS.map { it.route }
+    val bottomBarScreenRoutes = BottomBarScreens.ALL_SCREENS.map { it.route }.toMutableList()
+        .apply {
+            addAll(AccountScreens.ALL_ROUTES)
+        }
 
     val focusManager = LocalFocusManager.current
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -43,7 +47,7 @@ fun BottomNavigationBar(
     val isBottomBarScreen =
         bottomBarScreenRoutes.any { it == navBackStackEntry?.destination?.route }
 
-    listOf("Search", "Main").any { it == navBackStackEntry?.destination?.route }
+    println(navBackStackEntry?.arguments)
 
     Column(
         modifier = Modifier
@@ -122,8 +126,8 @@ fun NavigationItems(
                 selected = selected,
                 icon = { Icon(screen.icon, null) },
                 onClick = {
+                    println("onClick ${screen.route}")
                     if (!selected) {
-                        navController.popBackStack()
                         navController.navigate(screen.route)
                     }
                     focusManager.clearFocus()

@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.app.thingscrossing.R
+import com.app.thingscrossing.feature_account.navigation.AccountScreens
 
 sealed class BottomBarScreens(
     @StringRes val nameResource: Int,
@@ -29,7 +30,7 @@ sealed class BottomBarScreens(
 
     object Account : BottomBarScreens(
         nameResource = R.string.account,
-        route = "account-screen",
+        route = AccountScreens.route,
         icon = Icons.Default.Person
     )
 
@@ -40,6 +41,11 @@ sealed class BottomBarScreens(
     )
 
     companion object {
-        val ALL_SCREENS = listOf(Search, Account, Home, ChatRooms)
+        val ALL_SCREENS = listOf(
+            Search,
+            Account,
+            Home,
+            ChatRooms,
+        )
     }
 }

@@ -31,7 +31,6 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun ChatRoomScreen(
     navHostController: NavHostController,
-    currentUserProfile: UserProfile?,
     viewModel: ChatRoomViewModel,
 ) {
     val uiState = viewModel.uiState
@@ -70,7 +69,7 @@ fun ChatRoomScreen(
         })
     }) { paddingValues ->
 
-        if (currentUserProfile == null || uiState.chatRooms.isEmpty()) {
+        if (viewModel.currentUserProfile == null || uiState.chatRooms.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -98,7 +97,7 @@ fun ChatRoomScreen(
         Box(Modifier.padding(paddingValues)) {
             ChatRoomList(
                 chatRooms = uiState.chatRooms,
-                myProfile = currentUserProfile,
+                myProfile = viewModel.currentUserProfile,
                 onPrivateRoom = { companion, chatRoom ->
                     viewModel.onEvent(
                         ChatRoomEvent.ToPrivateChat(

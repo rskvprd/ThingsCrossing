@@ -11,7 +11,7 @@ import java.net.SocketTimeoutException
 /** Remote resource from API with Success Error and Loading states */
 sealed class Resource<T>(val data: T? = null, @StringRes val messageId: Int? = null, val progression: Int? = null) {
     class Success<T>(data: T) : Resource<T>(data)
-    class Error<T>(@StringRes errorMessageId: Int, data: T? = null) : Resource<T>(data, errorMessageId)
+    class Error<T>(@StringRes errorMessageId: Int, data: T? = null) : Resource<T>(data, messageId = errorMessageId)
     class Loading<T>(data: T? = null, progression: Int? = null) : Resource<T>(data, progression)
 
     companion object {

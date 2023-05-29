@@ -7,8 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.app.thingscrossing.feature_account.presentation.account.AccountScreen
-import com.app.thingscrossing.feature_account.presentation.account.AccountViewModel
+import com.app.thingscrossing.feature_account.navigation.accountGraph
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.AddEditScreen
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.DetailAdvertisementScreen
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchScreen
@@ -27,8 +26,6 @@ fun NavGraph(
     navController: NavHostController,
     searchViewModel: SearchViewModel,
 ) {
-    val accountViewModel: AccountViewModel = hiltViewModel()
-
     NavHost(
         navController = navController,
         startDestination = BottomBarScreens.Search.route
@@ -36,7 +33,6 @@ fun NavGraph(
         composable(route = BottomBarScreens.Home.route) {
             HomeScreen(
                 navController = navController,
-                isAuthenticated = accountViewModel.uiState.isAuthenticated,
             )
         }
 
@@ -49,18 +45,9 @@ fun NavGraph(
             )
         }
 
-        composable(route = BottomBarScreens.Account.route) {
-            AccountScreen(
-                navController = navController,
-                uiState = accountViewModel.uiState,
-                onEvent = accountViewModel::onEvent
-            )
-        }
-
         composable(route = BottomBarScreens.ChatRooms.route) {
             val chatRoomViewModel: ChatRoomViewModel = hiltViewModel()
             ChatRoomScreen(
-                currentUserProfile = accountViewModel.uiState.currentUserProfile,
                 viewModel = chatRoomViewModel,
                 navHostController = navController
             )
@@ -100,7 +87,6 @@ fun NavGraph(
         ) {
             val privateChatViewModel: PrivateChatViewModel = hiltViewModel()
             ChatScreen(
-                currentUserProfile = accountViewModel.uiState.currentUserProfile!!,
                 navController = navController,
                 viewModel = privateChatViewModel,
             )
@@ -120,5 +106,7 @@ fun NavGraph(
         ) {
             AddEditScreen(navController)
         }
+
+        accountGraph(navController = navController)
     }
 }

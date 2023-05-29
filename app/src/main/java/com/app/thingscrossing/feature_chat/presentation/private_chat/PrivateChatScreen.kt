@@ -21,7 +21,6 @@ import com.app.thingscrossing.feature_chat.presentation.private_chat.components.
 fun ChatScreen(
     viewModel: PrivateChatViewModel = hiltViewModel(),
     navController: NavController,
-    currentUserProfile: UserProfile,
 ) {
     val uiState = viewModel.uiState
 
@@ -62,7 +61,7 @@ fun ChatScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
-            MessageList(messages = uiState.messages, me = currentUserProfile)
+            MessageList(messages = uiState.messages, me = viewModel.userProfile)
         }
     }
 }

@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.R
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.Block
@@ -22,7 +23,7 @@ import com.app.thingscrossing.feature_advertisement.presentation.util.Advertisem
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    isAuthenticated: Boolean,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     Box(
         Modifier
@@ -38,7 +39,7 @@ fun HomeScreen(
                 title = stringResource(id = R.string.advertisement),
                 description = stringResource(id = R.string.add_advertisement_description)
             ) {
-                if (isAuthenticated) {
+                if (viewModel.isSignedIn) {
                     Button(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {

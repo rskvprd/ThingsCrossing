@@ -1,4 +1,4 @@
-package com.app.thingscrossing.feature_account.presentation.registration.components
+package com.app.thingscrossing.feature_account.presentation.sign_up.components
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
