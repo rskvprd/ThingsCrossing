@@ -3,6 +3,7 @@ package com.app.thingscrossing.services
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import com.app.thingscrossing.core.Resource
+import com.app.thingscrossing.core.addBaseUrl
 import com.app.thingscrossing.core.util.isNetworkAvailable
 import com.app.thingscrossing.feature_account.data.local.AUTH_KEY
 import com.app.thingscrossing.feature_account.data.local.authDataStore
@@ -129,7 +130,9 @@ class AuthService @Inject constructor(
                         val response: SignUpResponse = resource.data!!
                         authKey = response.token
                         saveAuthKey(authKey!!)
-                        currentUserProfile = response.profile
+                        currentUserProfile = response.profile.copy(
+                            avatar = response.profile.avatar.addBaseUrl()
+                        )
                         onSuccess(currentUserProfile!!)
                     }
                 }

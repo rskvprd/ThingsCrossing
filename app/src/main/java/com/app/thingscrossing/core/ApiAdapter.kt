@@ -78,6 +78,6 @@ class CurrencyDeserializer : JsonDeserializer<Currency> {
     }
 }
 
-fun String.globalUrl(): String {
+fun String.addBaseUrl(): String {
     return "$THINGS_CROSSING_API_BASE_URL$this"
 }

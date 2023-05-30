@@ -49,7 +49,7 @@ fun SearchBox(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .height(55.dp)
+            .height(60.dp)
             .padding(paddingValues),
         textStyle = SearchBoxStyle,
         singleLine = true,

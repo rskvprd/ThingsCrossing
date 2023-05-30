@@ -22,7 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.app.thingscrossing.core.globalUrl
+import com.app.thingscrossing.core.addBaseUrl
 import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_chat.domain.model.ChatRoom
 import java.time.format.DateTimeFormatter
@@ -49,7 +49,7 @@ fun PrivateRoomItem(
             ) {
                 Row {
                     AsyncImage(
-                        model = companion.avatar.globalUrl(),
+                        model = companion.avatar.addBaseUrl(),
                         contentDescription = null,
                         modifier = Modifier
                             .size(50.dp)
