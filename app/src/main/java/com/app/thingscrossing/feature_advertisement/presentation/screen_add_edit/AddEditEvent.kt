@@ -1,6 +1,7 @@
 package com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit
 
 import android.net.Uri
+import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.model.Currency
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.util.AddEditPrice
 
@@ -40,5 +41,12 @@ sealed interface AddEditEvent {
 
     /**Press on add image button*/
     object AddImageClick : AddEditEvent
+
     object DismissAddImageDialog : AddEditEvent
+
+    object UpdateAdvertisement: AddEditEvent
+}
+
+sealed interface AddEditViewModelEvent {
+    class Navigate(val route: String) : AddEditViewModelEvent
 }

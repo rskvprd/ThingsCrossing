@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
@@ -31,16 +29,16 @@ import com.app.thingscrossing.core.presentation.components.BackTopAppBar
 import com.app.thingscrossing.feature_advertisement.domain.model.Characteristic
 import com.app.thingscrossing.feature_advertisement.presentation.components.PictureList
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.Block
+import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.ErrorDialog
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.InformationBlock
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.Price
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.ProfileCardSmall
-import com.app.thingscrossing.feature_advertisement.presentation.screen_search.NetworkErrorMessage
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DetailAdvertisementScreen(
     navController: NavHostController,
-    viewModel: DetailViewModel = hiltViewModel(),
+    viewModel: DetailAdvertisementViewModel = hiltViewModel(),
 ) {
     val uiState = viewModel.uiState
 
@@ -71,9 +69,9 @@ fun DetailAdvertisementScreen(
             }
 
             if (uiState.errorId != null) {
-                NetworkErrorMessage(messageId = uiState.errorId)
-                return@Scaffold
+                ErrorDialog(onDismissError = { viewModel.onEvent(DetailEvent.DismissError) }, errorMessageId = uiState.errorId)
             }
+
             Column(
                 modifier = Modifier
                     .padding(horizontal = 20.dp)
@@ -87,7 +85,6 @@ fun DetailAdvertisementScreen(
                     isOtherPricesVisible = uiState.isOtherPricesVisible,
                     onChangeOtherPricesVisibility = { viewModel.onEvent(DetailEvent.ToggleMorePricesVisibility) })
 
-                Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
                     text = uiState.advertisement.title,

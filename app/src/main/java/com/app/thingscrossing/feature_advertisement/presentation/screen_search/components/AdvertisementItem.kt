@@ -1,16 +1,17 @@
 package com.app.thingscrossing.feature_advertisement.presentation.screen_search.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
-import com.app.thingscrossing.feature_advertisement.presentation.util.AdvertisementScreen
+import com.app.thingscrossing.feature_advertisement.navigation.AdvertisementScreen
 import com.valentinilk.shimmer.Shimmer
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,50 +19,55 @@ import com.valentinilk.shimmer.Shimmer
 fun AdvertisementItem(
     advertisement: Advertisement,
     navController: NavController,
-    pictureSize: Dp,
     shimmerInstance: Shimmer,
 ) {
-    ElevatedCard(
+    Box(
         modifier = Modifier
-            .fillMaxWidth(),
-        onClick = {
-            navController.navigate(
-                AdvertisementScreen.DetailAdvertisementAdvertisementScreen.route +
-                        "?advertisementId=${advertisement.id}"
-            )
-        },
-        elevation = CardDefaults.elevatedCardElevation(
-            defaultElevation = 3.dp
-        )
+            .fillMaxWidth()
+            .height(300.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .clickable {
+                navController.navigate(AdvertisementScreen.Detail(advertisementId = advertisement.id).route)
+            },
     ) {
         Column(
-            Modifier.fillMaxSize()
+            Modifier.fillMaxWidth()
         ) {
             PictureItem(
                 modifier = Modifier
-                    .size(pictureSize)
                     .fillMaxWidth()
-                    .align(Alignment.CenterHorizontally),
+                    .weight(2f),
                 model = advertisement.images.map { it.url }.firstOrNull(),
                 shimmerInstance = shimmerInstance
             )
 
-            Column(Modifier.padding(10.dp)) {
-                advertisement.prices.firstOrNull()?.let {
-                    Text(
-                        text = "${it.value} ${it.currency.symbol}",
-                        style = MaterialTheme.typography.headlineMedium.copy(fontSize = 20.sp)
-                    )
-                }
-
+            Column(
+                Modifier
+                    .padding(10.dp)
+                    .weight(1.2f)
+            ) {
                 Text(
                     text = advertisement.title,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.headlineMedium.copy(fontSize = 16.sp)
+                )
+
+                advertisement.prices.firstOrNull().apply {
+                    val text = if (this != null) "$value ${currency.symbol}" else ""
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = advertisement.address,
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        color = MaterialTheme.colorScheme.onSurface.copy(.7f)
+                    ),
                 )
             }
-
+            Divider()
         }
-
     }
 }
 

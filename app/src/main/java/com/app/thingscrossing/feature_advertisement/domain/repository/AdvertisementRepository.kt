@@ -23,4 +23,8 @@ interface AdvertisementRepository {
     suspend fun deleteImage(image: ImageModel)
 
     suspend fun uploadImage(file: MultipartBody.Part): ImageModel
+
+    suspend fun getMyAdvertisementList(authKey: String): List<Advertisement>
+
+    suspend fun updateAdvertisement(advertisement: Advertisement, authKey: String)
 }

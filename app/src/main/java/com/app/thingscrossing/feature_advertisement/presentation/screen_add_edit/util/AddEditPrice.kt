@@ -15,6 +15,8 @@ data class AddEditPrice(
         )
     }
 
+
+
     companion object {
         fun isValid(price: AddEditPrice): Boolean {
             if (price.value.isBlank()) return true
@@ -30,6 +32,12 @@ data class AddEditPrice(
             } catch (e: NumberFormatException) {
                 false
             }
+        }
+        fun fromPrice(price: Price): AddEditPrice {
+            return AddEditPrice(
+                value = price.value.toString(),
+                currency = price.currency
+            )
         }
     }
 }

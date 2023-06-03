@@ -114,8 +114,14 @@
     <string name="username">Логин</string>
     <string name="no_chat_rooms">Ваш список чатов пуст</string>
     <string name="sign_in_before_conversation">Чтобы начать общение необходимо войти в аккаунт</string>
-    <string name="message_placeholder">Сообщение...</string>
-    <string name="no_messages">Пока нет сообщений...</string>
+    <string name="message_placeholder">Сообщение…</string>
+    <string name="no_messages">Пока нет сообщений…</string>
     <string name="username_already_exists">Логин занят</string>
     <string name="send_message">Написать</string>
+    <string name="advertisements">Объявления</string>
+    <string name="my_advertisements">Мои объявления</string>
+    <string name="you_have_no_advertisements">Пока нет объявлений</string>
+    <string name="but_you_can_add_it">Но это легко исправить — разместите первое объявление.</string>
+    <string name="save">Сохранить</string>
+    <string name="sign_in_before_check_your_advertisements">Вы должны войти в аккаунт перед тем как добавлять новые объявления</string>
 </resources>

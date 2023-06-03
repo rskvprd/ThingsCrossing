@@ -3,34 +3,28 @@ package com.app.thingscrossing.core.navigation
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Chat
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PostAdd
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.app.thingscrossing.R
 import com.app.thingscrossing.feature_account.navigation.AccountScreens
+import com.app.thingscrossing.feature_advertisement.navigation.AdvertisementScreen
 
 sealed class BottomBarScreens(
     @StringRes val nameResource: Int,
     val route: String,
     val icon: ImageVector,
 ) {
-
-    object Home : BottomBarScreens(
-        nameResource = R.string.home,
-        route = "home-screen",
-        icon = Icons.Default.Home
-    )
-
     object Search : BottomBarScreens(
         nameResource = R.string.search,
-        route = "search-screen",
+        route = AdvertisementScreen.Search.route,
         icon = Icons.Default.Search
     )
 
     object Account : BottomBarScreens(
         nameResource = R.string.account,
-        route = AccountScreens.route,
+        route = AccountScreens.ROUTE,
         icon = Icons.Default.Person
     )
 
@@ -40,12 +34,18 @@ sealed class BottomBarScreens(
         icon = Icons.Default.Chat
     )
 
+    object MyAdvertisements : BottomBarScreens(
+        nameResource = R.string.advertisements,
+        route = AdvertisementScreen.MyAdvertisements.route,
+        icon = Icons.Default.PostAdd
+    )
+
     companion object {
         val ALL_SCREENS = listOf(
             Search,
-            Account,
-            Home,
+            MyAdvertisements,
             ChatRooms,
+            Account,
         )
     }
 }

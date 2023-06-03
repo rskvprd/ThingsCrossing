@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.app.thingscrossing.core.navigation.NavGraph
-import com.app.thingscrossing.core.presentation.BaseScreenWithBottomNavigation
+import com.app.thingscrossing.core.presentation.BaseScreen
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchViewModel
 import com.app.thingscrossing.ui.theme.ThingsCrossingTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,16 +17,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            val searchViewModel: SearchViewModel = hiltViewModel()
 
             ThingsCrossingTheme {
-                BaseScreenWithBottomNavigation(
+                BaseScreen(
                     navController = navController,
-                    searchViewModel = searchViewModel,
                 ) {
                     NavGraph(
                         navController = navController,
-                        searchViewModel = searchViewModel,
                     )
                 }
             }

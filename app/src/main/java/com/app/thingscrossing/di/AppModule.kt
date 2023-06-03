@@ -23,6 +23,7 @@ import com.app.thingscrossing.feature_chat.domain.use_case.GetMessagesByRoom
 import com.app.thingscrossing.feature_chat.domain.use_case.GetMyRooms
 import com.app.thingscrossing.feature_chat.domain.use_case.GetOrCreatePrivateRoom
 import com.app.thingscrossing.feature_chat.domain.use_case.SendMessage
+import com.app.thingscrossing.services.AuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,7 +56,8 @@ object AppModule {
     @Singleton
     fun provideAdvertisementUseCases(
         repository: AdvertisementRepository,
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
+        authService: AuthService,
     ): AdvertisementUseCases {
         return AdvertisementUseCases(
             deleteAdvertisement = DeleteAdvertisementUseCase(repository),
@@ -64,6 +66,8 @@ object AppModule {
             searchAdvertisements = SearchAdvertisementsUseCase(repository),
             uploadImageUseCase = UploadImageUseCase(repository, context),
             deleteImageUseCase = DeleteImageUseCase(repository),
+            getMyAdvertisementList = GetMyAdvertisementList(authService, repository),
+            updateAdvertisement = UpdateAdvertisement(repository, authService)
         )
     }
 

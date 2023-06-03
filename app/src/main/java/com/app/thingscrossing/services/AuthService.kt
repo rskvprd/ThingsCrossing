@@ -187,6 +187,8 @@ class AuthService @Inject constructor(
                             }
                         }
                     }.collect()
+            } else {
+                isInitialized = true
             }
         }
     }

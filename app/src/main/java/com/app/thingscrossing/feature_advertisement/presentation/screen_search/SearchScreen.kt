@@ -1,21 +1,17 @@
 package com.app.thingscrossing.feature_advertisement.presentation.screen_search
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.app.thingscrossing.R
+import com.app.thingscrossing.core.presentation.components.SearchBox
+import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.ErrorDialog
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.components.AdvertisementList
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.components.FilterBottomSheet
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.components.SortBottomSheet
@@ -54,7 +50,6 @@ fun SearchScreen(
         },
         sheetPeekHeight = 0.dp
     ) {
-
         LaunchedEffect(key1 = null) {
             eventChannel.collectLatest { event ->
                 when (event) {
@@ -65,66 +60,68 @@ fun SearchScreen(
                     SearchViewModelEvent.HideBottomSheet -> {
                         scaffoldState.bottomSheetState.partialExpand()
                     }
+
+                    is SearchViewModelEvent.Navigate -> navController.navigate(event.route)
                 }
             }
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .pointerInput(Unit) {
-                    detectTapGestures(onTap = {
-                        focusManager.clearFocus()
-                    })
-                },
-            contentAlignment = Alignment.Center
-        ) {
-
-
-            if (uiState.isLoading) {
-                CircularProgressIndicator()
-                return@BottomSheetScaffold
-            }
-            if (uiState.errorId != null) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    NetworkErrorMessage(
-                        messageId = uiState.errorId
+        Scaffold(
+            bottomBar = {
+                BottomAppBar {
+                    SearchBox(
+                        onSearch = { searchValue ->
+                            onEvent(SearchEvent.Search(searchValue))
+                            focusManager.clearFocus()
+                        },
+                        onSearchValueChanged = { searchValue ->
+                            onEvent(SearchEvent.SearchValueChanged(searchValue))
+                        },
+                        onSortClick = {
+                            onEvent(SearchEvent.ToggleSortSection)
+                            focusManager.clearFocus()
+                        },
+                        onFilterClick = {
+                            onEvent(SearchEvent.ToggleFilterSection)
+                            focusManager.clearFocus()
+                        },
+                        onEraseClick = {
+                            onEvent(SearchEvent.EraseSearchBox)
+                        },
+                        isEraseIconVisible = uiState.isEraseIconVisible,
+                        searchValue = uiState.searchValue,
+                        paddingValues = PaddingValues(horizontal = 20.dp)
                     )
-                    IconButton(
-                        onClick = { onEvent(SearchEvent.RefreshNetwork) }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Refresh,
-                            contentDescription = stringResource(
-                                R.string.refresh_button_cont_desc
-                            )
-                        )
-                    }
                 }
-                return@BottomSheetScaffold
             }
-            AdvertisementList(
+        ) { paddingValues ->
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 10.dp),
-                advertisements = uiState.advertisements,
-                navController = navController
-            )
+                    .padding(paddingValues)
+                    .pointerInput(Unit) {
+                        detectTapGestures(onTap = {
+                            focusManager.clearFocus()
+                        })
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                if (uiState.errorId != null) {
+                    ErrorDialog(
+                        onDismissError = { onEvent(SearchEvent.DismissError) },
+                        errorMessageId = uiState.errorId
+                    )
+                }
+
+                AdvertisementList(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    advertisements = uiState.advertisements,
+                    navController = navController,
+                    isLoading = uiState.isLoading,
+                )
+            }
         }
+
     }
-}
-
-
-@Composable
-fun NetworkErrorMessage(@StringRes messageId: Int) {
-    Text(
-        textAlign = TextAlign.Center,
-        text = stringResource(id = messageId),
-        style = MaterialTheme.typography.headlineSmall,
-        softWrap = true,
-        modifier = Modifier.padding(horizontal = 20.dp)
-    )
 }

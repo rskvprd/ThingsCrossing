@@ -5,6 +5,8 @@ import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementSor
 sealed interface SearchEvent {
     object RefreshNetwork : SearchEvent
 
+    object DismissError: SearchEvent
+
     object ApplyOrder : SearchEvent
 
     class ChangeSortVariant(val variant: AdvertisementSortVariant) : SearchEvent
@@ -28,4 +30,6 @@ sealed interface SearchEvent {
 sealed interface SearchViewModelEvent {
     object ShowBottomSheet : SearchViewModelEvent
     object HideBottomSheet : SearchViewModelEvent
+
+    class Navigate(val route: String) : SearchViewModelEvent
 }

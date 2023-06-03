@@ -69,8 +69,8 @@ fun ButtonToggleGroup(
                     // selected colors
                     ButtonDefaults.outlinedButtonColors(
                         containerColor = MaterialTheme.colorScheme.primary.copy(
-                            alpha = 0.1f
-                        ), contentColor = MaterialTheme.colorScheme.primary
+                            alpha = 0.1f)
+                        , contentColor = MaterialTheme.colorScheme.primary
                     )
                 } else {
                     // not selected colors

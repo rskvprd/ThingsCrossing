@@ -7,10 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.Resource
-import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.use_case.AdvertisementUseCases
 import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementSortVariant
+import com.app.thingscrossing.services.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -21,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val advertisementUseCases: AdvertisementUseCases,
+    private val authService: AuthService,
 ) : ViewModel() {
     var uiState by mutableStateOf(SearchState())
         private set
@@ -95,6 +97,8 @@ class SearchViewModel @Inject constructor(
                     isAscendingSort = event.order
                 )
             }
+
+            SearchEvent.DismissError -> uiState = uiState.copy(errorId = null)
         }
     }
 
@@ -140,4 +144,5 @@ class SearchViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
+
 }

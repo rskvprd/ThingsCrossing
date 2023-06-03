@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -34,7 +35,6 @@ import com.app.thingscrossing.feature_advertisement.presentation.screen_search.S
 @Composable
 fun BottomNavigationBar(
     navController: NavHostController,
-    viewModel: SearchViewModel
 ) {
     val bottomBarScreenRoutes = BottomBarScreens.ALL_SCREENS.map { it.route }.toMutableList()
         .apply {
@@ -43,7 +43,7 @@ fun BottomNavigationBar(
 
     val focusManager = LocalFocusManager.current
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val isSearchBoxVisible = navBackStackEntry?.destination?.route == BottomBarScreens.Search.route
+//    val isSearchBoxVisible = navBackStackEntry?.destination?.route == BottomBarScreens.Search.route
     val isBottomBarScreen =
         bottomBarScreenRoutes.any { it == navBackStackEntry?.destination?.route }
 
@@ -55,47 +55,13 @@ fun BottomNavigationBar(
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        val contentPaddingValues = PaddingValues(horizontal = 30.dp)
+        val contentPaddingValues = PaddingValues(horizontal = 20.dp)
 
-        AnimatedVisibility(
-            visible = isSearchBoxVisible,
-            enter = slideInVertically(initialOffsetY = { it })
-                    + fadeIn(),
-            exit = slideOutVertically { it } + fadeOut()
-        ) {
-            BottomAppBar {
-                SearchBox(
-                    onSearch = { searchValue ->
-                        viewModel.onEvent(SearchEvent.Search(searchValue))
-                        focusManager.clearFocus()
-                    },
-                    onSearchValueChanged = { searchValue ->
-                        viewModel.onEvent(SearchEvent.SearchValueChanged(searchValue))
-                    },
-                    onSortClick = {
-                        viewModel.onEvent(SearchEvent.ToggleSortSection)
-                        focusManager.clearFocus()
-                    },
-                    onFilterClick = {
-                        viewModel.onEvent(SearchEvent.ToggleFilterSection)
-                        focusManager.clearFocus()
-                    },
-                    onEraseClick = {
-                        viewModel.onEvent(SearchEvent.EraseSearchBox)
-                    },
-                    isEraseIconVisible = viewModel.uiState.isEraseIconVisible,
-                    searchValue = viewModel.uiState.searchValue,
-                    paddingValues = contentPaddingValues
-                )
-            }
-
-        }
         AnimatedVisibility(visible = isBottomBarScreen) {
             NavigationBar {
                 NavigationItems(navController, contentPaddingValues)
             }
         }
-
     }
 }
 
@@ -111,8 +77,8 @@ fun NavigationItems(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(paddingValues),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .padding(),
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         BottomBarScreens.ALL_SCREENS.forEach { screen ->
@@ -126,7 +92,6 @@ fun NavigationItems(
                 selected = selected,
                 icon = { Icon(screen.icon, null) },
                 onClick = {
-                    println("onClick ${screen.route}")
                     if (!selected) {
                         navController.navigate(screen.route)
                     }

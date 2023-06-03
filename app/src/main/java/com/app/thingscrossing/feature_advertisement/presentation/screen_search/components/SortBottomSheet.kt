@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -90,7 +91,10 @@ fun SortBottomSheet(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        ElevatedButton(onClick = { onApplySort() }) {
+        Button(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+            onClick = { onApplySort() }
+        ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {

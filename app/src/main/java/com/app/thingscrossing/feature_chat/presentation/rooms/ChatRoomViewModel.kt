@@ -7,11 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.core.Resource
 import com.app.thingscrossing.feature_chat.domain.use_case.ChatUseCases
-import com.app.thingscrossing.feature_chat.presentation.util.ChatScreens
+import com.app.thingscrossing.feature_chat.navigation.ChatScreens
 import com.app.thingscrossing.services.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,7 +34,7 @@ class ChatRoomViewModel @Inject constructor(
         getRooms()
     }
 
-    fun sendEvent(event: ChatRoomViewModelEvent) {
+    private fun sendEvent(event: ChatRoomViewModelEvent) {
         viewModelScope.launch {
             eventFlow.emit(event)
         }
@@ -59,28 +60,40 @@ class ChatRoomViewModel @Inject constructor(
     }
 
     private fun getRooms() {
-        chatUseCases.getMyRooms().onEach { resource ->
-            when (resource) {
-                is Resource.Error -> {
-                    uiState = uiState.copy(
-                        errorMessageId = resource.messageId,
-                        isLoading = false
-                    )
-                }
+        viewModelScope.launch {
+            while (!authService.isInitialized) delay(10)
+            if (authService.isAuthenticated) {
+                uiState = uiState.copy(
+                    isAuthorized = true,
+                )
+                chatUseCases.getMyRooms(authService.authKey!!).onEach { resource ->
+                    when (resource) {
+                        is Resource.Error -> {
+                            uiState = uiState.copy(
+                                errorMessageId = resource.messageId,
+                                isLoading = false
+                            )
+                        }
 
-                is Resource.Loading -> {
-                    uiState = uiState.copy(
-                        isLoading = true
-                    )
-                }
+                        is Resource.Loading -> {
+                            uiState = uiState.copy(
+                                isLoading = true
+                            )
+                        }
 
-                is Resource.Success -> {
-                    uiState = uiState.copy(
-                        isLoading = false,
-                        chatRooms = resource.data!!
-                    )
-                }
+                        is Resource.Success -> {
+                            uiState = uiState.copy(
+                                isLoading = false,
+                                chatRooms = resource.data!!
+                            )
+                        }
+                    }
+                }.collect()
+            } else {
+                uiState = uiState.copy(
+                    isAuthorized = false,
+                )
             }
-        }.launchIn(viewModelScope)
+        }
     }
 }

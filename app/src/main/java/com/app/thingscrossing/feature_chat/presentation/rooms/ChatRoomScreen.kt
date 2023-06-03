@@ -69,7 +69,7 @@ fun ChatRoomScreen(
         })
     }) { paddingValues ->
 
-        if (viewModel.currentUserProfile == null || uiState.chatRooms.isEmpty()) {
+        if (!uiState.isAuthorized || uiState.chatRooms.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -80,7 +80,7 @@ fun ChatRoomScreen(
                 ) {
                     Text(
                         text = stringResource(
-                            if (uiState.chatRooms.isNotEmpty()) {
+                            if (!uiState.isAuthorized) {
                                 R.string.sign_in_before_conversation
                             } else {
                                 R.string.no_chat_rooms
@@ -97,7 +97,7 @@ fun ChatRoomScreen(
         Box(Modifier.padding(paddingValues)) {
             ChatRoomList(
                 chatRooms = uiState.chatRooms,
-                myProfile = viewModel.currentUserProfile,
+                myProfile = viewModel.currentUserProfile!!,
                 onPrivateRoom = { companion, chatRoom ->
                     viewModel.onEvent(
                         ChatRoomEvent.ToPrivateChat(

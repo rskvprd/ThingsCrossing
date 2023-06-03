@@ -1,13 +1,15 @@
 package com.app.thingscrossing.core.presentation.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -45,69 +47,77 @@ fun SearchBox(
     searchValue: String,
     paddingValues: PaddingValues,
 ) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.padding(paddingValues)
+    ) {
+        OutlinedTextField(
+            modifier = Modifier
+                .height(55.dp)
+                .weight(8.5f),
+            textStyle = SearchBoxStyle.copy(fontSize = 18.sp),
+            singleLine = true,
+            value = searchValue,
+            shape = RoundedCornerShape(30),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Search, keyboardType = KeyboardType.Text
+            ),
 
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(60.dp)
-            .padding(paddingValues),
-        textStyle = SearchBoxStyle,
-        singleLine = true,
-        value = searchValue,
-        shape = RoundedCornerShape(30),
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Search, keyboardType = KeyboardType.Text
-        ),
-
-        keyboardActions = KeyboardActions(
-            onSearch = {
-                onSearch(searchValue)
-            },
-        ),
-        placeholder = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.Search, contentDescription = stringResource(
-                        id = R.string.search
-                    ), modifier = Modifier
-                        .padding(end = 5.dp)
-                        .size(20.dp)
-                )
-                Text(
-                    stringResource(id = R.string.search),
-                    style = MaterialTheme.typography.headlineMedium.copy(
-                        fontSize = 18.sp
-                    ),
-                    textAlign = TextAlign.Center,
-                )
-            }
-        },
-        onValueChange = {
-            onSearchValueChanged(it)
-        },
-        trailingIcon = {
-            Row(
-                Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically
-            ) {
-                TrailingIcon(imageVector = Icons.Default.FilterAlt,
-                    contentDescription = stringResource(id = R.string.filter),
-                    onClick = { onFilterClick() })
-
-                TrailingIcon(imageVector = Icons.Default.Sort,
-                    contentDescription = stringResource(id = R.string.sort_by),
-                    onClick = { onSortClick() })
-
-                if (isEraseIconVisible) {
-                    TrailingIcon(imageVector = Icons.Default.Cancel,
-                        contentDescription = stringResource(id = R.string.erase),
-                        onClick = {
-                            onEraseClick()
-                        })
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    onSearch(searchValue)
+                },
+            ),
+            placeholder = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.Search, contentDescription = stringResource(
+                            id = R.string.search
+                        ), modifier = Modifier
+                            .padding(end = 10.dp)
+                            .size(23.dp)
+                    )
+                    Text(
+                        stringResource(id = R.string.search),
+                        style = MaterialTheme.typography.headlineMedium.copy(fontSize = 16.sp),
+                        textAlign = TextAlign.Center,
+                    )
                 }
-            }
-        },
-
+            },
+            onValueChange = {
+                onSearchValueChanged(it)
+            },
+            trailingIcon = {
+                Row(
+                    Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (isEraseIconVisible) {
+                        TrailingIcon(imageVector = Icons.Default.Cancel,
+                            contentDescription = stringResource(id = R.string.erase),
+                            onClick = {
+                                onEraseClick()
+                            })
+                    }
+                }
+            },
         )
+        Row(
+            Modifier.weight(4f),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
+        ) {
+            SideIconButton(
+                onClick = { onFilterClick() },
+                imageVector = Icons.Default.FilterAlt
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            SideIconButton(
+                onClick = { onSortClick() },
+                imageVector = Icons.Default.Sort
+            )
+        }
+    }
 }
 
 
@@ -122,6 +132,22 @@ fun TrailingIcon(imageVector: ImageVector, contentDescription: String, onClick: 
             modifier = Modifier.fillMaxSize(),
             imageVector = imageVector,
             contentDescription = contentDescription
+        )
+    }
+}
+
+@Composable
+fun SideIconButton(imageVector: ImageVector, onClick: () -> Unit) {
+    IconButton(
+        onClick = { onClick() },
+        modifier = Modifier.size(45.dp),
+    ) {
+        Icon(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp),
+            imageVector = imageVector,
+            contentDescription = stringResource(id = R.string.sort_by)
         )
     }
 }

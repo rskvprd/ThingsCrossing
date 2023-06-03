@@ -34,4 +34,14 @@ interface AdvertisementApi {
 
     @DELETE("pictures/{id}/")
     suspend fun deletePicture(@Path("id") url: Int)
+
+    @GET("advertisement/my/")
+    suspend fun getMyAdvertisement(@Header("Authorization") authKey: String): List<Advertisement>
+
+    @PATCH("advertisement/{id}/")
+    suspend fun updateAdvertisement(
+        @Header("Authorization") authKey: String,
+        @Path("id") advertisementId: Int,
+        @Body advertisement: Advertisement
+    )
 }

@@ -10,14 +10,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.Resource
-import com.app.thingscrossing.core.navigation.advertisementIdNavArgument
 import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
 import com.app.thingscrossing.feature_advertisement.domain.model.ImageModel
 import com.app.thingscrossing.feature_advertisement.domain.use_case.AdvertisementUseCases
+import com.app.thingscrossing.feature_advertisement.navigation.AdvertisementScreen
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.util.AddEditPrice
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,9 +33,18 @@ class AddEditViewModel @Inject constructor(
     var uiState by mutableStateOf(AddEditState())
         private set
 
+    val eventFlow = MutableSharedFlow<AddEditViewModelEvent>()
+
+    val advertisementId: Int? = savedStateHandle[AdvertisementScreen.AddEdit.ID_KEY]
 
     init {
         initAdvertisement()
+    }
+
+    private fun sendEvent(event: AddEditViewModelEvent) {
+        viewModelScope.launch {
+            eventFlow.emit(event)
+        }
     }
 
     fun onEvent(event: AddEditEvent) {
@@ -149,7 +160,7 @@ class AddEditViewModel @Inject constructor(
             }
 
             is AddEditEvent.UploadAdvertisement -> {
-               accountUseCases.getAuthKeyUseCase().onEach { resource ->
+                accountUseCases.getAuthKeyUseCase().onEach { resource ->
                     when (resource) {
                         is Resource.Error -> {
                             uiState = uiState.copy(
@@ -193,12 +204,35 @@ class AddEditViewModel @Inject constructor(
                     showAddImageDialog = false
                 )
             }
+
+            is AddEditEvent.UpdateAdvertisement -> {
+                advertisementUseCases.updateAdvertisement(
+                    title = uiState.title,
+                    description = uiState.description,
+                    prices = uiState.prices,
+                    address = uiState.address,
+                    images = uiState.images,
+                    characteristics = uiState.characteristics,
+                    exchanges = uiState.exchanges,
+                    categories = uiState.categories,
+                    id = advertisementId!!
+                ).onEach { resource ->
+                    when (resource) {
+                        is Resource.Error -> uiState =
+                            uiState.copy(errorId = resource.messageId!!, isLoading = false)
+
+                        is Resource.Loading -> uiState = uiState.copy(isLoading = true)
+                        is Resource.Success -> uiState =
+                            uiState.copy(advertisementUploaded = true, isLoading = false)
+                    }
+                }.launchIn(viewModelScope)
+            }
         }
     }
 
     private fun initAdvertisement() {
-        val advertisementId = savedStateHandle.get<Int>(advertisementIdNavArgument)
         if (advertisementId != null && advertisementId > 0) {
+            println(advertisementId)
             advertisementUseCases.getAdvertisement(advertisementId).onEach { result ->
                 uiState = when (result) {
                     is Resource.Error -> {
@@ -212,8 +246,18 @@ class AddEditViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
+                        val advertisement = result.data!!
                         AddEditState(
-                            images = uiState.images
+                            images = advertisement.images,
+                            title = advertisement.title,
+                            description = advertisement.description,
+                            address = advertisement.address,
+                            prices = advertisement.prices.map { AddEditPrice.fromPrice(it) },
+                            characteristics = advertisement.characteristics,
+                            exchanges = advertisement.exchanges,
+                            categories = advertisement.categories,
+                            isLoading = false,
+                            isEdit = true,
                         )
                     }
                 }

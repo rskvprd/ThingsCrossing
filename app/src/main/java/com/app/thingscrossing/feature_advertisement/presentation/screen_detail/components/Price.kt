@@ -37,12 +37,14 @@ fun Price(
             text = "${mainPrice.value} ${mainPrice.currency.symbol}",
             style = MaterialTheme.typography.headlineLarge
         )
-        TextButton(onClick = { onChangeOtherPricesVisibility() }) {
-            Text(text = stringResource(id = R.string.more))
-            Icon(
-                imageVector = if (!isOtherPricesVisible) Icons.Default.ExpandMore else Icons.Default.ExpandLess,
-                contentDescription = null
-            )
+        if (prices.size > 1) {
+            TextButton(onClick = { onChangeOtherPricesVisibility() }) {
+                Text(text = stringResource(id = R.string.more))
+                Icon(
+                    imageVector = if (!isOtherPricesVisible) Icons.Default.ExpandMore else Icons.Default.ExpandLess,
+                    contentDescription = null
+                )
+            }
         }
     }
 

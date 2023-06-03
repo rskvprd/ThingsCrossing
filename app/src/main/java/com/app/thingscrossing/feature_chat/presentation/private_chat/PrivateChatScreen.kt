@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.ErrorDialog
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.LoadingDialog
 import com.app.thingscrossing.feature_chat.presentation.private_chat.components.ChatBottomBar
@@ -18,7 +17,7 @@ import com.app.thingscrossing.feature_chat.presentation.private_chat.components.
 import com.app.thingscrossing.feature_chat.presentation.private_chat.components.MessageList
 
 @Composable
-fun ChatScreen(
+fun PrivateChatScreen(
     viewModel: PrivateChatViewModel = hiltViewModel(),
     navController: NavController,
 ) {

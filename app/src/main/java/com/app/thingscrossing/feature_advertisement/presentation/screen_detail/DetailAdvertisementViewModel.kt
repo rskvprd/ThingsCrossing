@@ -8,24 +8,29 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.Resource
-import com.app.thingscrossing.core.navigation.advertisementIdNavArgument
+import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.use_case.AdvertisementUseCases
+import com.app.thingscrossing.feature_advertisement.navigation.AdvertisementScreen
 import com.app.thingscrossing.feature_chat.domain.model.ChatRoom
 import com.app.thingscrossing.feature_chat.domain.use_case.ChatUseCases
-import com.app.thingscrossing.feature_chat.presentation.util.ChatScreens
+import com.app.thingscrossing.feature_chat.navigation.ChatScreens
+import com.app.thingscrossing.services.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(
+class DetailAdvertisementViewModel @Inject constructor(
     private val advertisementUseCases: AdvertisementUseCases,
     private val chatUseCases: ChatUseCases,
     private val savedStateHandle: SavedStateHandle,
+    private val authService: AuthService,
 ) : ViewModel() {
     var uiState by mutableStateOf(DetailState())
         private set
@@ -34,7 +39,7 @@ class DetailViewModel @Inject constructor(
         private set
 
     init {
-        val advertisementId = savedStateHandle.get<Int>(advertisementIdNavArgument)
+        val advertisementId = savedStateHandle.get<Int>(AdvertisementScreen.Detail.ID_KEY)
         if (advertisementId != null) {
             advertisementUseCases.getAdvertisement(advertisementId).onEach { result ->
                 uiState = when (result) {
@@ -71,38 +76,54 @@ class DetailViewModel @Inject constructor(
             }
 
             is DetailEvent.ToChat -> {
-                chatUseCases.getOrCreatePrivateRoom(event.profile).onEach { resource ->
-                    when (resource) {
-                        is Resource.Error -> {
-                            uiState = uiState.copy(
-                                errorId = resource.messageId,
-                                isLoading = false,
-                            )
-                        }
+                viewModelScope.launch {
+                    while (!authService.isInitialized) delay(10)
 
-                        is Resource.Loading -> {
-                            uiState = uiState.copy(
-                                isLoading = true
-                            )
-                        }
-
-                        is Resource.Success -> {
-                            val room: ChatRoom = resource.data!!
-
-                            sendEvent(
-                                DetailViewModelEvent.Navigate(
-                                    route = ChatScreens.ChatScreen.route +
-                                            "?userId=${event.profile.id}&roomId=${room.id}"
-                                )
-                            )
-
-                            uiState = uiState.copy(
-                                isLoading = false,
-                            )
-                        }
+                    if (authService.isAuthenticated) {
+                        createRoomAndGoToChat(event.profile)
+                    } else {
+                        uiState = uiState.copy(
+                            errorId = R.string.sign_in_before_conversation
+                        )
                     }
-                }.launchIn(viewModelScope)
+                }
             }
+
+            DetailEvent.DismissError -> uiState = uiState.copy(errorId = null)
         }
+    }
+
+    private suspend fun createRoomAndGoToChat(profile: UserProfile) {
+        chatUseCases.getOrCreatePrivateRoom(profile).onEach { resource ->
+            when (resource) {
+                is Resource.Error -> {
+                    uiState = uiState.copy(
+                        errorId = resource.messageId,
+                        isLoading = false,
+                    )
+                }
+
+                is Resource.Loading -> {
+                    uiState = uiState.copy(
+                        isLoading = true
+                    )
+                }
+
+                is Resource.Success -> {
+                    val room: ChatRoom = resource.data!!
+
+                    sendEvent(
+                        DetailViewModelEvent.Navigate(
+                            route = ChatScreens.ChatScreen.route +
+                                    "?userId=${profile.id}&roomId=${room.id}"
+                        )
+                    )
+
+                    uiState = uiState.copy(
+                        isLoading = false,
+                    )
+                }
+            }
+        }.collect()
     }
 }

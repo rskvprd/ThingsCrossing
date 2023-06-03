@@ -7,13 +7,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.core.Resource
+import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
 import com.app.thingscrossing.feature_chat.domain.use_case.ChatUseCases
 import com.app.thingscrossing.services.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +30,7 @@ class PrivateChatViewModel @Inject constructor(
     private val companionUserProfileId: Int = savedStateHandle["userId"]!!
     private val roomId: Int = savedStateHandle["roomId"]!!
 
-    val userProfile = authService.currentUserProfile!!
+    lateinit var userProfile: UserProfile
 
     var uiState by mutableStateOf(PrivateChatState())
         private set
@@ -36,8 +39,14 @@ class PrivateChatViewModel @Inject constructor(
         private set
 
     init {
-        getCompanionUserProfile()
-        getMessageList()
+        viewModelScope.launch {
+            while (!authService.isInitialized) {
+                delay(10)
+            }
+            userProfile = authService.currentUserProfile!!
+            getCompanionUserProfile()
+            getMessageList()
+        }
     }
 
     fun onEvent(event: ChatEvent) {

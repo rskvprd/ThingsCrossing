@@ -13,7 +13,7 @@ import com.app.thingscrossing.feature_account.presentation.sign_in.SignInScreen
 import com.app.thingscrossing.feature_account.presentation.sign_in.SignInViewModel
 
 fun NavGraphBuilder.accountGraph(navController: NavHostController) {
-    navigation(startDestination = AccountScreens.SignInScreen.route, route = AccountScreens.route) {
+    navigation(startDestination = AccountScreens.SignInScreen.route, route = AccountScreens.ROUTE) {
         composable(
             route = AccountScreens.ProfileScreen.route,
         ) {

@@ -13,14 +13,12 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.core.presentation.components.BottomNavigationBar
-import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchViewModel
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.components.FilterBottomSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BaseScreenWithBottomNavigation(
+fun BaseScreen(
     navController: NavHostController,
-    searchViewModel: SearchViewModel,
     content: @Composable () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
@@ -36,7 +34,7 @@ fun BaseScreenWithBottomNavigation(
     ) {
         Scaffold(
             bottomBar = {
-                BottomNavigationBar(navController, searchViewModel)
+                BottomNavigationBar(navController)
             },
         ) { paddingValues ->
             Box(Modifier.padding(paddingValues)) {

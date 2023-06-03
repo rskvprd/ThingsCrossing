@@ -24,4 +24,5 @@ data class AddEditState(
     @StringRes val errorId: Int? = null,
     val showAddImageDialog: Boolean = false,
     val advertisementUploaded: Boolean = false,
+    val isEdit: Boolean = false,
 )

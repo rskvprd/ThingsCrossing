@@ -9,23 +9,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.presentation.components.BackTopAppBar
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.*
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.util.AddEditPrice
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditScreen(
     navController: NavHostController,
-    viewModel: AddEditViewModel = hiltViewModel(),
+    uiState: AddEditState,
+    onEvent: (AddEditEvent) -> Unit,
+    eventFlow: MutableSharedFlow<AddEditViewModelEvent>
 ) {
-    val uiState = viewModel.uiState
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState()
+
+    LaunchedEffect(key1 = null) {
+        eventFlow.collectLatest { event ->
+            when (event) {
+                is AddEditViewModelEvent.Navigate -> navController.navigate(event.route)
+            }
+        }
+    }
 
     if (uiState.advertisementUploaded) {
         AlertDialog(
@@ -53,9 +63,9 @@ fun AddEditScreen(
         sheetContent = {
             CurrencyBottomSheet(
                 uiState = uiState,
-                onAddCurrency = { currency -> viewModel.onEvent(AddEditEvent.AddNewCurrency(currency)) },
+                onAddCurrency = { currency -> onEvent(AddEditEvent.AddNewCurrency(currency)) },
                 onRemoveCurrency = { currency ->
-                    viewModel.onEvent(
+                    onEvent(
                         AddEditEvent.DeleteCurrency(
                             currency
                         )
@@ -66,7 +76,7 @@ fun AddEditScreen(
     ) { paddingValues ->
         if (uiState.errorId != null) {
             ErrorDialog(
-                onDismissError = { viewModel.onEvent(AddEditEvent.DismissError) },
+                onDismissError = { onEvent(AddEditEvent.DismissError) },
                 uiState.errorId
             )
         }
@@ -87,8 +97,8 @@ fun AddEditScreen(
             ) {
                 TitleDescriptionBlock(
                     uiState = uiState,
-                    onTitleChange = { viewModel.onEvent(AddEditEvent.TitleChange(it)) },
-                    onDescriptionChange = { viewModel.onEvent(AddEditEvent.DescriptionChange(it)) },
+                    onTitleChange = { onEvent(AddEditEvent.TitleChange(it)) },
+                    onDescriptionChange = { onEvent(AddEditEvent.DescriptionChange(it)) },
                 )
             }
             Block(
@@ -96,24 +106,24 @@ fun AddEditScreen(
                 description = stringResource(R.string.image_description)
             ) {
                 AddEditImagesBlock(
-                    onPickImage = { uri -> uri?.let { viewModel.onEvent(AddEditEvent.PickImage(it)) } },
+                    onPickImage = { uri -> uri?.let { onEvent(AddEditEvent.PickImage(it)) } },
                     onConfirmImage = {
                         uiState.currentImageUri?.let { uri ->
-                            viewModel.onEvent(
+                            onEvent(
                                 AddEditEvent.UploadImage(uri)
                             )
                         }
                     },
-                    onDismissImage = { viewModel.onEvent(AddEditEvent.DropImage) },
+                    onDismissImage = { onEvent(AddEditEvent.DropImage) },
                     uiState = uiState,
                     images = uiState.images.map { image ->
                         { AsyncImage(model = image.url, contentDescription = null) }
                     },
                     onAddImageClick = {
-                        viewModel.onEvent(AddEditEvent.AddImageClick)
+                        onEvent(AddEditEvent.AddImageClick)
                     },
                     dismissAddImageDialog = {
-                        viewModel.onEvent(AddEditEvent.DismissAddImageDialog)
+                        onEvent(AddEditEvent.DismissAddImageDialog)
                     }
                 )
             }
@@ -125,7 +135,7 @@ fun AddEditScreen(
                     modifier = Modifier.fillMaxWidth(),
                     value = uiState.address,
                     onValueChange = { address ->
-                        viewModel.onEvent(AddEditEvent.AddressChange(address))
+                        onEvent(AddEditEvent.AddressChange(address))
                     },
                     label = R.string.address,
                     placeholder = R.string.address_placeholder
@@ -140,7 +150,7 @@ fun AddEditScreen(
                     prices = uiState.prices,
                     scope = scope,
                     onPriceChange = { price, value ->
-                        viewModel.onEvent(
+                        onEvent(
                             AddEditEvent.ChangePrice(
                                 AddEditPrice(
                                     currency = price.currency,
@@ -154,13 +164,18 @@ fun AddEditScreen(
 
             Button(
                 onClick = {
-                    viewModel.onEvent(AddEditEvent.UploadAdvertisement)
+                    if (uiState.isEdit) {
+                        onEvent(AddEditEvent.UpdateAdvertisement)
+                    } else {
+                        onEvent(AddEditEvent.UploadAdvertisement)
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 20.dp)
             ) {
-                Text(text = stringResource(id = R.string.upload_advertisement))
+                val textId = if (uiState.isEdit) R.string.save else R.string.upload_advertisement
+                Text(text = stringResource(id = textId))
             }
         }
     }

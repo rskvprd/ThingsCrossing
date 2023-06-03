@@ -8,7 +8,7 @@ sealed class AccountScreens(val route: String) {
     object ProfileScreen: AccountScreens("profile-screen")
 
     companion object {
-        const val route = "account"
+        const val ROUTE = "account"
         val ALL_ROUTES = listOf(
             SignUpScreen.route,
             SignInScreen.route,
