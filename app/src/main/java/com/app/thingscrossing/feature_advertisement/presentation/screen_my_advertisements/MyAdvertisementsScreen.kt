@@ -66,6 +66,13 @@ fun MyAdvertisementsScreen(
                         )
                     )
                 },
+                onAdvertisementClick = { advertisement ->
+                    onEvent(
+                        MyAdvertisementsEvent.ToDetailAdvertisement(
+                            advertisement.id!!
+                        )
+                    )
+                },
                 isLoading = uiState.isLoading
             )
         }

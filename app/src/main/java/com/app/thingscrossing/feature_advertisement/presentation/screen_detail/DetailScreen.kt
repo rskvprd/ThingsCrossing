@@ -38,12 +38,12 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun DetailAdvertisementScreen(
     navController: NavHostController,
-    viewModel: DetailAdvertisementViewModel = hiltViewModel(),
+    viewModel: DetailViewModel = hiltViewModel(),
 ) {
     val uiState = viewModel.uiState
 
     LaunchedEffect(key1 = null) {
-        viewModel.eventFlow.collectLatest {event ->
+        viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is DetailViewModelEvent.Navigate -> {
                     navController.navigate(event.route)
@@ -58,9 +58,11 @@ fun DetailAdvertisementScreen(
             title = stringResource(id = R.string.detail_screen_title)
         )
     }) { paddingValues ->
-        Box(modifier = Modifier
-            .padding(paddingValues)
-            .fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
             if (uiState.isLoading) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
@@ -69,7 +71,10 @@ fun DetailAdvertisementScreen(
             }
 
             if (uiState.errorId != null) {
-                ErrorDialog(onDismissError = { viewModel.onEvent(DetailEvent.DismissError) }, errorMessageId = uiState.errorId)
+                ErrorDialog(
+                    onDismissError = { viewModel.onEvent(DetailEvent.DismissError) },
+                    errorMessageId = uiState.errorId
+                )
             }
 
             Column(
@@ -101,7 +106,8 @@ fun DetailAdvertisementScreen(
                     userProfile = uiState.advertisement.userProfile!!, onMessageClick = {
                         viewModel.onEvent(DetailEvent.ToChat(profile = uiState.advertisement.userProfile))
                     }, modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    isMyAdvertisement = uiState.isMyAdvertisement
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))

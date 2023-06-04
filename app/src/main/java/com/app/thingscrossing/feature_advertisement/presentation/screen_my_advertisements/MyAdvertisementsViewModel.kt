@@ -66,6 +66,18 @@ class MyAdvertisementsViewModel @Inject constructor(
                     )
                 }
             }
+
+            is MyAdvertisementsEvent.ToDetailAdvertisement -> {
+                viewModelScope.launch {
+                    sendEvent(
+                        MyAdvertisementsViewModelEvent.Navigate(
+                            AdvertisementScreen.Detail(
+                                event.advertisementId
+                            ).route
+                        )
+                    )
+                }
+            }
         }
     }
 

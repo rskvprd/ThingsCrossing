@@ -20,14 +20,14 @@ data class Advertisement(
 ) {
     companion object {
         val DEFAULT: Advertisement = Advertisement(
-            title = "",
-            description = "",
-            prices = ArrayList(),
-            address = "",
-            characteristics = ArrayList(),
-            images = ArrayList(),
-            exchanges = ArrayList(),
-            categories = ArrayList(),
+            title = "iPhone X",
+            description = "The best iPhone X in the World!",
+            prices = listOf(Price(null, 100.0, Currency.USD)),
+            address = "USA, Texas, Wall st., 1",
+            characteristics = listOf(Characteristic("display", "100 inch")),
+            images = emptyList(),
+            exchanges = listOf(Exchange("Samsung Galaxy S20"), Exchange("Xiaomi Redmi Note 5")),
+            categories = listOf(Category("Phones"), Category("Apple")),
         )
     }
 }

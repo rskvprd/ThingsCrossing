@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.Resource
 import com.app.thingscrossing.feature_account.domain.model.UserProfile
-import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.use_case.AdvertisementUseCases
 import com.app.thingscrossing.feature_advertisement.navigation.AdvertisementScreen
 import com.app.thingscrossing.feature_chat.domain.model.ChatRoom
@@ -26,7 +25,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailAdvertisementViewModel @Inject constructor(
+class DetailViewModel @Inject constructor(
     private val advertisementUseCases: AdvertisementUseCases,
     private val chatUseCases: ChatUseCases,
     private val savedStateHandle: SavedStateHandle,
@@ -52,7 +51,10 @@ class DetailAdvertisementViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        DetailState(advertisement = result.data ?: Advertisement.DEFAULT)
+                        DetailState(
+                            advertisement = result.data!!,
+                            isMyAdvertisement = authService.currentUserProfile?.id == result.data.userProfile!!.id
+                        )
                     }
                 }
             }.launchIn(viewModelScope)

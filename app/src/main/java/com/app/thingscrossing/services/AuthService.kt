@@ -2,6 +2,7 @@ package com.app.thingscrossing.services
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
+import com.app.thingscrossing.R
 import com.app.thingscrossing.core.Resource
 import com.app.thingscrossing.core.addBaseUrl
 import com.app.thingscrossing.core.util.isNetworkAvailable
@@ -168,14 +169,21 @@ class AuthService @Inject constructor(
 
             if (authKey != null) {
                 if (!context.isNetworkAvailable) {
-                    throw Exception("Network unavailable")
+                    isInitialized = false
+                    return@launch
                 }
                 accountUseCases.getUserProfileByAuthKey(authKey = authKey!!)
                     .onEach { profileResource ->
                         when (profileResource) {
                             is Resource.Error -> {
-                                println(authKey)
-                                throw Exception("AuthToken not correct")
+                                when (profileResource.messageId) {
+                                    R.string.user_with_this_auth_key_does_not_exist -> {
+                                        signOut()
+                                    }
+                                    else -> {
+                                        isInitialized = false
+                                    }
+                                }
                             }
 
                             is Resource.Loading -> {}

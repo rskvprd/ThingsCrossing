@@ -10,7 +10,7 @@ import androidx.navigation.navigation
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.AddEditScreen
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.AddEditViewModel
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.DetailAdvertisementScreen
-import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.DetailAdvertisementViewModel
+import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.DetailViewModel
 import com.app.thingscrossing.feature_advertisement.presentation.screen_my_advertisements.MyAdvertisementsScreen
 import com.app.thingscrossing.feature_advertisement.presentation.screen_my_advertisements.MyAdvertisementsViewModel
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.SearchScreen
@@ -44,10 +44,10 @@ fun NavGraphBuilder.advertisementGraph(navController: NavHostController) {
                 }
             )
         ) {
-            val detailAdvertisementViewModel: DetailAdvertisementViewModel = hiltViewModel()
+            val detailViewModel: DetailViewModel = hiltViewModel()
             DetailAdvertisementScreen(
                 navController = navController,
-                viewModel = detailAdvertisementViewModel
+                viewModel = detailViewModel
             )
         }
 

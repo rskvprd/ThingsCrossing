@@ -35,6 +35,7 @@ fun ProfileCardSmall(
     userProfile: UserProfile,
     onMessageClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isMyAdvertisement: Boolean,
 ) {
     ElevatedCard(
         modifier = modifier,
@@ -56,33 +57,40 @@ fun ProfileCardSmall(
                     contentScale = ContentScale.Crop
                 )
                 Spacer(modifier = Modifier.width(5.dp))
-                Text(text = userProfile.user.username, fontSize = 18.sp)
+                Text(
+                    text = if (!isMyAdvertisement) {
+                        userProfile.user.username
+                    } else stringResource(id = R.string.it_is_you),
+                    fontSize = 18.sp
+                )
             }
-            Card(
-                onClick = { onMessageClick() },
-                modifier = Modifier.padding(10.dp)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .height(35.dp)
+            if (!isMyAdvertisement) {
+                Card(
+                    onClick = { onMessageClick() },
+                    modifier = Modifier.padding(10.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Send,
-                        contentDescription = null,
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .padding(end = 10.dp)
-                            .size(20.dp),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                    Text(
-                        text = stringResource(id = R.string.send_message),
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                            .padding(10.dp)
+                            .height(35.dp)
+                    ) {
+
+                        Icon(
+                            imageVector = Icons.Default.Send,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 10.dp)
+                                .size(20.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = stringResource(id = R.string.send_message),
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
                 }
             }
         }
     }
-
 }

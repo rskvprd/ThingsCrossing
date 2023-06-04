@@ -8,4 +8,5 @@ data class DetailState(
     @StringRes val errorId: Int? = null,
     val advertisement: Advertisement = Advertisement.DEFAULT,
     val isOtherPricesVisible: Boolean = false,
+    val isMyAdvertisement: Boolean = false,
 )

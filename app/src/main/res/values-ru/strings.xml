@@ -124,4 +124,7 @@
     <string name="but_you_can_add_it">Но это легко исправить — разместите первое объявление.</string>
     <string name="save">Сохранить</string>
     <string name="sign_in_before_check_your_advertisements">Вы должны войти в аккаунт перед тем как добавлять новые объявления</string>
+    <string name="advertisement_updated">Объявление успешно обновлено</string>
+    <string name="it_is_your_advertisement">Это ваше объявление</string>
+    <string name="it_is_you">Вы</string>
 </resources>

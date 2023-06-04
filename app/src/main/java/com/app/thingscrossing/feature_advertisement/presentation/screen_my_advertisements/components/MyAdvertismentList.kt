@@ -18,6 +18,7 @@ fun MyAdvertisementList(
     paddingValues: PaddingValues,
     advertisementList: List<Advertisement>,
     onEditAdvertisement: (Advertisement) -> Unit,
+    onAdvertisementClick: (Advertisement) -> Unit,
     isLoading: Boolean,
 ) {
     val shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.Window)
@@ -38,8 +39,10 @@ fun MyAdvertisementList(
         } else {
             items(advertisementList.size) { index ->
                 MyAdvertisementItem(
-                    advertisementList[index]
-                ) { onEditAdvertisement(advertisementList[index]) }
+                    advertisementList[index],
+                    onAdvertisementClick = {onAdvertisementClick(advertisementList[index])},
+                    onEditAdvertisement = {onEditAdvertisement(advertisementList[index])}
+                )
             }
         }
 

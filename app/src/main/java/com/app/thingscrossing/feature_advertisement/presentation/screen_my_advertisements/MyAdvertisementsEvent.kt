@@ -4,6 +4,8 @@ sealed interface MyAdvertisementsEvent {
     object DismissError : MyAdvertisementsEvent
     object AddAdvertisement : MyAdvertisementsEvent
     class EditAdvertisement(val advertisementId: Int) : MyAdvertisementsEvent
+
+    class ToDetailAdvertisement(val advertisementId: Int): MyAdvertisementsEvent
 }
 
 sealed interface MyAdvertisementsViewModelEvent {

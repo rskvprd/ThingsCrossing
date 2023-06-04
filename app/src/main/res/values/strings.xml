@@ -126,4 +126,7 @@
     <string name="but_you_can_add_it">But you can add it</string>
     <string name="save">Save</string>
     <string name="sign_in_before_check_your_advertisements">You should sign in before add new advertisements</string>
+    <string name="advertisement_updated">Advertisement successfully updated</string>
+    <string name="it_is_your_advertisement">It is your advertisement</string>
+    <string name="it_is_you">You</string>
 </resources>

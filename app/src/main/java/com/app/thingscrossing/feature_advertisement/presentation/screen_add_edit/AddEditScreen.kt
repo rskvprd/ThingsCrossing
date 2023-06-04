@@ -13,6 +13,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.presentation.components.BackTopAppBar
+import com.app.thingscrossing.feature_advertisement.navigation.AdvertisementScreen
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.*
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.util.AddEditPrice
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -39,14 +40,32 @@ fun AddEditScreen(
 
     if (uiState.advertisementUploaded) {
         AlertDialog(
-            onDismissRequest = { navController.navigateUp() },
+            onDismissRequest = {
+                if (uiState.isEdit) {
+                    navController.navigate(AdvertisementScreen.MyAdvertisements.route)
+                } else navController.navigateUp()
+            },
             confirmButton = {
-                Button(onClick = { navController.navigateUp() }) {
+                Button(onClick = {
+                    if (uiState.isEdit) {
+                        navController.navigate(AdvertisementScreen.MyAdvertisements.route)
+                    } else navController.navigateUp()
+                }) {
                     Text(text = stringResource(id = R.string.ok))
                 }
             },
             title = { Text(text = stringResource(id = R.string.congratulation)) },
-            text = { Text(text = stringResource(id = R.string.advertisement_uploaded)) }
+            text = {
+                Text(
+                    text = stringResource(
+                        id = if (uiState.isEdit) {
+                            R.string.advertisement_updated
+                        } else {
+                            R.string.advertisement_uploaded
+                        }
+                    )
+                )
+            }
         )
     }
 
