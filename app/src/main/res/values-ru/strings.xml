@@ -142,4 +142,8 @@
     <string name="gift_advertisement_label">Бесплатно</string>
     <string name="exchange">Обмен</string>
     <string name="exchange_system_description">Вы можете установить цену и/или товары, на которые хотите обменяться. Если ничего не установить, то ваш товар будет бесплатным для всех.</string>
+    <string name="trade">Торговля</string>
+    <string name="gift">Подарок</string>
+    <string name="apply">Применить</string>
+    <string name="advertisement_type">Тип объявления</string>
 </resources>

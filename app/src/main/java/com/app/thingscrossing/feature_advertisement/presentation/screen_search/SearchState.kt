@@ -2,6 +2,7 @@ package com.app.thingscrossing.feature_advertisement.presentation.screen_search
 
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementSortVariant
+import com.app.thingscrossing.feature_advertisement.presentation.util.FilterOption
 
 data class SearchState(
     val errorId: Int? = null,
@@ -14,6 +15,7 @@ data class SearchState(
     val currentBottomSheet: BottomSheet = BottomSheet.SortBottomSheet,
     val advertisements: List<Advertisement> = emptyList(),
     val sortVariant: AdvertisementSortVariant = AdvertisementSortVariant.Date,
+    val filterOptions: List<FilterOption> = emptyList()
 )
 
 sealed interface BottomSheet {

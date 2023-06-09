@@ -7,11 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.Resource
+import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.use_case.AdvertisementUseCases
 import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementSortVariant
+import com.app.thingscrossing.feature_advertisement.presentation.util.FilterOption
 import com.app.thingscrossing.services.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -99,6 +100,22 @@ class SearchViewModel @Inject constructor(
             }
 
             SearchEvent.DismissError -> uiState = uiState.copy(errorId = null)
+            SearchEvent.Filter -> {
+                getAdvertisementList(searchValue = uiState.searchValue)
+                sendEvent(SearchViewModelEvent.HideBottomSheet)
+            }
+
+            is SearchEvent.ToggleFilterOption -> {
+                uiState = if (uiState.filterOptions.contains(event.option)) {
+                    uiState.copy(
+                        filterOptions = uiState.filterOptions - event.option
+                    )
+                } else {
+                    uiState.copy(
+                        filterOptions = uiState.filterOptions + event.option
+                    )
+                }
+            }
         }
     }
 
@@ -117,6 +134,7 @@ class SearchViewModel @Inject constructor(
         searchValue: String? = null,
         sortVariant: AdvertisementSortVariant = AdvertisementSortVariant.Date,
         isSortAscending: Boolean = false,
+        filterOptions: List<FilterOption> = emptyList(),
     ) {
         advertisementUseCases.searchAdvertisements(
             searchValue = searchValue ?: "",
@@ -137,7 +155,10 @@ class SearchViewModel @Inject constructor(
 
                 is Resource.Success -> {
                     uiState.copy(
-                        advertisements = result.data ?: emptyList(),
+                        advertisements = filterAdvertisements(
+                            filterOptions = uiState.filterOptions,
+                            advertisements = result.data!!
+                        ),
                         isLoading = false
                     )
                 }
@@ -145,4 +166,23 @@ class SearchViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun filterAdvertisements(
+        filterOptions: List<FilterOption>,
+        advertisements: List<Advertisement>,
+    ): List<Advertisement> {
+        return advertisements.filter { advertisement ->
+            val isExchange = advertisement.exchanges.isNotEmpty()
+            val isTrade = advertisement.prices.isNotEmpty()
+            val isGift =
+                advertisement.exchanges.isEmpty() && advertisement.prices.isEmpty()
+
+            val shouldBeExchange = filterOptions.contains(FilterOption.Exchange)
+            val shouldBeTrade = filterOptions.contains(FilterOption.Trade)
+            val shouldBeGift = filterOptions.contains(FilterOption.Gift)
+
+            (!shouldBeExchange || isExchange)
+                    && (!shouldBeTrade || isTrade)
+                    && (!shouldBeGift || isGift)
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.app.thingscrossing.feature_advertisement.presentation.screen_search
 
 import com.app.thingscrossing.feature_advertisement.domain.util.AdvertisementSortVariant
+import com.app.thingscrossing.feature_advertisement.presentation.util.FilterOption
 
 sealed interface SearchEvent {
     object RefreshNetwork : SearchEvent
@@ -25,6 +26,9 @@ sealed interface SearchEvent {
 
     object EraseSearchBox : SearchEvent
 
+    class ToggleFilterOption(val option: FilterOption): SearchEvent
+
+    object Filter: SearchEvent
 }
 
 sealed interface SearchViewModelEvent {

@@ -10,10 +10,10 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.app.thingscrossing.core.presentation.components.SearchBox
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.ErrorDialog
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.components.AdvertisementList
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.components.FilterBottomSheet
+import com.app.thingscrossing.feature_advertisement.presentation.screen_search.components.SearchBox
 import com.app.thingscrossing.feature_advertisement.presentation.screen_search.components.SortBottomSheet
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -34,7 +34,11 @@ fun SearchScreen(
         sheetContent = {
             when (uiState.currentBottomSheet) {
                 BottomSheet.FilterBottomSheet -> {
-                    FilterBottomSheet()
+                    FilterBottomSheet(
+                        onToggleFilterOption = {onEvent(SearchEvent.ToggleFilterOption(it))},
+                        onFilter = { onEvent(SearchEvent.Filter) },
+                        filterOptions = uiState.filterOptions
+                    )
                 }
 
                 BottomSheet.SortBottomSheet -> {

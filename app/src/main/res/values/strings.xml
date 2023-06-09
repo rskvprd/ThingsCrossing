@@ -144,4 +144,8 @@
     <string name="gift_advertisement_label">Gift</string>
     <string name="exchange">Exchange</string>
     <string name="exchange_system_description">You can add prices and/or exchanges. If you don\'t did it your product will be represented as free product</string>
+    <string name="trade">Trade</string>
+    <string name="gift">Gift</string>
+    <string name="apply">Apply</string>
+    <string name="advertisement_type">Advertisement type</string>
 </resources>

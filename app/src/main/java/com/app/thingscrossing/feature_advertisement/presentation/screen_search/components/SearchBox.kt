@@ -1,4 +1,4 @@
-package com.app.thingscrossing.core.presentation.components
+package com.app.thingscrossing.feature_advertisement.presentation.screen_search.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
