@@ -1,22 +1,22 @@
 package com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit
 
 import android.net.Uri
-import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.model.Currency
+import com.app.thingscrossing.feature_advertisement.domain.model.Exchange
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.util.AddEditPrice
 
 sealed interface AddEditEvent {
     /**Dismiss any error in application*/
-    object DismissError: AddEditEvent
+    object DismissError : AddEditEvent
 
     /**Upload advertisement to backend*/
-    object UploadAdvertisement: AddEditEvent
+    object UploadAdvertisement : AddEditEvent
 
     /**Upload image to backend*/
-    data class UploadImage(val uri: Uri): AddEditEvent
+    data class UploadImage(val uri: Uri) : AddEditEvent
 
     /**On dismiss image*/
-    object DropImage: AddEditEvent
+    object DropImage : AddEditEvent
 
     /**On change address in text field*/
     data class AddressChange(val address: String) : AddEditEvent
@@ -34,7 +34,7 @@ sealed interface AddEditEvent {
     data class AddNewCurrency(val currency: Currency) : AddEditEvent
 
     /**Change price value*/
-    data class ChangePrice(val price: AddEditPrice): AddEditEvent
+    data class ChangePrice(val price: AddEditPrice) : AddEditEvent
 
     /**When user pick image from gallery and Android give me Uri*/
     data class PickImage(val uri: Uri) : AddEditEvent
@@ -44,7 +44,13 @@ sealed interface AddEditEvent {
 
     object DismissAddImageDialog : AddEditEvent
 
-    object UpdateAdvertisement: AddEditEvent
+    object UpdateAdvertisement : AddEditEvent
+
+    object AddExchange : AddEditEvent
+
+    class ChangeNewExchange(val exchange: String) : AddEditEvent
+
+    class DeleteExchange(val exchange: Exchange) : AddEditEvent
 }
 
 sealed interface AddEditViewModelEvent {

@@ -127,4 +127,19 @@
     <string name="advertisement_updated">Объявление успешно обновлено</string>
     <string name="it_is_your_advertisement">Это ваше объявление</string>
     <string name="it_is_you">Вы</string>
+    <string name="place">Разместить объявление</string>
+    <string name="you_need_sign_in">Войдите в аккаунт</string>
+    <string name="cancel">Отмена</string>
+    <string name="confirm_dialog_title">Подтверждение</string>
+    <string name="confirm_sign_out_dialog_text">Вы уверены что хотите выйти?</string>
+    <string name="delete_advertisement_warning">Вы уверены что хотите удалить объявление? Оно удалится навсегда и его больше нельзя будет восстановить.</string>
+    <string name="delete">Удалить</string>
+    <string name="exchange_title">Обмен</string>
+    <string name="exchange_description">Чтобы добавить товар, на который вы хотите обменять товар, впишите название в поле ниже</string>
+    <string name="add_exchange">Бартер</string>
+    <string name="change_on">Обмен на</string>
+    <string name="or">Или</string>
+    <string name="gift_advertisement_label">Бесплатно</string>
+    <string name="exchange">Обмен</string>
+    <string name="exchange_system_description">Вы можете установить цену и/или товары, на которые хотите обменяться. Если ничего не установить, то ваш товар будет бесплатным для всех.</string>
 </resources>

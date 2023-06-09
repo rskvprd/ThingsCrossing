@@ -4,6 +4,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.app.thingscrossing.R
 
@@ -17,7 +18,8 @@ fun UsernameField(
     TextFieldWithValidation(
         value = usernameValue,
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Ascii
+            keyboardType = KeyboardType.Ascii,
+            imeAction = ImeAction.Next
         ),
         onValueChange = { username ->
             onUsernameChange(username)

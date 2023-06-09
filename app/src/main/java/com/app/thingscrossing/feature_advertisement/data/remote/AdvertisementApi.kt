@@ -3,6 +3,7 @@ package com.app.thingscrossing.feature_advertisement.data.remote
 import com.app.thingscrossing.feature_advertisement.domain.model.Advertisement
 import com.app.thingscrossing.feature_advertisement.domain.model.ImageModel
 import okhttp3.MultipartBody
+import retrofit2.Response
 import retrofit2.http.*
 
 interface AdvertisementApi {
@@ -19,7 +20,10 @@ interface AdvertisementApi {
     )
 
     @DELETE("advertisement/{id}/")
-    suspend fun deleteAdvertisement(@Path("id") id: Int)
+    suspend fun deleteAdvertisement(
+        @Path("id") id: Int,
+        @Header("Authorization") authKey: String,
+    ) : Response<Unit>
 
     @GET("advertisement/search/")
     suspend fun searchAdvertisements(

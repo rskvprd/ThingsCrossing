@@ -119,6 +119,13 @@ class ProfileViewModel @Inject constructor(
                 sendEvent(ProfileViewModelEvent.Navigate(AccountScreens.SignInScreen.route))
                 authService.signOut()
             }
+
+            ProfileEvent.DismissSignOutDialog -> uiState =
+                uiState.copy(showConfirmSignOutDialog = false)
+
+
+            ProfileEvent.ShowConfirmSignOutDialog -> uiState =
+                uiState.copy(showConfirmSignOutDialog = true)
         }
     }
 }

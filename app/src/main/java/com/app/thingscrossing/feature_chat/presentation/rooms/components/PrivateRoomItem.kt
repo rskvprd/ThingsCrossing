@@ -7,10 +7,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,6 +28,8 @@ import coil.compose.AsyncImage
 import com.app.thingscrossing.core.addBaseUrl
 import com.app.thingscrossing.feature_account.domain.model.UserProfile
 import com.app.thingscrossing.feature_chat.domain.model.ChatRoom
+import com.valentinilk.shimmer.Shimmer
+import com.valentinilk.shimmer.shimmer
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -90,6 +95,19 @@ fun PrivateRoomItem(
         Divider(modifier = Modifier.align(Alignment.BottomEnd))
     }
 }
+
+@Composable
+fun LoadingChatRoomItem(shimmer: Shimmer) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
+            .shimmer(shimmer)
+    ) {
+
+    }
+}
+
 
 /**Crop string to [size] symbols and add "..."*/
 private fun String.crop(size: Int = 20): String {

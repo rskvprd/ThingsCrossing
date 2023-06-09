@@ -25,4 +25,5 @@ data class AddEditState(
     val showAddImageDialog: Boolean = false,
     val advertisementUploaded: Boolean = false,
     val isEdit: Boolean = false,
+    val newExchange: String = "",
 )

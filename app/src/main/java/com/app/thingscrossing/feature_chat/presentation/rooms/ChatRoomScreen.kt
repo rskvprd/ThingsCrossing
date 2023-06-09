@@ -21,9 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.app.thingscrossing.R
-import com.app.thingscrossing.feature_account.domain.model.UserProfile
+import com.app.thingscrossing.core.presentation.screen_unauthorized.UnauthorizedScreen
+import com.app.thingscrossing.feature_account.navigation.AccountScreens
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.ErrorDialog
-import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.LoadingDialog
 import com.app.thingscrossing.feature_chat.presentation.rooms.components.ChatRoomList
 import kotlinx.coroutines.flow.collectLatest
 
@@ -52,9 +52,6 @@ fun ChatRoomScreen(
         )
     }
 
-    if (uiState.isLoading) {
-        LoadingDialog(progression = null)
-    }
     Scaffold(topBar = {
         TopAppBar(title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -69,7 +66,15 @@ fun ChatRoomScreen(
         })
     }) { paddingValues ->
 
-        if (!uiState.isAuthorized || uiState.chatRooms.isEmpty()) {
+        if (!uiState.isAuthorized) {
+            UnauthorizedScreen(
+                toLoginScreen = { navHostController.navigate(AccountScreens.ROUTE) },
+                additionalTextId = R.string.sign_in_before_conversation,
+                modifier = Modifier.padding(paddingValues)
+            )
+            return@Scaffold
+        }
+        if (uiState.chatRooms.isEmpty() && !uiState.isLoading) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -79,13 +84,7 @@ fun ChatRoomScreen(
                 Card(
                 ) {
                     Text(
-                        text = stringResource(
-                            if (!uiState.isAuthorized) {
-                                R.string.sign_in_before_conversation
-                            } else {
-                                R.string.no_chat_rooms
-                            }
-                        ),
+                        text = stringResource(R.string.no_chat_rooms),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(20.dp)
                     )
@@ -96,16 +95,15 @@ fun ChatRoomScreen(
 
         Box(Modifier.padding(paddingValues)) {
             ChatRoomList(
-                chatRooms = uiState.chatRooms,
-                myProfile = viewModel.currentUserProfile!!,
+                chatRooms = uiState.chatRooms, myProfile = viewModel.currentUserProfile!!,
                 onPrivateRoom = { companion, chatRoom ->
                     viewModel.onEvent(
                         ChatRoomEvent.ToPrivateChat(
-                            profile = companion,
-                            room = chatRoom
+                            profile = companion, room = chatRoom
                         )
                     )
-                }
+                },
+                isLoading = uiState.isLoading
             )
         }
     }

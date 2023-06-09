@@ -33,7 +33,8 @@ fun AddEditImagesBlock(
 ) {
     val context = LocalContext.current
     PictureList(
-        imageUrls = uiState.images.map { it.url }
+        imageUrls = uiState.images.map { it.url },
+        modifier = Modifier.height(400.dp),
     )
 
     val pickFromGalleryLauncher =

@@ -16,9 +16,11 @@ import androidx.compose.ui.unit.dp
 fun Block(
     title: String,
     description: String?,
+    modifier: Modifier = Modifier,
     content: @Composable (() -> Unit)?,
 ) {
     Column(
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(20.dp))

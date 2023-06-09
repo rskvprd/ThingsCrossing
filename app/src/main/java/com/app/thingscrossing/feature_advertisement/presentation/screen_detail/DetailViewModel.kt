@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.Resource
 import com.app.thingscrossing.feature_account.domain.model.UserProfile
+import com.app.thingscrossing.feature_account.navigation.AccountScreens
 import com.app.thingscrossing.feature_advertisement.domain.use_case.AdvertisementUseCases
 import com.app.thingscrossing.feature_advertisement.navigation.AdvertisementScreen
 import com.app.thingscrossing.feature_chat.domain.model.ChatRoom
@@ -84,9 +85,7 @@ class DetailViewModel @Inject constructor(
                     if (authService.isAuthenticated) {
                         createRoomAndGoToChat(event.profile)
                     } else {
-                        uiState = uiState.copy(
-                            errorId = R.string.sign_in_before_conversation
-                        )
+                        sendEvent(DetailViewModelEvent.Navigate(AccountScreens.ROUTE))
                     }
                 }
             }

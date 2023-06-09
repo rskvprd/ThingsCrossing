@@ -7,11 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -30,13 +27,15 @@ import com.app.thingscrossing.feature_advertisement.presentation.screen_search.c
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PictureList(imageUrls: List<String>) {
+fun PictureList(
+    imageUrls: List<String>,
+    modifier: Modifier = Modifier,
+) {
     val pagerState = rememberPagerState()
 
 
     ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
-
+        modifier = modifier.fillMaxWidth(),
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -56,7 +55,7 @@ fun PictureList(imageUrls: List<String>) {
                 state = pagerState
             ) {
                 PictureItem(
-                    modifier = Modifier.heightIn(max = 600.dp),
+                    modifier = Modifier.fillMaxSize(),
                     model = imageUrls[it]
                 )
             }

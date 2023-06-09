@@ -78,6 +78,48 @@ class MyAdvertisementsViewModel @Inject constructor(
                     )
                 }
             }
+
+            MyAdvertisementsEvent.HideAdvertisementDeleteDialog -> uiState =
+                uiState.copy(
+                    isConfirmDeleteAdvertisementVisible = false,
+                    currentDeletingAdvertisement = null
+                )
+
+            is MyAdvertisementsEvent.ShowAdvertisementDeleteDialog -> uiState =
+                uiState.copy(
+                    isConfirmDeleteAdvertisementVisible = true,
+                    currentDeletingAdvertisement = event.advertisement
+                )
+
+            MyAdvertisementsEvent.DeleteAdvertisement -> {
+                viewModelScope.launch {
+                    val deletedAd =
+                        uiState.currentDeletingAdvertisement ?: error("Deleting null advertisement")
+
+                    uiState = uiState.copy(
+                        myAdvertisementList = uiState.myAdvertisementList.dropWhile { ad ->
+                            deletedAd.id == ad.id
+                        },
+                        currentDeletingAdvertisement = null,
+                        isConfirmDeleteAdvertisementVisible = false,
+                    )
+
+                    advertisementUseCases.deleteAdvertisement(advertisement = deletedAd).onEach {
+                        when (it) {
+                            is Resource.Error -> {
+                                uiState = uiState.copy(
+                                    myAdvertisementList = uiState.myAdvertisementList + deletedAd
+                                )
+                                sendEvent(MyAdvertisementsViewModelEvent.ShowSnackbar(messageId = it.messageId!!))
+                            }
+
+                            else -> {}
+                        }
+                    }.collect()
+                }
+
+                advertisementUseCases.deleteAdvertisement
+            }
         }
     }
 
@@ -96,7 +138,6 @@ class MyAdvertisementsViewModel @Inject constructor(
                             uiState.copy(errorMessageId = resource.messageId!!, isLoading = false)
 
                         is Resource.Loading -> uiState = uiState.copy(isLoading = true)
-
                         is Resource.Success -> {
                             uiState =
                                 uiState.copy(

@@ -1,5 +1,6 @@
 package com.app.thingscrossing.feature_account.presentation.sign_up.components
 
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -9,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -22,12 +24,15 @@ fun PasswordField(
     isPasswordValid: Boolean,
     onVisibilityChange: () -> Unit,
     isPasswordVisible: Boolean,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        keyboardType = KeyboardType.Password,
+        imeAction = ImeAction.Next
+    ),
+    keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
     TextFieldWithValidation(
         value = passwordValue,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Password
-        ),
+        keyboardOptions = keyboardOptions,
         onValueChange = { password ->
             onPasswordChange(password)
         },
@@ -48,6 +53,7 @@ fun PasswordField(
             }
         },
         visualTransformation = if (isPasswordVisible) VisualTransformation.None
-        else PasswordVisualTransformation()
+        else PasswordVisualTransformation(),
+        keyboardActions = keyboardActions
     )
 }

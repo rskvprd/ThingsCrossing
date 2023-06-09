@@ -25,7 +25,7 @@ fun AddEditScreen(
     navController: NavHostController,
     uiState: AddEditState,
     onEvent: (AddEditEvent) -> Unit,
-    eventFlow: MutableSharedFlow<AddEditViewModelEvent>
+    eventFlow: MutableSharedFlow<AddEditViewModelEvent>,
 ) {
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState()
@@ -47,9 +47,7 @@ fun AddEditScreen(
             },
             confirmButton = {
                 Button(onClick = {
-                    if (uiState.isEdit) {
-                        navController.navigate(AdvertisementScreen.MyAdvertisements.route)
-                    } else navController.navigateUp()
+                    navController.navigate(AdvertisementScreen.MyAdvertisements.route)
                 }) {
                     Text(text = stringResource(id = R.string.ok))
                 }
@@ -160,26 +158,35 @@ fun AddEditScreen(
                     placeholder = R.string.address_placeholder
                 )
             }
-            Block(
-                title = stringResource(id = R.string.price),
-                description = stringResource(id = R.string.price_description)
-            ) {
-                PriceBlock(
-                    scaffoldState = scaffoldState,
-                    prices = uiState.prices,
-                    scope = scope,
-                    onPriceChange = { price, value ->
-                        onEvent(
-                            AddEditEvent.ChangePrice(
-                                AddEditPrice(
-                                    currency = price.currency,
-                                    value = value
-                                )
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(
+                text = stringResource(id = R.string.exchange_system_description)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            PriceBlock(
+                scaffoldState = scaffoldState,
+                prices = uiState.prices,
+                scope = scope,
+                onPriceChange = { price, value ->
+                    onEvent(
+                        AddEditEvent.ChangePrice(
+                            AddEditPrice(
+                                currency = price.currency,
+                                value = value
                             )
                         )
-                    }
-                )
-            }
+                    )
+                }
+            )
+            Spacer(Modifier.height(10.dp))
+            ExchangeBlock(
+                newExchange = uiState.newExchange,
+                onNewExchangeChange = { onEvent(AddEditEvent.ChangeNewExchange(it)) },
+                onAddExchange = { onEvent(AddEditEvent.AddExchange) },
+                exchangeList = uiState.exchanges,
+                onDeleteExchange = { onEvent(AddEditEvent.DeleteExchange(it)) }
+            )
+
 
             Button(
                 onClick = {
@@ -199,7 +206,5 @@ fun AddEditScreen(
         }
     }
 }
-
-
 
 

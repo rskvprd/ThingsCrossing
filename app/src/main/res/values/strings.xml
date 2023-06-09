@@ -129,4 +129,19 @@
     <string name="advertisement_updated">Advertisement successfully updated</string>
     <string name="it_is_your_advertisement">It is your advertisement</string>
     <string name="it_is_you">You</string>
+    <string name="place">Place ad</string>
+    <string name="you_need_sign_in">You need sign in to your account</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_dialog_title">Confirmation</string>
+    <string name="confirm_sign_out_dialog_text">Are you sure that you want to sign out?</string>
+    <string name="delete_advertisement_warning">Are you sure you want to delete advertisement? It delete forever and you couldn\'t repair it.</string>
+    <string name="delete">Delete</string>
+    <string name="exchange_title">Exchanges</string>
+    <string name="exchange_description">You can add exchanges for which you can swap with your product</string>
+    <string name="add_exchange">Add exchange</string>
+    <string name="change_on">Change on</string>
+    <string name="or">Or</string>
+    <string name="gift_advertisement_label">Gift</string>
+    <string name="exchange">Exchange</string>
+    <string name="exchange_system_description">You can add prices and/or exchanges. If you don\'t did it your product will be represented as free product</string>
 </resources>

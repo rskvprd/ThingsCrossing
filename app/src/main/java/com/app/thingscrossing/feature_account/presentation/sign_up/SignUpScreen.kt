@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -16,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -59,7 +61,10 @@ fun SignUpScreen(
     }
 
     if (uiState.errorMessageId != null) {
-        ErrorDialog(onDismissError = { viewModel.onEvent(SignUpEvent.DismissError) }, errorMessageId = uiState.errorMessageId)
+        ErrorDialog(
+            onDismissError = { viewModel.onEvent(SignUpEvent.DismissError) },
+            errorMessageId = uiState.errorMessageId
+        )
     }
 
     Block(
@@ -128,14 +133,18 @@ fun SignUpScreen(
 @Composable
 private fun FirstNameField(
     uiState: SignUpState,
-    viewModel: SignUpViewModel
+    viewModel: SignUpViewModel,
 ) {
     TextFieldWithValidation(
         value = uiState.firstName,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
-            capitalization = KeyboardCapitalization.Words
+            capitalization = KeyboardCapitalization.Words,
+            imeAction = ImeAction.Next
         ),
+        keyboardActions = KeyboardActions {
+            this.defaultKeyboardAction(ImeAction.Next)
+        },
         onValueChange = { firstName ->
             viewModel.onEvent(
                 SignUpEvent.FirstNameChange(
@@ -154,13 +163,14 @@ private fun FirstNameField(
 @Composable
 private fun LastNameField(
     uiState: SignUpState,
-    viewModel: SignUpViewModel
+    viewModel: SignUpViewModel,
 ) {
     TextFieldWithValidation(
         value = uiState.lastName,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
-            capitalization = KeyboardCapitalization.Words
+            capitalization = KeyboardCapitalization.Words,
+            imeAction = ImeAction.Next
         ),
         onValueChange = { lastName ->
             viewModel.onEvent(
@@ -181,7 +191,7 @@ private fun LastNameField(
 @Composable
 fun EmailField(
     uiState: SignUpState,
-    viewModel: SignUpViewModel
+    viewModel: SignUpViewModel,
 ) {
     TextFieldWithValidation(
         value = uiState.email,
@@ -194,7 +204,8 @@ fun EmailField(
         },
         label = R.string.email_label,
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Email
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next
         ),
         placeholder = R.string.email_placeholder,
         isValid = uiState.isEmailValid,
@@ -207,13 +218,17 @@ fun EmailField(
 @Composable
 private fun PasswordAgainField(
     uiState: SignUpState,
-    viewModel: SignUpViewModel
+    viewModel: SignUpViewModel,
 ) {
     TextFieldWithValidation(
         value = uiState.secondPassword,
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Password
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Go
         ),
+        keyboardActions = KeyboardActions {
+            viewModel.onEvent(SignUpEvent.SignUp)
+        },
         onValueChange = { secondPassword ->
             viewModel.onEvent(
                 SignUpEvent.SecondPasswordChange(secondPassword)

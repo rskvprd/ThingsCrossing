@@ -30,6 +30,8 @@ import com.app.thingscrossing.feature_advertisement.domain.model.Characteristic
 import com.app.thingscrossing.feature_advertisement.presentation.components.PictureList
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.Block
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.ErrorDialog
+import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.Exchanges
+import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.Gift
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.InformationBlock
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.Price
 import com.app.thingscrossing.feature_advertisement.presentation.screen_detail.components.ProfileCardSmall
@@ -82,19 +84,30 @@ fun DetailAdvertisementScreen(
                     .padding(horizontal = 20.dp)
                     .verticalScroll(rememberScrollState())
             ) {
-                PictureList(imageUrls = uiState.advertisement.images.map { it.url })
+                PictureList(
+                    imageUrls = uiState.advertisement.images.map { it.url },
+                    modifier = Modifier.height(400.dp)
+                )
 
                 Spacer(Modifier.height(10.dp))
+
+                if (uiState.advertisement.prices.isEmpty() && uiState.advertisement.exchanges.isEmpty()) {
+                    Gift()
+                }
 
                 Price(prices = uiState.advertisement.prices,
                     isOtherPricesVisible = uiState.isOtherPricesVisible,
                     onChangeOtherPricesVisibility = { viewModel.onEvent(DetailEvent.ToggleMorePricesVisibility) })
 
+                Exchanges(
+                    exchanges = uiState.advertisement.exchanges
+                )
 
                 Text(
                     text = uiState.advertisement.title,
                     style = MaterialTheme.typography.headlineSmall
                 )
+
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -103,7 +116,8 @@ fun DetailAdvertisementScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 ProfileCardSmall(
-                    userProfile = uiState.advertisement.userProfile!!, onMessageClick = {
+                    userProfile = uiState.advertisement.userProfile!!,
+                    onMessageClick = {
                         viewModel.onEvent(DetailEvent.ToChat(profile = uiState.advertisement.userProfile))
                     }, modifier = Modifier
                         .fillMaxWidth(),

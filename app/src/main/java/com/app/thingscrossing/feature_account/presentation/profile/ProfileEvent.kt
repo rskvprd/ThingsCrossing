@@ -1,10 +1,9 @@
 package com.app.thingscrossing.feature_account.presentation.profile
 
 import android.net.Uri
-import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.AddEditEvent
 
 sealed interface ProfileEvent {
-    object DismissError: ProfileEvent
+    object DismissError : ProfileEvent
 
     /**When user pick image from gallery and Android give me Uri*/
     data class PickImage(val uri: Uri) : ProfileEvent
@@ -15,12 +14,16 @@ sealed interface ProfileEvent {
     object DismissAddImageDialog : ProfileEvent
 
     /**On dismiss image*/
-    object DropImage: ProfileEvent
+    object DropImage : ProfileEvent
 
     /**Upload image to backend*/
-    data class UploadImage(val uri: Uri): ProfileEvent
+    data class UploadImage(val uri: Uri) : ProfileEvent
 
-    object SignOut: ProfileEvent
+    object SignOut : ProfileEvent
+
+    object DismissSignOutDialog : ProfileEvent
+
+    object ShowConfirmSignOutDialog : ProfileEvent
 }
 
 sealed interface ProfileViewModelEvent {

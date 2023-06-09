@@ -35,8 +35,7 @@ class PrivateChatViewModel @Inject constructor(
     var uiState by mutableStateOf(PrivateChatState())
         private set
 
-    var uiEventFlow = MutableSharedFlow<ChatViewModelEvent>()
-        private set
+    val uiEventFlow = MutableSharedFlow<ChatViewModelEvent>()
 
     init {
         viewModelScope.launch {
@@ -64,6 +63,9 @@ class PrivateChatViewModel @Inject constructor(
             }
 
             ChatEvent.SendMessage -> {
+                if (uiState.newMessage.isEmpty()){
+                    return
+                }
                 chatUseCases.sendMessage(text = uiState.newMessage, chatRoomId = roomId)
                     .onEach { resource ->
                         when (resource) {
@@ -95,7 +97,9 @@ class PrivateChatViewModel @Inject constructor(
     }
 
     fun sendEvent(event: ChatViewModelEvent) {
-
+        viewModelScope.launch {
+            uiEventFlow.emit(event)
+        }
     }
 
     private fun getCompanionUserProfile() {
@@ -133,11 +137,13 @@ class PrivateChatViewModel @Inject constructor(
                         isLoading = false,
                     )
                 }
+
                 is Resource.Loading -> {
                     uiState = uiState.copy(
                         isLoading = true,
                     )
                 }
+
                 is Resource.Success -> {
                     uiState = uiState.copy(
                         messages = resource.data!!

@@ -60,7 +60,7 @@ object AppModule {
         authService: AuthService,
     ): AdvertisementUseCases {
         return AdvertisementUseCases(
-            deleteAdvertisement = DeleteAdvertisementUseCase(repository),
+            deleteAdvertisement = DeleteAdvertisementUseCase(repository, authService),
             addAdvertisement = AddAdvertisementUseCase(repository),
             getAdvertisement = GetAdvertisementUseCase(repository),
             searchAdvertisements = SearchAdvertisementsUseCase(repository),

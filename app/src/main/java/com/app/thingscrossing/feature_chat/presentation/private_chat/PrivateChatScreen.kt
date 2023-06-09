@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.ErrorDialog
-import com.app.thingscrossing.feature_advertisement.presentation.screen_add_edit.components.LoadingDialog
 import com.app.thingscrossing.feature_chat.presentation.private_chat.components.ChatBottomBar
 import com.app.thingscrossing.feature_chat.presentation.private_chat.components.CompanionProfileTopBar
 import com.app.thingscrossing.feature_chat.presentation.private_chat.components.MessageList
@@ -31,14 +30,13 @@ fun PrivateChatScreen(
         return
     }
 
-    if (uiState.isLoading) {
-        LoadingDialog(progression = null)
-        return
-    }
-
     Scaffold(
         topBar = {
-            CompanionProfileTopBar(profile = uiState.companionUserProfile!!)
+            CompanionProfileTopBar(
+                profile = uiState.companionUserProfile,
+                isLoading = uiState.isLoading,
+                navController = navController,
+            )
         },
         bottomBar = {
             ChatBottomBar(
@@ -60,7 +58,11 @@ fun PrivateChatScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
-            MessageList(messages = uiState.messages, me = viewModel.userProfile)
+            MessageList(
+                messages = uiState.messages,
+                me = viewModel.userProfile,
+                isLoading = uiState.isLoading
+            )
         }
     }
 }

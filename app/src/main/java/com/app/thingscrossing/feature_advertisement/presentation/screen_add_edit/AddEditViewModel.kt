@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.app.thingscrossing.R
 import com.app.thingscrossing.core.Resource
 import com.app.thingscrossing.feature_account.domain.use_case.AccountUseCases
+import com.app.thingscrossing.feature_advertisement.domain.model.Exchange
 import com.app.thingscrossing.feature_advertisement.domain.model.ImageModel
 import com.app.thingscrossing.feature_advertisement.domain.use_case.AdvertisementUseCases
 import com.app.thingscrossing.feature_advertisement.navigation.AdvertisementScreen
@@ -227,6 +228,20 @@ class AddEditViewModel @Inject constructor(
                     }
                 }.launchIn(viewModelScope)
             }
+
+            AddEditEvent.AddExchange ->
+                if (uiState.newExchange.isNotBlank()) {
+                    uiState = uiState.copy(
+                        exchanges = uiState.exchanges + Exchange(uiState.newExchange),
+                        newExchange = ""
+                    )
+                }
+
+            is AddEditEvent.ChangeNewExchange -> uiState =
+                uiState.copy(newExchange = event.exchange)
+
+            is AddEditEvent.DeleteExchange -> uiState =
+                uiState.copy(exchanges = uiState.exchanges - event.exchange)
         }
     }
 

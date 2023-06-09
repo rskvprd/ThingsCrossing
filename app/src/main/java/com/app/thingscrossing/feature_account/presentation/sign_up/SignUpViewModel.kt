@@ -112,30 +112,33 @@ class SignUpViewModel @Inject constructor(
             }
 
             SignUpEvent.SignUp -> {
-                authService.signUpWithCredentials(
-                    username = uiState.username,
-                    firstName = uiState.firstName,
-                    lastName = uiState.lastName,
-                    password = uiState.password,
-                    email = uiState.email,
-                    onSuccess = {
-                        uiState = uiState.copy(
-                            isLoading = false
-                        )
-                        sendEvent(SignUpViewModelEvent.Navigate(AccountScreens.ProfileScreen.route))
-                    },
-                    onLoading = {
-                        uiState = uiState.copy(
-                            isLoading = true
-                        )
-                    },
-                    onError = {
-                        uiState = uiState.copy(
-                            errorMessageId = it,
-                            isLoading = false
-                        )
-                    }
-                )
+                uiState = uiState.validate()
+                if (uiState.isValid()) {
+                    authService.signUpWithCredentials(
+                        username = uiState.username,
+                        firstName = uiState.firstName,
+                        lastName = uiState.lastName,
+                        password = uiState.password,
+                        email = uiState.email,
+                        onSuccess = {
+                            uiState = uiState.copy(
+                                isLoading = false
+                            )
+                            sendEvent(SignUpViewModelEvent.Navigate(AccountScreens.ProfileScreen.route))
+                        },
+                        onLoading = {
+                            uiState = uiState.copy(
+                                isLoading = true
+                            )
+                        },
+                        onError = {
+                            uiState = uiState.copy(
+                                errorMessageId = it,
+                                isLoading = false
+                            )
+                        }
+                    )
+                }
             }
 
             SignUpEvent.ToSignInScreen -> {

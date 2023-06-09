@@ -10,7 +10,7 @@ interface AdvertisementRepository {
 
     suspend fun getAdvertisementById(id: Int): Advertisement
 
-    suspend fun deleteAdvertisement(advertisement: Advertisement)
+    suspend fun deleteAdvertisement(advertisement: Advertisement, authKey: String)
 
     suspend fun insertAdvertisement(advertisement: Advertisement, authKey: String)
 

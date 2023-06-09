@@ -42,3 +42,13 @@ fun SignUpState.isValid(): Boolean {
     ).all { it }
 }
 
+fun SignUpState.validate() : SignUpState {
+    return this.copy(
+        isFirstNameValid = firstName.isValidFirstName(),
+        isLastNameValid = lastName.isValidLastName(),
+        isEmailValid = email.isValidEmail(),
+        isPasswordValid = password.isValidPassword(),
+        isSecondPasswordValid = secondPassword == password,
+        isUsernameValid = username.isValidUsername(),
+    )
+}
